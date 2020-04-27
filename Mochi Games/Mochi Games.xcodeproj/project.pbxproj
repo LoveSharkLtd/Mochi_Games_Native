@@ -8,19 +8,24 @@
 
 /* Begin PBXBuildFile section */
 		EE0C8E9424576DE0009FB07C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0C8E9324576DE0009FB07C /* AppDelegate.swift */; };
-		EE0C8E9624576DE0009FB07C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0C8E9524576DE0009FB07C /* SceneDelegate.swift */; };
 		EE0C8E9824576DE0009FB07C /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0C8E9724576DE0009FB07C /* GameViewController.swift */; };
 		EE0C8E9B24576DE0009FB07C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EE0C8E9924576DE0009FB07C /* Main.storyboard */; };
 		EE0C8E9D24576DE3009FB07C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EE0C8E9C24576DE3009FB07C /* Assets.xcassets */; };
 		EE0C8EA024576DE3009FB07C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EE0C8E9E24576DE3009FB07C /* LaunchScreen.storyboard */; };
 		EE0C8EA824576F2A009FB07C /* GlobalVars.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0C8EA724576F2A009FB07C /* GlobalVars.swift */; };
 		EE0C8EAC24577075009FB07C /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0C8EAB24577075009FB07C /* Camera.swift */; };
+		EE0C8EAE2457749F009FB07C /* MTLCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0C8EAD2457749F009FB07C /* MTLCameraView.swift */; };
+		EE0C8EB024577809009FB07C /* Grimes_v3.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = EE0C8EAF24577809009FB07C /* Grimes_v3.mp4 */; };
+		EE0C8EB324577824009FB07C /* FilterRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0C8EB124577824009FB07C /* FilterRenderer.swift */; };
+		EE0C8EB424577824009FB07C /* RosyMetalRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0C8EB224577824009FB07C /* RosyMetalRenderer.swift */; };
+		EE0C8EBA2457795E009FB07C /* Mixer.metal in Sources */ = {isa = PBXBuildFile; fileRef = EE0C8EB62457795E009FB07C /* Mixer.metal */; };
+		EE0C8EBB2457795E009FB07C /* PassThrough.metal in Sources */ = {isa = PBXBuildFile; fileRef = EE0C8EB72457795E009FB07C /* PassThrough.metal */; };
+		EE0C8EBD2457795E009FB07C /* RosyEffect.metal in Sources */ = {isa = PBXBuildFile; fileRef = EE0C8EB92457795E009FB07C /* RosyEffect.metal */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		EE0C8E9024576DE0009FB07C /* Mochi Games.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Mochi Games.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE0C8E9324576DE0009FB07C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		EE0C8E9524576DE0009FB07C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		EE0C8E9724576DE0009FB07C /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		EE0C8E9A24576DE0009FB07C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		EE0C8E9C24576DE3009FB07C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -28,6 +33,13 @@
 		EE0C8EA124576DE3009FB07C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EE0C8EA724576F2A009FB07C /* GlobalVars.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalVars.swift; sourceTree = "<group>"; };
 		EE0C8EAB24577075009FB07C /* Camera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Camera.swift; sourceTree = "<group>"; };
+		EE0C8EAD2457749F009FB07C /* MTLCameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MTLCameraView.swift; sourceTree = "<group>"; };
+		EE0C8EAF24577809009FB07C /* Grimes_v3.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = Grimes_v3.mp4; sourceTree = "<group>"; };
+		EE0C8EB124577824009FB07C /* FilterRenderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterRenderer.swift; sourceTree = "<group>"; };
+		EE0C8EB224577824009FB07C /* RosyMetalRenderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RosyMetalRenderer.swift; sourceTree = "<group>"; };
+		EE0C8EB62457795E009FB07C /* Mixer.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = Mixer.metal; sourceTree = "<group>"; };
+		EE0C8EB72457795E009FB07C /* PassThrough.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = PassThrough.metal; sourceTree = "<group>"; };
+		EE0C8EB92457795E009FB07C /* RosyEffect.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = RosyEffect.metal; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -44,6 +56,9 @@
 		EE0C8E8724576DE0009FB07C = {
 			isa = PBXGroup;
 			children = (
+				EE0C8EB62457795E009FB07C /* Mixer.metal */,
+				EE0C8EB72457795E009FB07C /* PassThrough.metal */,
+				EE0C8EB92457795E009FB07C /* RosyEffect.metal */,
 				EE0C8E9224576DE0009FB07C /* Mochi Games */,
 				EE0C8E9124576DE0009FB07C /* Products */,
 			);
@@ -60,17 +75,28 @@
 		EE0C8E9224576DE0009FB07C /* Mochi Games */ = {
 			isa = PBXGroup;
 			children = (
+				EE0C8EAF24577809009FB07C /* Grimes_v3.mp4 */,
 				EE0C8E9324576DE0009FB07C /* AppDelegate.swift */,
-				EE0C8E9524576DE0009FB07C /* SceneDelegate.swift */,
 				EE0C8E9724576DE0009FB07C /* GameViewController.swift */,
 				EE0C8EA724576F2A009FB07C /* GlobalVars.swift */,
 				EE0C8EAB24577075009FB07C /* Camera.swift */,
+				EE0C8EB5245778E9009FB07C /* ML_Swift */,
+				EE0C8EAD2457749F009FB07C /* MTLCameraView.swift */,
 				EE0C8E9924576DE0009FB07C /* Main.storyboard */,
 				EE0C8E9C24576DE3009FB07C /* Assets.xcassets */,
 				EE0C8E9E24576DE3009FB07C /* LaunchScreen.storyboard */,
 				EE0C8EA124576DE3009FB07C /* Info.plist */,
 			);
 			path = "Mochi Games";
+			sourceTree = "<group>";
+		};
+		EE0C8EB5245778E9009FB07C /* ML_Swift */ = {
+			isa = PBXGroup;
+			children = (
+				EE0C8EB124577824009FB07C /* FilterRenderer.swift */,
+				EE0C8EB224577824009FB07C /* RosyMetalRenderer.swift */,
+			);
+			name = ML_Swift;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -134,6 +160,7 @@
 				EE0C8EA024576DE3009FB07C /* LaunchScreen.storyboard in Resources */,
 				EE0C8E9D24576DE3009FB07C /* Assets.xcassets in Resources */,
 				EE0C8E9B24576DE0009FB07C /* Main.storyboard in Resources */,
+				EE0C8EB024577809009FB07C /* Grimes_v3.mp4 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -145,10 +172,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				EE0C8EA824576F2A009FB07C /* GlobalVars.swift in Sources */,
+				EE0C8EBB2457795E009FB07C /* PassThrough.metal in Sources */,
+				EE0C8EBA2457795E009FB07C /* Mixer.metal in Sources */,
+				EE0C8EB424577824009FB07C /* RosyMetalRenderer.swift in Sources */,
+				EE0C8EBD2457795E009FB07C /* RosyEffect.metal in Sources */,
 				EE0C8EAC24577075009FB07C /* Camera.swift in Sources */,
+				EE0C8EB324577824009FB07C /* FilterRenderer.swift in Sources */,
 				EE0C8E9824576DE0009FB07C /* GameViewController.swift in Sources */,
+				EE0C8EAE2457749F009FB07C /* MTLCameraView.swift in Sources */,
 				EE0C8E9424576DE0009FB07C /* AppDelegate.swift in Sources */,
-				EE0C8E9624576DE0009FB07C /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -295,6 +327,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 85Q36XDG32;
 				INFOPLIST_FILE = "Mochi Games/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -313,6 +346,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 85Q36XDG32;
 				INFOPLIST_FILE = "Mochi Games/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
