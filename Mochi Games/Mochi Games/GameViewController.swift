@@ -11,7 +11,7 @@ import SpriteKit
 import ReplayKit
 import GameplayKit
 
-class GameViewController: UIViewController, CameraDelegate {
+class GameViewController: UIViewController, CameraDelegate, RPPreviewViewControllerDelegate {
     
     override var prefersStatusBarHidden: Bool { return true }
     
@@ -140,10 +140,18 @@ class GameViewController: UIViewController, CameraDelegate {
     func stopRecording() {
         RPScreenRecorder.shared().stopRecording { (preview, err) in
             self.vidPlayer?.pause()
-            guard preview != nil else { return }
-            self.nonRecordWindow.rootViewController?.present(preview!, animated: true) {
-                //
+            guard let preview = preview else { return }
+            
+            preview.previewControllerDelegate = self
+            self.nonRecordWindow.rootViewController?.present(preview, animated: true) {
+            
             }
+        }
+    }
+    
+    func previewControllerDidFinish(_ previewController: RPPreviewViewController) {
+        previewController.dismiss(animated: true) {
+            self.vidPlayer?.play()
         }
     }
 
