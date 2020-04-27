@@ -23,6 +23,24 @@ class GameViewController: UIViewController, CameraDelegate, RPPreviewViewControl
     
     var isRecording = false
     
+    func setUpGameScene() {
+
+       let skview = SKView(frame: CGRect(x: 0.0, y: 0.0, width: sW, height: sH))
+       skview.allowsTransparency = true
+
+       let scene = GameScene()
+       scene.scaleMode = .aspectFill
+       scene.backgroundColor = .clear
+       skview.presentScene(scene)
+
+       skview.ignoresSiblingOrder = true
+       skview.showsFPS = true
+       skview.showsNodeCount = true
+
+       view.addSubview(skview)
+       
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         updateScreenScales()
@@ -37,21 +55,13 @@ class GameViewController: UIViewController, CameraDelegate, RPPreviewViewControl
         Camera.shared().setUp()
         
         // - Game Scene
+       
+        setUpGameScene()
         
-        let skview = SKView(frame: CGRect(x: 0.0, y: 0.0, width: sW, height: sH))
-        skview.allowsTransparency = true
-
-        let scene = GameScene()
-        scene.scaleMode = .aspectFill
-        scene.backgroundColor = .clear
-        skview.presentScene(scene)
-
-        skview.ignoresSiblingOrder = true
-        skview.showsFPS = true
-        skview.showsNodeCount = true
-
-        view.addSubview(skview)
-        
+        setUpNonRecordUI()
+    }
+    
+    func setUpNonRecordUI() {
         nonRecordWindow = UIWindow(frame: self.view.frame)
         nonRecordWindow.rootViewController = hiderViewController()
         
@@ -120,7 +130,16 @@ class GameViewController: UIViewController, CameraDelegate, RPPreviewViewControl
         nonRecordWindow.rootViewController?.view.addSubview(previewVideo!)
         
         nonRecordWindow.makeKeyAndVisible()
+        
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapped))
+        nonRecordWindow.rootViewController?.view.addGestureRecognizer(tapGesture)
     }
+    
+    @objc func tapped(_ gesture: UITapGestureRecognizer) {
+            // !! - use this until we can add these calls to the game
+            self.BackgroundVideo?.toggleFiltering()
+        }
     
     @objc func recBtnUp(_ sender : UIButton) {
         ButtonUp(sender)
