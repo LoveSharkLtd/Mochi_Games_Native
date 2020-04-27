@@ -38,6 +38,20 @@ class GameViewController: UIViewController, CameraDelegate {
         
         // - Game Scene
         
+        let skview = SKView(frame: CGRect(x: 0.0, y: 0.0, width: sW, height: sH))
+        skview.allowsTransparency = true
+
+        let scene = GameScene()
+        scene.scaleMode = .aspectFill
+        scene.backgroundColor = .clear
+        skview.presentScene(scene)
+
+        skview.ignoresSiblingOrder = true
+        skview.showsFPS = true
+        skview.showsNodeCount = true
+
+        view.addSubview(skview)
+        
         nonRecordWindow = UIWindow(frame: self.view.frame)
         nonRecordWindow.rootViewController = hiderViewController()
         
@@ -111,6 +125,7 @@ class GameViewController: UIViewController, CameraDelegate {
     @objc func recBtnUp(_ sender : UIButton) {
         ButtonUp(sender)
         isRecording ? stopRecording() : startRecording()
+        if isRecording { self.vidPlayer?.pause() }
         isRecording = !isRecording
     }
     

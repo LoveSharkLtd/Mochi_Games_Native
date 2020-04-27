@@ -21,6 +21,8 @@
 		EE0C8EBA2457795E009FB07C /* Mixer.metal in Sources */ = {isa = PBXBuildFile; fileRef = EE0C8EB62457795E009FB07C /* Mixer.metal */; };
 		EE0C8EBB2457795E009FB07C /* PassThrough.metal in Sources */ = {isa = PBXBuildFile; fileRef = EE0C8EB72457795E009FB07C /* PassThrough.metal */; };
 		EE0C8EBD2457795E009FB07C /* RosyEffect.metal in Sources */ = {isa = PBXBuildFile; fileRef = EE0C8EB92457795E009FB07C /* RosyEffect.metal */; };
+		EE0C8EBF24577B28009FB07C /* gameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = EE0C8EBE24577B28009FB07C /* gameScene.sks */; };
+		EE0C8EC124577B40009FB07C /* gameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0C8EC024577B40009FB07C /* gameScene.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +42,8 @@
 		EE0C8EB62457795E009FB07C /* Mixer.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = Mixer.metal; sourceTree = "<group>"; };
 		EE0C8EB72457795E009FB07C /* PassThrough.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = PassThrough.metal; sourceTree = "<group>"; };
 		EE0C8EB92457795E009FB07C /* RosyEffect.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = RosyEffect.metal; sourceTree = "<group>"; };
+		EE0C8EBE24577B28009FB07C /* gameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = gameScene.sks; sourceTree = "<group>"; };
+		EE0C8EC024577B40009FB07C /* gameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gameScene.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,11 +80,13 @@
 			isa = PBXGroup;
 			children = (
 				EE0C8EAF24577809009FB07C /* Grimes_v3.mp4 */,
+				EE0C8EBE24577B28009FB07C /* gameScene.sks */,
+				EE0C8EC024577B40009FB07C /* gameScene.swift */,
 				EE0C8E9324576DE0009FB07C /* AppDelegate.swift */,
 				EE0C8E9724576DE0009FB07C /* GameViewController.swift */,
 				EE0C8EA724576F2A009FB07C /* GlobalVars.swift */,
 				EE0C8EAB24577075009FB07C /* Camera.swift */,
-				EE0C8EB5245778E9009FB07C /* ML_Swift */,
+				EE0C8EB5245778E9009FB07C /* MTL_Swift */,
 				EE0C8EAD2457749F009FB07C /* MTLCameraView.swift */,
 				EE0C8E9924576DE0009FB07C /* Main.storyboard */,
 				EE0C8E9C24576DE3009FB07C /* Assets.xcassets */,
@@ -90,13 +96,13 @@
 			path = "Mochi Games";
 			sourceTree = "<group>";
 		};
-		EE0C8EB5245778E9009FB07C /* ML_Swift */ = {
+		EE0C8EB5245778E9009FB07C /* MTL_Swift */ = {
 			isa = PBXGroup;
 			children = (
 				EE0C8EB124577824009FB07C /* FilterRenderer.swift */,
 				EE0C8EB224577824009FB07C /* RosyMetalRenderer.swift */,
 			);
-			name = ML_Swift;
+			name = MTL_Swift;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -159,6 +165,7 @@
 			files = (
 				EE0C8EA024576DE3009FB07C /* LaunchScreen.storyboard in Resources */,
 				EE0C8E9D24576DE3009FB07C /* Assets.xcassets in Resources */,
+				EE0C8EBF24577B28009FB07C /* gameScene.sks in Resources */,
 				EE0C8E9B24576DE0009FB07C /* Main.storyboard in Resources */,
 				EE0C8EB024577809009FB07C /* Grimes_v3.mp4 in Resources */,
 			);
@@ -179,6 +186,7 @@
 				EE0C8EAC24577075009FB07C /* Camera.swift in Sources */,
 				EE0C8EB324577824009FB07C /* FilterRenderer.swift in Sources */,
 				EE0C8E9824576DE0009FB07C /* GameViewController.swift in Sources */,
+				EE0C8EC124577B40009FB07C /* gameScene.swift in Sources */,
 				EE0C8EAE2457749F009FB07C /* MTLCameraView.swift in Sources */,
 				EE0C8E9424576DE0009FB07C /* AppDelegate.swift in Sources */,
 			);
