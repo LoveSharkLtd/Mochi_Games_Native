@@ -21,8 +21,11 @@
 		EE0C8EBA2457795E009FB07C /* Mixer.metal in Sources */ = {isa = PBXBuildFile; fileRef = EE0C8EB62457795E009FB07C /* Mixer.metal */; };
 		EE0C8EBB2457795E009FB07C /* PassThrough.metal in Sources */ = {isa = PBXBuildFile; fileRef = EE0C8EB72457795E009FB07C /* PassThrough.metal */; };
 		EE0C8EBD2457795E009FB07C /* RosyEffect.metal in Sources */ = {isa = PBXBuildFile; fileRef = EE0C8EB92457795E009FB07C /* RosyEffect.metal */; };
-		EE0C8EBF24577B28009FB07C /* gameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = EE0C8EBE24577B28009FB07C /* gameScene.sks */; };
 		EE0C8EC124577B40009FB07C /* gameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0C8EC024577B40009FB07C /* gameScene.swift */; };
+		EEF26A03245F36A400BBD98F /* DanceScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = EEF26A02245F36A400BBD98F /* DanceScene.sks */; };
+		EEF26A05245F388300BBD98F /* particle.sks in Resources */ = {isa = PBXBuildFile; fileRef = EEF26A04245F388300BBD98F /* particle.sks */; };
+		EEF26A07245F427F00BBD98F /* BLparticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = EEF26A06245F427F00BBD98F /* BLparticle.sks */; };
+		EEF26A09245F42C800BBD98F /* BRparticles.sks in Resources */ = {isa = PBXBuildFile; fileRef = EEF26A08245F42C800BBD98F /* BRparticles.sks */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,8 +45,11 @@
 		EE0C8EB62457795E009FB07C /* Mixer.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = Mixer.metal; sourceTree = "<group>"; };
 		EE0C8EB72457795E009FB07C /* PassThrough.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = PassThrough.metal; sourceTree = "<group>"; };
 		EE0C8EB92457795E009FB07C /* RosyEffect.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = RosyEffect.metal; sourceTree = "<group>"; };
-		EE0C8EBE24577B28009FB07C /* gameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = gameScene.sks; sourceTree = "<group>"; };
 		EE0C8EC024577B40009FB07C /* gameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gameScene.swift; sourceTree = "<group>"; };
+		EEF26A02245F36A400BBD98F /* DanceScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = DanceScene.sks; sourceTree = "<group>"; };
+		EEF26A04245F388300BBD98F /* particle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = particle.sks; sourceTree = "<group>"; };
+		EEF26A06245F427F00BBD98F /* BLparticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = BLparticle.sks; sourceTree = "<group>"; };
+		EEF26A08245F42C800BBD98F /* BRparticles.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = BRparticles.sks; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,7 +86,10 @@
 			isa = PBXGroup;
 			children = (
 				EE0C8EAF24577809009FB07C /* Grimes_v3.mp4 */,
-				EE0C8EBE24577B28009FB07C /* gameScene.sks */,
+				EEF26A02245F36A400BBD98F /* DanceScene.sks */,
+				EEF26A04245F388300BBD98F /* particle.sks */,
+				EEF26A06245F427F00BBD98F /* BLparticle.sks */,
+				EEF26A08245F42C800BBD98F /* BRparticles.sks */,
 				EE0C8EC024577B40009FB07C /* gameScene.swift */,
 				EE0C8E9324576DE0009FB07C /* AppDelegate.swift */,
 				EE0C8E9724576DE0009FB07C /* GameViewController.swift */,
@@ -163,11 +172,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EEF26A07245F427F00BBD98F /* BLparticle.sks in Resources */,
+				EEF26A09245F42C800BBD98F /* BRparticles.sks in Resources */,
 				EE0C8EA024576DE3009FB07C /* LaunchScreen.storyboard in Resources */,
+				EEF26A03245F36A400BBD98F /* DanceScene.sks in Resources */,
 				EE0C8E9D24576DE3009FB07C /* Assets.xcassets in Resources */,
-				EE0C8EBF24577B28009FB07C /* gameScene.sks in Resources */,
 				EE0C8E9B24576DE0009FB07C /* Main.storyboard in Resources */,
 				EE0C8EB024577809009FB07C /* Grimes_v3.mp4 in Resources */,
+				EEF26A05245F388300BBD98F /* particle.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

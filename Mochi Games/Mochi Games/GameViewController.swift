@@ -28,10 +28,16 @@ class GameViewController: UIViewController, CameraDelegate, RPPreviewViewControl
        let skview = SKView(frame: CGRect(x: 0.0, y: 0.0, width: sW, height: sH))
        skview.allowsTransparency = true
 
-       let scene = GameScene()
-       scene.scaleMode = .aspectFill
-       scene.backgroundColor = .clear
-       skview.presentScene(scene)
+        
+        if let scene = SKScene(fileNamed: "DanceScene") {
+            // Set the scale mode to scale to fit the window
+            scene.scaleMode = .aspectFill
+//            scene.backgroundColor = .clear
+            skview.presentScene(scene)
+            (scene as! GameScene).viewController = self
+            
+//            view.presentScene(scene)
+        }
 
        skview.ignoresSiblingOrder = true
        skview.showsFPS = true
@@ -124,9 +130,13 @@ class GameViewController: UIViewController, CameraDelegate, RPPreviewViewControl
         recBtn.addTarget(self, action: #selector(ButtonUp(_:)), for: .touchUpOutside)
         recBtn.addTarget(self, action: #selector(recBtnUp(_:)), for: .touchUpInside)
         
+        
         nonRecordWindow.rootViewController?.view.addSubview(tiktokVideo)
         nonRecordWindow.rootViewController?.view.addSubview(bg)
         nonRecordWindow.rootViewController?.view.addSubview(recBtn)
+        
+        createMLButtonActions() // - remove when ml is in
+        
         nonRecordWindow.rootViewController?.view.addSubview(previewVideo!)
         
         nonRecordWindow.makeKeyAndVisible()
@@ -135,6 +145,37 @@ class GameViewController: UIViewController, CameraDelegate, RPPreviewViewControl
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapped))
         nonRecordWindow.rootViewController?.view.addGestureRecognizer(tapGesture)
     }
+    
+    func createMLButtonActions() {
+        
+        let h_ = sHR * 50 / 667
+        let w_ = _deviceType == .iPad ? sHR * 356 / 667 : sW - sHR * 20 / 667
+        let g = sHR * 10 / 667
+        
+        let btnW = (w_ - 2.0 * g) / 3.0
+        for i in 0..<3 {
+            let x = g + CGFloat(i) * (btnW + g)
+            let y = sH - h_ - g - g - 1.5 * h_ - g
+            var str = "hands up"
+            if i == 1 { str = "brush L" }
+            if i == 2 { str = "brush R" }
+            
+            let btn = createButton(width: btnW, height: h_, title: str, textSize: nil)
+            btn.frame.origin = CGPoint(x: x, y: y)
+
+            btn.addTarget(self, action: #selector(ButtonDown(_:)), for: .touchDown)
+            btn.addTarget(self, action: #selector(ButtonUp(_:)), for: .touchUpOutside)
+            
+            if i == 0 { btn.addTarget(self, action: #selector(handsUpBtnPressed(_:)), for: .touchUpInside) }
+            if i == 1 { btn.addTarget(self, action: #selector(brushedLeftBtnPressed(_:)), for: .touchUpInside) }
+            if i == 2 { btn.addTarget(self, action: #selector(brushedRightBtnPressed(_:)), for: .touchUpInside) }
+            
+            nonRecordWindow.rootViewController?.view.addSubview(btn)
+            
+        }
+        
+    }
+    
     
     @objc func tapped(_ gesture: UITapGestureRecognizer) {
             // !! - use this until we can add these calls to the game
@@ -187,9 +228,66 @@ class GameViewController: UIViewController, CameraDelegate, RPPreviewViewControl
         
     }
     
+    var delegate : GameViewControllerDelegate?
     
+    func handsUpDataChanged(handsUp : Bool) {
+        // will show hands up here
+        self.delegate?.handsupDataChanged(handsUp: handsUp)
+    }
+    
+    func shoulderBrushedDataChanged(brushedLeftShoulder : Bool, brushedRightShoulder : Bool) {
+        self.delegate?.brushedShoulderDataChanged(brushedLeftShoulder: brushedLeftShoulder, brushedRightShoulder: brushedRightShoulder)
+    }
+    
+    var handsUpBool : Bool = false
+    var BLBool : Bool = false
+    var BRBool : Bool = false
+    
+    
+    // - just using this to test the gamescene stuff :D
+    @objc func handsUpBtnPressed(_ sender : UIButton) {
+        ButtonUp(sender)
+        
+        handsUpBool = !handsUpBool
+        BRBool = false
+        BLBool = false
+        handsUpDataChanged(handsUp: handsUpBool)
+        
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+//            self.handsUpDataChanged(handsUp: false)
+//        }
+    }
+    
+    @objc func brushedLeftBtnPressed(_ sender : UIButton) {
+        ButtonUp(sender)
+        
+        BLBool = !BLBool
+        BRBool = false
+        handsUpBool = false
+        shoulderBrushedDataChanged(brushedLeftShoulder: BLBool, brushedRightShoulder: BRBool)
+        
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+//            self.shoulderBrushedDataChanged(brushedLeftShoulder: false, brushedRightShoulder: false)
+//        }
+    }
+    @objc func brushedRightBtnPressed(_ sender : UIButton) {
+        ButtonUp(sender)
+        
+        BRBool = !BRBool
+        BLBool = false
+        handsUpBool = false
+        shoulderBrushedDataChanged(brushedLeftShoulder: BLBool, brushedRightShoulder: BRBool)
+        
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+//            self.shoulderBrushedDataChanged(brushedLeftShoulder: false, brushedRightShoulder: false)
+//        }
+    }
 }
 
+protocol GameViewControllerDelegate {
+    func handsupDataChanged(handsUp : Bool)
+    func brushedShoulderDataChanged(brushedLeftShoulder : Bool, brushedRightShoulder : Bool)
+}
 
 // - hiderViewController is used to attach to the secondary UIWindow which will house all the UI elements that do not want to be included in the recording
 class hiderViewController : UIViewController {
