@@ -103,7 +103,7 @@ class GameScene: SKScene, GameViewControllerDelegate {
     }
     
     override func sceneDidLoad() {
-        
+        print("!! - scene loaded")
         handsupNode = self.childNode(withName: "handsup")
         
         var emitterL = handsupNode?.childNode(withName: "L")
