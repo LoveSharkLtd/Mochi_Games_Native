@@ -7,6 +7,31 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		38ABB3AD246C01E900A7FF37 /* deeplabv3_257_mv_gpu.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 38ABB3AB246C01E900A7FF37 /* deeplabv3_257_mv_gpu.tflite */; };
+		38ABB3AE246C01E900A7FF37 /* deeplabv3_labels.json in Resources */ = {isa = PBXBuildFile; fileRef = 38ABB3AC246C01E900A7FF37 /* deeplabv3_labels.json */; };
+		38ABB3B2246C040200A7FF37 /* model.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 38ABB3B0246C040200A7FF37 /* model.tflite */; };
+		38ABB3B3246C040200A7FF37 /* labels.txt in Resources */ = {isa = PBXBuildFile; fileRef = 38ABB3B1246C040200A7FF37 /* labels.txt */; };
+		38ABB3B8246C05B900A7FF37 /* model1.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 38ABB38C246C014700A7FF37 /* model1.tflite */; };
+		38ABB3BB246C05C400A7FF37 /* cpm_model.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 38ABB386246C014700A7FF37 /* cpm_model.mlmodel */; };
+		38ABB3C1246C05E600A7FF37 /* CVInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38ABB379246BFC2700A7FF37 /* CVInterface.swift */; };
+		38ABB3C2246C06FC00A7FF37 /* read_pbfiles.py in Resources */ = {isa = PBXBuildFile; fileRef = 38ABB398246C019B00A7FF37 /* read_pbfiles.py */; };
+		38ABB3C3246C070000A7FF37 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 38ABB39A246C019B00A7FF37 /* README.md */; };
+		38ABB3C9246C077700A7FF37 /* ModelDataHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38ABB37E246BFD0400A7FF37 /* ModelDataHandler.swift */; };
+		38ABB3CA246C07AE00A7FF37 /* stacked_hourglass.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 38ABB39D246C019B00A7FF37 /* stacked_hourglass.mlmodel */; };
+		38ABB3CB246C07C600A7FF37 /* model2.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 38ABB39F246C019B00A7FF37 /* model2.tflite */; };
+		38ABB3CC246C07CF00A7FF37 /* model.pb in Resources */ = {isa = PBXBuildFile; fileRef = 38ABB39B246C019B00A7FF37 /* model.pb */; };
+		38ABB3CD246C07D800A7FF37 /* model1.pb in Resources */ = {isa = PBXBuildFile; fileRef = 38ABB389246C014700A7FF37 /* model1.pb */; };
+		38ABB3CE246C093700A7FF37 /* GestureRecognition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38ABB3B4246C04D200A7FF37 /* GestureRecognition.swift */; };
+		38ABB3D8246C0A4A00A7FF37 /* PredictedPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38ABB3D1246C0A4A00A7FF37 /* PredictedPoint.swift */; };
+		38ABB3D9246C0A4A00A7FF37 /* MovingAverageFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38ABB3D2246C0A4A00A7FF37 /* MovingAverageFilter.swift */; };
+		38ABB3DA246C0A4A00A7FF37 /* HeatmapPostProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38ABB3D3246C0A4A00A7FF37 /* HeatmapPostProcessor.swift */; };
+		38ABB3DE246C0A4A00A7FF37 /* PoseEstimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38ABB3D7246C0A4A00A7FF37 /* PoseEstimation.swift */; };
+		38ABB3E1246C0FD100A7FF37 /* FaceAndFacialFeaturesDetection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38ABB3E0246C0FD100A7FF37 /* FaceAndFacialFeaturesDetection.swift */; };
+		38ABB3E7246C10DA00A7FF37 /* UIKitExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38ABB3E3246C10D900A7FF37 /* UIKitExtension.swift */; };
+		38ABB3E8246C10DA00A7FF37 /* TFLiteExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38ABB3E4246C10D900A7FF37 /* TFLiteExtension.swift */; };
+		38ABB3E9246C10DA00A7FF37 /* ImageSegmentator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38ABB3E5246C10DA00A7FF37 /* ImageSegmentator.swift */; };
+		38ABB3EA246C10DA00A7FF37 /* SemanticSegmentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38ABB3E6246C10DA00A7FF37 /* SemanticSegmentation.swift */; };
+		B1D39AAB62BC93DC259F1141 /* Pods_Mochi_Games.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25B254572D6C5BFDA602E19B /* Pods_Mochi_Games.framework */; };
 		EE0C8E9424576DE0009FB07C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0C8E9324576DE0009FB07C /* AppDelegate.swift */; };
 		EE0C8E9824576DE0009FB07C /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0C8E9724576DE0009FB07C /* GameViewController.swift */; };
 		EE0C8E9B24576DE0009FB07C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EE0C8E9924576DE0009FB07C /* Main.storyboard */; };
@@ -29,6 +54,33 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		25B254572D6C5BFDA602E19B /* Pods_Mochi_Games.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Mochi_Games.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		38ABB379246BFC2700A7FF37 /* CVInterface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CVInterface.swift; sourceTree = "<group>"; };
+		38ABB37E246BFD0400A7FF37 /* ModelDataHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelDataHandler.swift; sourceTree = "<group>"; };
+		38ABB386246C014700A7FF37 /* cpm_model.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = cpm_model.mlmodel; sourceTree = "<group>"; };
+		38ABB389246C014700A7FF37 /* model1.pb */ = {isa = PBXFileReference; lastKnownFileType = file; path = model1.pb; sourceTree = "<group>"; };
+		38ABB38C246C014700A7FF37 /* model1.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = model1.tflite; sourceTree = "<group>"; };
+		38ABB398246C019B00A7FF37 /* read_pbfiles.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = read_pbfiles.py; sourceTree = "<group>"; };
+		38ABB39A246C019B00A7FF37 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		38ABB39B246C019B00A7FF37 /* model.pb */ = {isa = PBXFileReference; lastKnownFileType = file; path = model.pb; sourceTree = "<group>"; };
+		38ABB39D246C019B00A7FF37 /* stacked_hourglass.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = stacked_hourglass.mlmodel; sourceTree = "<group>"; };
+		38ABB39F246C019B00A7FF37 /* model2.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = model2.tflite; sourceTree = "<group>"; };
+		38ABB3AB246C01E900A7FF37 /* deeplabv3_257_mv_gpu.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = deeplabv3_257_mv_gpu.tflite; sourceTree = "<group>"; };
+		38ABB3AC246C01E900A7FF37 /* deeplabv3_labels.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = deeplabv3_labels.json; sourceTree = "<group>"; };
+		38ABB3B0246C040200A7FF37 /* model.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = model.tflite; sourceTree = "<group>"; };
+		38ABB3B1246C040200A7FF37 /* labels.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = labels.txt; sourceTree = "<group>"; };
+		38ABB3B4246C04D200A7FF37 /* GestureRecognition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GestureRecognition.swift; sourceTree = "<group>"; };
+		38ABB3D1246C0A4A00A7FF37 /* PredictedPoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PredictedPoint.swift; sourceTree = "<group>"; };
+		38ABB3D2246C0A4A00A7FF37 /* MovingAverageFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovingAverageFilter.swift; sourceTree = "<group>"; };
+		38ABB3D3246C0A4A00A7FF37 /* HeatmapPostProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeatmapPostProcessor.swift; sourceTree = "<group>"; };
+		38ABB3D7246C0A4A00A7FF37 /* PoseEstimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PoseEstimation.swift; sourceTree = "<group>"; };
+		38ABB3E0246C0FD100A7FF37 /* FaceAndFacialFeaturesDetection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FaceAndFacialFeaturesDetection.swift; sourceTree = "<group>"; };
+		38ABB3E3246C10D900A7FF37 /* UIKitExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIKitExtension.swift; sourceTree = "<group>"; };
+		38ABB3E4246C10D900A7FF37 /* TFLiteExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFLiteExtension.swift; sourceTree = "<group>"; };
+		38ABB3E5246C10DA00A7FF37 /* ImageSegmentator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageSegmentator.swift; sourceTree = "<group>"; };
+		38ABB3E6246C10DA00A7FF37 /* SemanticSegmentation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SemanticSegmentation.swift; sourceTree = "<group>"; };
+		47A36E990A4E66B29FE04698 /* Pods-Mochi Games.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mochi Games.release.xcconfig"; path = "Target Support Files/Pods-Mochi Games/Pods-Mochi Games.release.xcconfig"; sourceTree = "<group>"; };
+		7570C4B3F1DE9807CFC5E667 /* Pods-Mochi Games.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mochi Games.debug.xcconfig"; path = "Target Support Files/Pods-Mochi Games/Pods-Mochi Games.debug.xcconfig"; sourceTree = "<group>"; };
 		EE0C8E9024576DE0009FB07C /* Mochi Games.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Mochi Games.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE0C8E9324576DE0009FB07C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EE0C8E9724576DE0009FB07C /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
@@ -57,12 +109,149 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B1D39AAB62BC93DC259F1141 /* Pods_Mochi_Games.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		38ABB377246BFB1D00A7FF37 /* ComputerVision */ = {
+			isa = PBXGroup;
+			children = (
+				38ABB379246BFC2700A7FF37 /* CVInterface.swift */,
+				38ABB382246BFD3E00A7FF37 /* models */,
+				38ABB37D246BFC5D00A7FF37 /* GestureRecognition */,
+				38ABB3CF246C09FF00A7FF37 /* PoseEstimation */,
+				38ABB3E2246C109B00A7FF37 /* SemanticSegmentation */,
+				38ABB3DF246C0FB900A7FF37 /* FaceDetection */,
+			);
+			path = ComputerVision;
+			sourceTree = "<group>";
+		};
+		38ABB37D246BFC5D00A7FF37 /* GestureRecognition */ = {
+			isa = PBXGroup;
+			children = (
+				38ABB3B4246C04D200A7FF37 /* GestureRecognition.swift */,
+				38ABB37E246BFD0400A7FF37 /* ModelDataHandler.swift */,
+			);
+			path = GestureRecognition;
+			sourceTree = "<group>";
+		};
+		38ABB382246BFD3E00A7FF37 /* models */ = {
+			isa = PBXGroup;
+			children = (
+				38ABB383246C012400A7FF37 /* PoseEstimation */,
+				38ABB3AF246C026400A7FF37 /* GestureRecognition */,
+				38ABB3AA246C01BB00A7FF37 /* SemanticSegmenation */,
+			);
+			path = models;
+			sourceTree = "<group>";
+		};
+		38ABB383246C012400A7FF37 /* PoseEstimation */ = {
+			isa = PBXGroup;
+			children = (
+				38ABB395246C019B00A7FF37 /* hourglass_model */,
+				38ABB384246C014700A7FF37 /* cpm_model */,
+			);
+			path = PoseEstimation;
+			sourceTree = "<group>";
+		};
+		38ABB384246C014700A7FF37 /* cpm_model */ = {
+			isa = PBXGroup;
+			children = (
+				38ABB386246C014700A7FF37 /* cpm_model.mlmodel */,
+				38ABB389246C014700A7FF37 /* model1.pb */,
+				38ABB38C246C014700A7FF37 /* model1.tflite */,
+			);
+			path = cpm_model;
+			sourceTree = "<group>";
+		};
+		38ABB395246C019B00A7FF37 /* hourglass_model */ = {
+			isa = PBXGroup;
+			children = (
+				38ABB398246C019B00A7FF37 /* read_pbfiles.py */,
+				38ABB39A246C019B00A7FF37 /* README.md */,
+				38ABB39B246C019B00A7FF37 /* model.pb */,
+				38ABB39D246C019B00A7FF37 /* stacked_hourglass.mlmodel */,
+				38ABB39F246C019B00A7FF37 /* model2.tflite */,
+			);
+			path = hourglass_model;
+			sourceTree = "<group>";
+		};
+		38ABB3AA246C01BB00A7FF37 /* SemanticSegmenation */ = {
+			isa = PBXGroup;
+			children = (
+				38ABB3AB246C01E900A7FF37 /* deeplabv3_257_mv_gpu.tflite */,
+				38ABB3AC246C01E900A7FF37 /* deeplabv3_labels.json */,
+			);
+			path = SemanticSegmenation;
+			sourceTree = "<group>";
+		};
+		38ABB3AF246C026400A7FF37 /* GestureRecognition */ = {
+			isa = PBXGroup;
+			children = (
+				38ABB3B1246C040200A7FF37 /* labels.txt */,
+				38ABB3B0246C040200A7FF37 /* model.tflite */,
+			);
+			path = GestureRecognition;
+			sourceTree = "<group>";
+		};
+		38ABB3CF246C09FF00A7FF37 /* PoseEstimation */ = {
+			isa = PBXGroup;
+			children = (
+				38ABB3D0246C0A4A00A7FF37 /* Common */,
+				38ABB3D7246C0A4A00A7FF37 /* PoseEstimation.swift */,
+			);
+			path = PoseEstimation;
+			sourceTree = "<group>";
+		};
+		38ABB3D0246C0A4A00A7FF37 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				38ABB3D1246C0A4A00A7FF37 /* PredictedPoint.swift */,
+				38ABB3D2246C0A4A00A7FF37 /* MovingAverageFilter.swift */,
+				38ABB3D3246C0A4A00A7FF37 /* HeatmapPostProcessor.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		38ABB3DF246C0FB900A7FF37 /* FaceDetection */ = {
+			isa = PBXGroup;
+			children = (
+				38ABB3E0246C0FD100A7FF37 /* FaceAndFacialFeaturesDetection.swift */,
+			);
+			path = FaceDetection;
+			sourceTree = "<group>";
+		};
+		38ABB3E2246C109B00A7FF37 /* SemanticSegmentation */ = {
+			isa = PBXGroup;
+			children = (
+				38ABB3E5246C10DA00A7FF37 /* ImageSegmentator.swift */,
+				38ABB3E6246C10DA00A7FF37 /* SemanticSegmentation.swift */,
+				38ABB3E4246C10D900A7FF37 /* TFLiteExtension.swift */,
+				38ABB3E3246C10D900A7FF37 /* UIKitExtension.swift */,
+			);
+			path = SemanticSegmentation;
+			sourceTree = "<group>";
+		};
+		82862718D1E075400B509F04 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				25B254572D6C5BFDA602E19B /* Pods_Mochi_Games.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		905C6E9C098B9AAADB7E6C5A /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				7570C4B3F1DE9807CFC5E667 /* Pods-Mochi Games.debug.xcconfig */,
+				47A36E990A4E66B29FE04698 /* Pods-Mochi Games.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		EE0C8E8724576DE0009FB07C = {
 			isa = PBXGroup;
 			children = (
@@ -71,6 +260,8 @@
 				EE0C8EB92457795E009FB07C /* RosyEffect.metal */,
 				EE0C8E9224576DE0009FB07C /* Mochi Games */,
 				EE0C8E9124576DE0009FB07C /* Products */,
+				905C6E9C098B9AAADB7E6C5A /* Pods */,
+				82862718D1E075400B509F04 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -85,6 +276,7 @@
 		EE0C8E9224576DE0009FB07C /* Mochi Games */ = {
 			isa = PBXGroup;
 			children = (
+				38ABB377246BFB1D00A7FF37 /* ComputerVision */,
 				EE0C8EAF24577809009FB07C /* Grimes_v3.mp4 */,
 				EEF26A02245F36A400BBD98F /* DanceScene.sks */,
 				EEF26A04245F388300BBD98F /* particle.sks */,
@@ -121,6 +313,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = EE0C8EA424576DE3009FB07C /* Build configuration list for PBXNativeTarget "Mochi Games" */;
 			buildPhases = (
+				FBF61190369988A85971CD46 /* [CP] Check Pods Manifest.lock */,
 				EE0C8E8C24576DE0009FB07C /* Sources */,
 				EE0C8E8D24576DE0009FB07C /* Frameworks */,
 				EE0C8E8E24576DE0009FB07C /* Resources */,
@@ -172,10 +365,20 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				38ABB3B2246C040200A7FF37 /* model.tflite in Resources */,
+				38ABB3B3246C040200A7FF37 /* labels.txt in Resources */,
+				38ABB3C2246C06FC00A7FF37 /* read_pbfiles.py in Resources */,
+				38ABB3B8246C05B900A7FF37 /* model1.tflite in Resources */,
 				EEF26A07245F427F00BBD98F /* BLparticle.sks in Resources */,
+				38ABB3CB246C07C600A7FF37 /* model2.tflite in Resources */,
+				38ABB3AE246C01E900A7FF37 /* deeplabv3_labels.json in Resources */,
+				38ABB3AD246C01E900A7FF37 /* deeplabv3_257_mv_gpu.tflite in Resources */,
+				38ABB3CD246C07D800A7FF37 /* model1.pb in Resources */,
+				38ABB3CC246C07CF00A7FF37 /* model.pb in Resources */,
 				EEF26A09245F42C800BBD98F /* BRparticles.sks in Resources */,
 				EE0C8EA024576DE3009FB07C /* LaunchScreen.storyboard in Resources */,
 				EEF26A03245F36A400BBD98F /* DanceScene.sks in Resources */,
+				38ABB3C3246C070000A7FF37 /* README.md in Resources */,
 				EE0C8E9D24576DE3009FB07C /* Assets.xcassets in Resources */,
 				EE0C8E9B24576DE0009FB07C /* Main.storyboard in Resources */,
 				EE0C8EB024577809009FB07C /* Grimes_v3.mp4 in Resources */,
@@ -185,22 +388,61 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		FBF61190369988A85971CD46 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Mochi Games-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		EE0C8E8C24576DE0009FB07C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				38ABB3BB246C05C400A7FF37 /* cpm_model.mlmodel in Sources */,
+				38ABB3C1246C05E600A7FF37 /* CVInterface.swift in Sources */,
+				38ABB3E1246C0FD100A7FF37 /* FaceAndFacialFeaturesDetection.swift in Sources */,
 				EE0C8EA824576F2A009FB07C /* GlobalVars.swift in Sources */,
+				38ABB3DE246C0A4A00A7FF37 /* PoseEstimation.swift in Sources */,
+				38ABB3E9246C10DA00A7FF37 /* ImageSegmentator.swift in Sources */,
+				38ABB3CE246C093700A7FF37 /* GestureRecognition.swift in Sources */,
+				38ABB3DA246C0A4A00A7FF37 /* HeatmapPostProcessor.swift in Sources */,
+				38ABB3EA246C10DA00A7FF37 /* SemanticSegmentation.swift in Sources */,
 				EE0C8EBB2457795E009FB07C /* PassThrough.metal in Sources */,
 				EE0C8EBA2457795E009FB07C /* Mixer.metal in Sources */,
 				EE0C8EB424577824009FB07C /* RosyMetalRenderer.swift in Sources */,
+				38ABB3CA246C07AE00A7FF37 /* stacked_hourglass.mlmodel in Sources */,
 				EE0C8EBD2457795E009FB07C /* RosyEffect.metal in Sources */,
 				EE0C8EAC24577075009FB07C /* Camera.swift in Sources */,
+				38ABB3C9246C077700A7FF37 /* ModelDataHandler.swift in Sources */,
+				38ABB3D9246C0A4A00A7FF37 /* MovingAverageFilter.swift in Sources */,
 				EE0C8EB324577824009FB07C /* FilterRenderer.swift in Sources */,
 				EE0C8E9824576DE0009FB07C /* GameViewController.swift in Sources */,
 				EE0C8EC124577B40009FB07C /* gameScene.swift in Sources */,
 				EE0C8EAE2457749F009FB07C /* MTLCameraView.swift in Sources */,
 				EE0C8E9424576DE0009FB07C /* AppDelegate.swift in Sources */,
+				38ABB3E7246C10DA00A7FF37 /* UIKitExtension.swift in Sources */,
+				38ABB3D8246C0A4A00A7FF37 /* PredictedPoint.swift in Sources */,
+				38ABB3E8246C10DA00A7FF37 /* TFLiteExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -342,6 +584,7 @@
 		};
 		EE0C8EA524576DE3009FB07C /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7570C4B3F1DE9807CFC5E667 /* Pods-Mochi Games.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -361,6 +604,7 @@
 		};
 		EE0C8EA624576DE3009FB07C /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 47A36E990A4E66B29FE04698 /* Pods-Mochi Games.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;

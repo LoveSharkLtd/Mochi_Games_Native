@@ -13,7 +13,7 @@ import CoreImage
 
 protocol CameraDelegate {
     func cameraSessionDidBegin()
-    func didUpdatePixelBuffer(pixelBuffer : CVPixelBuffer, formatDescription : CMFormatDescription)
+    func didUpdatePixelBuffer(pixelBuffer : CVPixelBuffer, formatDescription : CMFormatDescription, sampleBuffer: CMSampleBuffer)
 }
 
 class Camera : NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
@@ -94,7 +94,7 @@ class Camera : NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
             return
         }
         
-        self.delegate?.didUpdatePixelBuffer(pixelBuffer: videoPixelBuffer, formatDescription : formatDescription)
+        self.delegate?.didUpdatePixelBuffer(pixelBuffer: videoPixelBuffer, formatDescription : formatDescription, sampleBuffer: sampleBuffer)
         
     }
 }

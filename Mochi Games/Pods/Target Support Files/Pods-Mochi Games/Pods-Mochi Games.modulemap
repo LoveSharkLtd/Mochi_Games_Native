@@ -1,0 +1,6 @@
+framework module Pods_Mochi_Games {
+  umbrella header "Pods-Mochi Games-umbrella.h"
+
+  export *
+  module * { export * }
+}

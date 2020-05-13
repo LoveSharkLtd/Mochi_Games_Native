@@ -11,7 +11,7 @@ import SpriteKit
 import ReplayKit
 import GameplayKit
 
-class GameViewController: UIViewController, CameraDelegate, RPPreviewViewControllerDelegate {
+class GameViewController: UIViewController, RPPreviewViewControllerDelegate {
     
     override var prefersStatusBarHidden: Bool { return true }
     
@@ -20,6 +20,8 @@ class GameViewController: UIViewController, CameraDelegate, RPPreviewViewControl
     
     var previewVideo : MTLCameraView?
     var BackgroundVideo : MTLCameraView?
+    
+    var cvInterface = CVInterface()
     
     var isRecording = false
     
@@ -56,15 +58,20 @@ class GameViewController: UIViewController, CameraDelegate, RPPreviewViewControl
 
         self.view.addSubview(BackgroundVideo!)
         
+        // Setup Camera
+//        Camera.shared().delegate = self
+//        Camera.shared().setUp()
         
-        Camera.shared().delegate = self
-        Camera.shared().setUp()
+        cvInterface.cvInterfaceDelegate = self
         
         // - Game Scene
        
         setUpGameScene()
         
         setUpNonRecordUI()
+        
+        // Load CV Techniques
+        cvInterface.load()
     }
     
     func setUpNonRecordUI() {
@@ -217,16 +224,18 @@ class GameViewController: UIViewController, CameraDelegate, RPPreviewViewControl
 
     func cameraSessionDidBegin() {
         // Called when the camera session has started
+        
+      
     }
     
-    func didUpdatePixelBuffer(pixelBuffer: CVPixelBuffer, formatDescription: CMFormatDescription) {
-        // this is called each frame and the MTLCameraView is needed to be passed the pixelbuffer and the formatdescription
-        
-        self.previewVideo?.pixelBuffer = pixelBuffer
-        self.BackgroundVideo?.pixelBuffer = pixelBuffer
-        self.BackgroundVideo?.formatDescription = formatDescription
-        
-    }
+//    func didUpdatePixelBuffer(pixelBuffer: CVPixelBuffer, formatDescription: CMFormatDescription) {
+//        // this is called each frame and the MTLCameraView is needed to be passed the pixelbuffer and the formatdescription
+//
+//        self.previewVideo?.pixelBuffer = pixelBuffer
+//        self.BackgroundVideo?.pixelBuffer = pixelBuffer
+//        self.BackgroundVideo?.formatDescription = formatDescription
+//
+//    }
     
     var delegate : GameViewControllerDelegate?
     
@@ -318,4 +327,31 @@ extension UIViewController {
             //
         }
     }
+}
+
+extension GameViewController: CVInterfaceDelegate {
+    func didUpdatePixelBuffer(pixelBuffer: CVPixelBuffer, formatDescription: CMFormatDescription) {
+        self.previewVideo?.pixelBuffer = pixelBuffer
+        self.BackgroundVideo?.pixelBuffer = pixelBuffer
+        self.BackgroundVideo?.formatDescription = formatDescription
+    }
+    
+    func didUpdateGestureRecognitionData(gestureRecognitionData: Any) {
+        print("!! Gesture Recognition \(gestureRecognitionData)")
+    }
+    
+    func didUpdatePoseEstimationData(poseEstimationData: Any, rightWristCordinate: Any) {
+        print("!! Pose Estimation \(poseEstimationData)")
+        print("!! Pose Wrist \(rightWristCordinate)")
+    }
+    
+    func didUpdateFaceDetectionData(faceDetectionData: Any) {
+        print("!! Face Detection \(faceDetectionData)")
+    }
+    
+    func didUpdateSemanticSegmentationData(semanticSegmentationData: Any) {
+//        print("!! Semantic Segmenation \(semanticSegmentationData)")
+    }
+    
+    
 }
