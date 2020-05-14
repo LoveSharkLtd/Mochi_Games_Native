@@ -1,9 +1,4 @@
-//
-//  PredictedPoint.swift
-//  Unity-iPhone
-//
-//  Created by Richmond Alake on 18/02/2020.
-//
+
 
 import Foundation
 import CoreGraphics

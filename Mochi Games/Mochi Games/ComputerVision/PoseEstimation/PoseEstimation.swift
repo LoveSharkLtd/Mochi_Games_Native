@@ -56,7 +56,7 @@ class PoseEstimation {
     func runPoseEstimation(pixelBuffer: CVPixelBuffer) {
         guard let request = request else { fatalError() }
 
-        // vision framework configures the inout size of the image following our models's input configuration automatically
+        // vision framework configures the input size of the image following our models's input configuration automatically
         let handler = VNImageRequestHandler(cvPixelBuffer: pixelBuffer)
         try? handler.perform([request])
         self.isInferencing = false
