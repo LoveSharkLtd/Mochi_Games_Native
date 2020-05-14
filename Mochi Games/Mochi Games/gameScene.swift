@@ -34,8 +34,8 @@ class GameScene: SKScene, GameViewControllerDelegate {
         }
         
         let size = scene?.size
-        let x = size!.width * (CGFloat(pixelPosition[0]) * scaler.width - 0.5)
-        let y = size!.height * (CGFloat(pixelPosition[1]) * scaler.height - 0.5)
+        let x = size!.width * scaler.width * (CGFloat(pixelPosition[0]) - 0.5)
+        let y = -size!.height * scaler.height * (CGFloat(pixelPosition[1]) - 0.5)
         let position : CGPoint = CGPoint(x: x, y: y)
         
         return position
