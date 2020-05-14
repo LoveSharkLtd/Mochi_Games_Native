@@ -11,7 +11,7 @@ import AVFoundation
 import UIKit
 
 protocol SemanticSegmentaitonDelegate {
-    func didUpdateSemanticResult(semanticResult: String)
+    func didUpdateSemanticResult(semanticResult: Any)
   }
 
 class SemanticSegementation {
@@ -52,7 +52,7 @@ class SemanticSegementation {
     
     func runSemanticSegmentation(_ image: UIImage, sampleBuffer: CMSampleBuffer ) {
     
-        var semanticSegmenationInformation:[String: Array<Int>?] = [
+        var semanticSegmenationInformation:[String: Array<Any>?] = [
             "pixelData": [],
             "imageHeight": [],
             "imageWidth": []
@@ -89,23 +89,25 @@ class SemanticSegementation {
                 self.segmentationResult = segmentationResult
                 
                 // Flatten array into 1D
-                semanticSegmenationInformation["pixelData"] = segmentationResult.array.flatMap { $0 }
+                semanticSegmenationInformation["pixelData"] = segmentationResult.array.compactMap { $0 }
                 semanticSegmenationInformation["imageHeight"] = [257] //segmentationResult.array.count
                 semanticSegmenationInformation["imageWidth"] = [257]
+                semanticSegmenationInformation["resultImage"] = [segmentationResult.resultImage]
+                semanticSegmenationInformation["overlayImage"] = [segmentationResult.overlayImage]
 
                 // Get the segmenation result mask and change dimension, then derive pixel data from image
 //                let resizedImage = segmentationResult.resultImage.resized(to: CGSize(width: 500, height: 500))
 //                let pixelData = resizedImage.pixelData()
 
-                if let semanticSegmentationInformationJSON = try? JSONEncoder().encode(semanticSegmenationInformation) {
-                    if let semanticSegmentationInformationSTRING = String(data: semanticSegmentationInformationJSON, encoding: .utf8) {
+                //if let semanticSegmentationInformationJSON = try? JSONEncoder().encode(semanticSegmenationInformation) {
+                    //if let semanticSegmentationInformationSTRING = String(data: semanticSegmentationInformationJSON, encoding: .utf8) {
 //                        self.segmentationResultToSendToUnity = semanticSegmentationInformationSTRING
                         //DispatchQueue.main.async {
-                            self.semanticSegmenationDelegate?.didUpdateSemanticResult(semanticResult: semanticSegmentationInformationSTRING)
+                            self.semanticSegmenationDelegate?.didUpdateSemanticResult(semanticResult: semanticSegmenationInformation)
                         //}
                         
-                    }
-                }
+                    //}
+                //}
 
                 self.isInferencing = false
             case let .error(error):
