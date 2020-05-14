@@ -70,13 +70,26 @@ class GameViewController: UIViewController, RPPreviewViewControllerDelegate {
         
         // - Game Scene
        
-        setUpGameScene()
+//        setUpGameScene()
         
 //        setUpNonRecordUI()
+        
+        label = UILabel(frame: CGRect(x: 0.0, y: 0.0, width: 200, height: 100))
+        label?.textColor = .black
+        label?.lineBreakMode = .byWordWrapping
+        label?.numberOfLines = 0
+        label?.backgroundColor = .white
+        
+        view.addSubview(label!)
+        
+        
         
         // Load CV Techniques
         cvInterface.load()
     }
+    
+    var label : UILabel?
+    
     
     func setUpNonRecordUI() {
         nonRecordWindow = UIWindow(frame: self.view.frame)
@@ -348,9 +361,30 @@ extension GameViewController: CVInterfaceDelegate {
     func didUpdatePoseEstimationData(poseEstimationData: Any, rightWristCordinate: Any) {
 //        print("!! Pose Estimation \(poseEstimationData)")
 //        print("!! Pose Wrist \(rightWristCordinate)")
+        let temp = rightWristCordinate as! BodyTrackingData
+        let x = temp.wrist.right[0]
+        let y = temp.wrist.right[1]
+        self.label?.text = "x : \(x)\ny : \(y) \nconfidence : \(temp.wrist.confidenceRight)"
         
-        self.delegate?.didUpdateBodyTrackingData(bodyTrackingData: rightWristCordinate as! BodyTrackingData)
+        self.label?.center = TBDpixelPositionToSpriteKitPosition(temp.wrist.right)
+        
+//        self.delegate?.didUpdateBodyTrackingData(bodyTrackingData: rightWristCordinate as! BodyTrackingData)
     }
+    
+    func TBDpixelPositionToSpriteKitPosition(_ pixelPosition : [Float]) -> CGPoint {
+        guard let scaler = self.getImageScaler() else {
+            return CGPoint.zero
+        }
+        
+        let size = CGSize(width: sW, height: sH)
+        let x = size.width * (CGFloat(pixelPosition[0]) * scaler.width - 0.5)
+        let y = size.height * (CGFloat(pixelPosition[1]) * scaler.height - 0.5)
+        let position : CGPoint = CGPoint(x: x, y: y)
+        
+        return position
+    }
+    
+    
     
     func didUpdateFaceDetectionData(faceDetectionData: Any) {
 //        print("!! Face Detection \(faceDetectionData)")

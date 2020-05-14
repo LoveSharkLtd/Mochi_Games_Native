@@ -50,13 +50,13 @@ extension CVInterface: CameraDelegate {
 
     func didUpdatePixelBuffer(pixelBuffer: CVPixelBuffer, formatDescription: CMFormatDescription, sampleBuffer: CMSampleBuffer) {
         self.cvInterfaceDelegate?.didUpdatePixelBuffer(pixelBuffer: pixelBuffer, formatDescription: formatDescription)
-        self.gestureRecognition.runGestureRecognition(pixelBuffer: pixelBuffer)
+//        self.gestureRecognition.runGestureRecognition(pixelBuffer: pixelBuffer)
         self.poseEstimation.runPoseEstimation(pixelBuffer: pixelBuffer)
-        self.faceDetection.runFaceAndFacialFeatureDetection(sampleBuffer: sampleBuffer)
-        let image = CIImage(cvPixelBuffer: pixelBuffer)
-        let context = CIContext(options: nil)
-        let cg_image = context.createCGImage(image, from: image.extent)!
-        self.semanticSegmentation.runSemanticSegmentation(UIImage(cgImage: cg_image), sampleBuffer: sampleBuffer)
+//        self.faceDetection.runFaceAndFacialFeatureDetection(sampleBuffer: sampleBuffer)
+//        let image = CIImage(cvPixelBuffer: pixelBuffer)
+//        let context = CIContext(options: nil)
+//        let cg_image = context.createCGImage(image, from: image.extent)!
+//        self.semanticSegmentation.runSemanticSegmentation(UIImage(cgImage: cg_image), sampleBuffer: sampleBuffer)
     }
     
 }
@@ -80,6 +80,10 @@ extension CVInterface: FaceAndFacialFeaturesDetectionDelegate {
 }
 
 extension CVInterface: SemanticSegmentaitonDelegate {
+    func didUpdateSemanticResult(semanticResult: Any) {
+//        <#code#>
+    }
+    
     func didUpdateSemanticResult(semanticResult: String) {
         self.cvInterfaceDelegate?.didUpdateSemanticSegmentationData(semanticSegmentationData: semanticResult)
     }

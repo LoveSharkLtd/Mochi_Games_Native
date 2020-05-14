@@ -284,7 +284,7 @@ class PoseEstimation {
             }
                 
         
-        if rightWristJointPositionConfidence < 0.5 { return }
+//        if rightWristJointPositionConfidence < 0.5 { return }
         
         
         let tempData = BodyTrackingData(top: [],
