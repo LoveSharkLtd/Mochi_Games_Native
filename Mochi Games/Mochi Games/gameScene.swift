@@ -10,7 +10,38 @@ import SpriteKit
 import GameplayKit
 
 class GameScene: SKScene, GameViewControllerDelegate {
+    func didUpdateBodyTrackingData(bodyTrackingData: BodyTrackingData) {
+//        print("!! - wrist = \(bodyTrackingData.wrist.right)")
+        
+        let n = Float.minimum(bodyTrackingData.wrist.confidenceRight, 1.0)
+        let oldPos = self.wristNode?.position
+        let newPos = pixelPositionToSpriteKitPosition(bodyTrackingData.wrist.right)
+        
+        print("!! -- conf = \(bodyTrackingData.wrist.confidenceRight)")
+        
+        self.wristNode?.position = pixelPositionToSpriteKitPosition(bodyTrackingData.wrist.right)
+        return
+        
+//        let x = CGFloat(n) * (newPos.x - oldPos!.x) + oldPos!.x
+//        let y = CGFloat(n) * (newPos.y - oldPos!.y) + oldPos!.y
+//
+//        self.wristNode?.position = CGPoint(x: x, y: y)
+    }
     
+    func pixelPositionToSpriteKitPosition(_ pixelPosition : [Float]) -> CGPoint {
+        guard let scaler = viewController?.getImageScaler() else {
+            return CGPoint.zero
+        }
+        
+        let size = scene?.size
+        let x = size!.width * (CGFloat(pixelPosition[0]) * scaler.width - 0.5)
+        let y = size!.height * (CGFloat(pixelPosition[1]) * scaler.height - 0.5)
+        let position : CGPoint = CGPoint(x: x, y: y)
+        
+        return position
+    }
+    
+    var wristNode : SKNode?
     var handsupNode : SKNode?
     var brushLNode : SKNode?
     var brushRNode : SKNode?
@@ -104,7 +135,10 @@ class GameScene: SKScene, GameViewControllerDelegate {
     
     override func sceneDidLoad() {
         print("!! - scene loaded")
+        wristNode = self.childNode(withName: "wristNode")
+        
         handsupNode = self.childNode(withName: "handsup")
+        
         
         var emitterL = handsupNode?.childNode(withName: "L")
         var emitterR = handsupNode?.childNode(withName: "R")

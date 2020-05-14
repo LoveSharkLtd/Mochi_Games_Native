@@ -182,7 +182,6 @@ class PoseEstimation {
     
         // Utilising the x component of the joint for horizontal distance
         let distanceBetweenRightWristAndLeftWrist = sqrt(powf((Float(leftWristJointPositionCordinates[0]) - Float(rightWristJointPositionCordinates[0])), 2))
-        
         // Confidence score of all main joints
         let rightHipJointPositionConfidence = (n_kpoints[rightHipPosition] != nil) ? Float(n_kpoints[rightHipPosition]!.maxConfidence) : Float(0.0)
         let leftHipJointPositionConfidence = (n_kpoints[leftHipPosition] != nil) ? Float(n_kpoints[leftHipPosition]!.maxConfidence) : Float(0.0)
@@ -191,7 +190,6 @@ class PoseEstimation {
         let leftShoulderJointPositionConfidence = (n_kpoints[leftShoulderPosition] != nil) ? Float(n_kpoints[leftShoulderPosition]!.maxConfidence) : Float(0.0)
         let rightShoulderJointPositionConfidence = (n_kpoints[rightShoulderPosition] != nil) ? Float(n_kpoints[rightShoulderPosition]!.maxConfidence) : Float(0.0)
         let leftWristJointPositionConfidence = (n_kpoints[leftWristPosition] != nil) ? Float(n_kpoints[leftWristPosition]!.maxConfidence) : Float(0.0)
-    
     
         // Pose estimation is ready once all major joints have a high confidence score
         if (leftWristJointPositionConfidence > confidenceThresholdValue &&
@@ -285,6 +283,22 @@ class PoseEstimation {
                 poseGestureInformation["mop"] = true
             }
                 
+        
+        if rightWristJointPositionConfidence < 0.5 { return }
+        
+        
+        let tempData = BodyTrackingData(top: [],
+                                        neck: BodyTrackingPositions(left: [], right: [], confidenceLeft: 0.0, confidenceRight: 0.0),
+                                        shoulders: BodyTrackingPositions(left: [], right: [], confidenceLeft: 0.0, confidenceRight: 0.0),
+                                        elbow: BodyTrackingPositions(left: [], right: [], confidenceLeft: 0.0, confidenceRight: 0.0),
+                                        wrist: BodyTrackingPositions(left: [], right: rightWristJointPositionCordinates, confidenceLeft: 0.0, confidenceRight: rightWristJointPositionConfidence),
+                                        hip: BodyTrackingPositions(left: [], right: [], confidenceLeft: 0.0, confidenceRight: 0.0),
+                                        knee: BodyTrackingPositions(left: [], right: [], confidenceLeft: 0.0, confidenceRight: 0.0),
+                                        ankle: BodyTrackingPositions(left: [], right: [], confidenceLeft: 0.0, confidenceRight: 0.0))
+        
+        self.poseEstimationDelegate.didUpdatePoseEstimationData(poseEstimationData: "", rightWristCordinate: tempData)
+        
+        return
             // Encode gesture dictionary as JSON string and cache the json string
             if let jsonNewData = try? JSONEncoder().encode(poseGestureInformation) {
                 if let jsonNewString = String(data: jsonNewData, encoding: .utf8) {

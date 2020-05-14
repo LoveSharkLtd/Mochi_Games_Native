@@ -162,6 +162,8 @@ class MTLCameraView : MTKView {
         }
     }
     
+    var scaler : CGSize = CGSize(width: 1.0, height: 1.0)
+    
     
     private func setupTransform(width: Int, height: Int, mirroring: Bool, rotation: Rotation) {
         var scaleX: Float = 1.0
@@ -195,6 +197,8 @@ class MTLCameraView : MTKView {
             scaleY = scaleX / scaleY // 1.0
             scaleX = 1.0 // scaleY / scaleX
         }
+        
+        self.scaler = CGSize(width: CGFloat(scaleX), height: CGFloat(scaleY))
         
         if textureMirroring {
             scaleX *= -1.0

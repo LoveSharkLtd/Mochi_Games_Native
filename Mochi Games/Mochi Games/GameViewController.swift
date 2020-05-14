@@ -25,6 +25,10 @@ class GameViewController: UIViewController, RPPreviewViewControllerDelegate {
     
     var isRecording = false
     
+    func getImageScaler() -> CGSize? {
+        return self.BackgroundVideo?.scaler
+    }
+    
     func setUpGameScene() {
 
        let skview = SKView(frame: CGRect(x: 0.0, y: 0.0, width: sW, height: sH))
@@ -68,7 +72,7 @@ class GameViewController: UIViewController, RPPreviewViewControllerDelegate {
        
         setUpGameScene()
         
-        setUpNonRecordUI()
+//        setUpNonRecordUI()
         
         // Load CV Techniques
         cvInterface.load()
@@ -296,6 +300,7 @@ class GameViewController: UIViewController, RPPreviewViewControllerDelegate {
 protocol GameViewControllerDelegate {
     func handsupDataChanged(handsUp : Bool)
     func brushedShoulderDataChanged(brushedLeftShoulder : Bool, brushedRightShoulder : Bool)
+    func didUpdateBodyTrackingData(bodyTrackingData : BodyTrackingData)
 }
 
 // - hiderViewController is used to attach to the secondary UIWindow which will house all the UI elements that do not want to be included in the recording
@@ -337,16 +342,18 @@ extension GameViewController: CVInterfaceDelegate {
     }
     
     func didUpdateGestureRecognitionData(gestureRecognitionData: Any) {
-        print("!! Gesture Recognition \(gestureRecognitionData)")
+//        print("!! Gesture Recognition \(gestureRecognitionData)")
     }
     
     func didUpdatePoseEstimationData(poseEstimationData: Any, rightWristCordinate: Any) {
-        print("!! Pose Estimation \(poseEstimationData)")
-        print("!! Pose Wrist \(rightWristCordinate)")
+//        print("!! Pose Estimation \(poseEstimationData)")
+//        print("!! Pose Wrist \(rightWristCordinate)")
+        
+        self.delegate?.didUpdateBodyTrackingData(bodyTrackingData: rightWristCordinate as! BodyTrackingData)
     }
     
     func didUpdateFaceDetectionData(faceDetectionData: Any) {
-        print("!! Face Detection \(faceDetectionData)")
+//        print("!! Face Detection \(faceDetectionData)")
     }
     
     func didUpdateSemanticSegmentationData(semanticSegmentationData: Any) {
@@ -355,3 +362,4 @@ extension GameViewController: CVInterfaceDelegate {
     
     
 }
+
