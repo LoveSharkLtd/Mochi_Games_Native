@@ -74,6 +74,11 @@ class GameViewController: UIViewController, RPPreviewViewControllerDelegate {
         
 //        setUpNonRecordUI()
         
+        //
+//        imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: sW, height: sH))
+//        imageView?.backgroundColor = .clear
+//        view.addSubview(imageView!)
+        
         label = UILabel(frame: CGRect(x: 0.0, y: 0.0, width: 200, height: 100))
         label?.textColor = .black
         label?.lineBreakMode = .byWordWrapping
@@ -89,7 +94,7 @@ class GameViewController: UIViewController, RPPreviewViewControllerDelegate {
     }
     
     var label : UILabel?
-    
+    var imageView: UIImageView?
     
     func setUpNonRecordUI() {
         nonRecordWindow = UIWindow(frame: self.view.frame)
@@ -348,6 +353,8 @@ extension UIViewController {
 }
 
 extension GameViewController: CVInterfaceDelegate {
+    
+    
     func didUpdatePixelBuffer(pixelBuffer: CVPixelBuffer, formatDescription: CMFormatDescription) {
         self.previewVideo?.pixelBuffer = pixelBuffer
         self.BackgroundVideo?.pixelBuffer = pixelBuffer
@@ -377,8 +384,8 @@ extension GameViewController: CVInterfaceDelegate {
         }
         
         let size = CGSize(width: sW, height: sH)
-        let x = size.width * (CGFloat(pixelPosition[0]) * scaler.width - 0.5)
-        let y = size.height * (CGFloat(pixelPosition[1]) * scaler.height - 0.5)
+        let x = size.width * scaler.width * (CGFloat(pixelPosition[0]))
+        let y = size.height * scaler.height * (CGFloat(pixelPosition[1]))
         let position : CGPoint = CGPoint(x: x, y: y)
         
         return position
@@ -390,8 +397,10 @@ extension GameViewController: CVInterfaceDelegate {
 //        print("!! Face Detection \(faceDetectionData)")
     }
     
-    func didUpdateSemanticSegmentationData(semanticSegmentationData: Any) {
-//        print("!! Semantic Segmenation \(semanticSegmentationData)")
+    func didUpdateSemanticSegmentationData(semanticSegmentationData: SemanticSegmentationInformation) {
+//        guard let image = semanticSegmentationData?.pixelData else { return }
+        print(" !! \(semanticSegmentationData.pixelData.first?.count)")
+        
     }
     
     

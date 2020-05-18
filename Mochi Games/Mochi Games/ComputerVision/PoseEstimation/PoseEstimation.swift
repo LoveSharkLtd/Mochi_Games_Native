@@ -300,12 +300,12 @@ class PoseEstimation {
         
         return
             // Encode gesture dictionary as JSON string and cache the json string
-            if let jsonNewData = try? JSONEncoder().encode(poseGestureInformation) {
-                if let jsonNewString = String(data: jsonNewData, encoding: .utf8) {
-                    self.fullPoseInformationToSendToUnity = jsonNewString
-                    self.poseEstimationDelegate?.didUpdatePoseEstimationData(poseEstimationData: jsonNewString, rightWristCordinate: rightWristJointPositionCordinates)
-                }
-            }
+//            if let jsonNewData = try? JSONEncoder().encode(poseGestureInformation) {
+//                if let jsonNewString = String(data: jsonNewData, encoding: .utf8) {
+//                    self.fullPoseInformationToSendToUnity = jsonNewString
+//                    self.poseEstimationDelegate?.didUpdatePoseEstimationData(poseEstimationData: jsonNewString, rightWristCordinate: rightWristJointPositionCordinates)
+//                }
+//            }
         //}
     
         
