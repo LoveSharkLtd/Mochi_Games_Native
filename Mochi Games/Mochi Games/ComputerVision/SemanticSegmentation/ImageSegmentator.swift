@@ -185,7 +185,7 @@ class ImageSegmentator {
   /// - Parameter image: the target image.
   /// - Parameter completion: the callback to receive segmentation result.
   func runSegmentation(
-    _ image: UIImage, completion: @escaping ((Result<SegmentationResult>) -> Void)
+    _ pixelBuffer : CVPixelBuffer, completion: @escaping ((Result<SegmentationResult>) -> Void)
   ) {
     tfLiteQueue.async {
       let outputTensor: Tensor
@@ -194,7 +194,13 @@ class ImageSegmentator {
       var inferenceTime: TimeInterval = 0
       var postprocessingTime: TimeInterval = 0
       var visualizationTime: TimeInterval = 0
-
+        
+      let img = CIImage(cvPixelBuffer: pixelBuffer)
+      let context = CIContext(options: nil)
+      let cg_image = context.createCGImage(img, from: img.extent)!
+      let image = UIImage(cgImage: cg_image)
+        
+        
       do {
         // Preprocessing: Resize the input UIImage to match with TF Lite model input shape.
         guard
@@ -251,22 +257,53 @@ class ImageSegmentator {
       var now = Date()
       postprocessingTime = now.timeIntervalSince(startTime)
       startTime = Date()
-
-      // Visualize result into images.
-      guard
-        let resultImage = ImageSegmentator.imageFromSRGBColorArray(
-          pixels: parsedOutput.segmentationImagePixels,
-          width: self.inputImageWidth,
-          height: self.inputImageHeight
-        ),
-        let overlayImage = image.overlayWithImage(image: resultImage, alpha: 0.5)
-      else {
-        print("Failed to visualize segmentation result.")
-        DispatchQueue.main.async {
-          completion(.error(SegmentationError.resultVisualizationError))
+        
+        let width = self.inputImageWidth
+        let height = self.inputImageHeight
+        
+        var data = parsedOutput.segmentationImagePixels// Convert array of pixels to a CGImage instance.
+        let cgImage = data.withUnsafeMutableBytes { (ptr) -> CGImage in
+          let ctx = CGContext(
+            data: ptr.baseAddress,
+            width: width,
+            height: height,
+            bitsPerComponent: 8,
+            bytesPerRow: MemoryLayout<UInt32>.size * width,
+            space: CGColorSpace(name: CGColorSpace.sRGB)!,
+            bitmapInfo: CGBitmapInfo.byteOrder32Little.rawValue
+              + CGImageAlphaInfo.premultipliedFirst.rawValue
+          )!
+          return ctx.makeImage()!
         }
-        return
-      }
+
+        
+        
+        var ciimage = CIImage(cgImage: cgImage)
+        var segPixelBuffer : CVPixelBuffer?
+        
+        let attributes: [String:Any] = [kCVPixelBufferMetalCompatibilityKey as String:kCFBooleanTrue]
+            CVPixelBufferCreate(kCFAllocatorDefault, width, height, kCVPixelFormatType_32BGRA, attributes as CFDictionary, &segPixelBuffer)
+        
+        // 4. Render image to pixel buffer using contect
+        let cicontext = CIContext(options: nil)
+        cicontext.render(ciimage, to: segPixelBuffer!)
+        
+      // Visualize result into images.
+//      guard
+//        let resultImage = ImageSegmentator.imageFromSRGBColorArray(
+//          pixels: parsedOutput.segmentationImagePixels,
+//          width: self.inputImageWidth,
+//          height: self.inputImageHeight
+//        ),
+//        let overlayImage = image.overlayWithImage(image: resultImage, alpha: 0.5)
+        
+//      else {
+//        print("Failed to visualize segmentation result.")
+//        DispatchQueue.main.async {
+//          completion(.error(SegmentationError.resultVisualizationError))
+//        }
+//        return
+//      }
 
       // Construct a dictionary of classes found in the image and each class's color used in
       // visualization.
@@ -279,8 +316,9 @@ class ImageSegmentator {
       // Create a representative object that contains the segmentation result.
       let result = SegmentationResult(
         array: parsedOutput.segmentationMap,
-        resultImage: resultImage,
-        overlayImage: overlayImage,
+        pixelBuffer: segPixelBuffer!,
+        resultImage: UIImage(), // resultImage,
+        overlayImage: UIImage(), //overlayImage,
         preprocessingTime: preprocessingTime,
         inferenceTime: inferenceTime,
         postProcessingTime: postprocessingTime,
@@ -410,6 +448,7 @@ struct SegmentationResult {
   /// Segmentation result as an array. Each value represents the most likely class the pixel
   /// belongs to.
   let array: [[Int]]
+    let pixelBuffer : CVPixelBuffer
 
   /// Visualization of the segmentation result.
   let resultImage: UIImage

@@ -30,6 +30,9 @@ class CVInterface {
     private let faceDetection = FaceAndFacialFeaturesDetection()
     private let semanticSegmentation = SemanticSegementation()
     
+    var framesSinceLastPass : Int = 0
+    var frameInterval : Int = 1
+    var isInferencing : Bool = false
     
     func load() {
         self.gestureRecognition.gestureRecognitionDelegate = self
@@ -76,12 +79,17 @@ extension CVInterface: CameraDelegate {
 //        self.gestureRecognition.runGestureRecognition(pixelBuffer: pixelBuffer)
         
         self.poseEstimation.runPoseEstimation(pixelBuffer: pixelBuffer)
-//        self.faceDetection.runFaceAndFacialFeatureDetection(sampleBuffer: sampleBuffer)
-//        let image = CIImage(cvPixelBuffer: pixelBuffer)
-//        let context = CIContext(options: nil)
-//        let cg_image = context.createCGImage(image, from: image.extent)!
-//        self.semanticSegmentation.runSemanticSegmentation(UIImage(cgImage: cg_image), sampleBuffer: sampleBuffer)
-        CVPixelBufferUnlockBaseAddress(pixelBuffer, CVPixelBufferLockFlags.readOnly)
+        self.frameInterval = -100
+        if self.framesSinceLastPass > self.frameInterval {
+            if !self.isInferencing {
+                self.semanticSegmentation.runSemanticSegmentation(pixelBuffer)
+//                self.isInferencing = true
+            }
+            self.framesSinceLastPass = 0
+        }
+        CVPixelBufferUnlockBaseAddress(pixelBuffer, .readOnly)
+        self.framesSinceLastPass += 1
+
 
     }
 
@@ -107,6 +115,7 @@ extension CVInterface: FaceAndFacialFeaturesDetectionDelegate {
 
 extension CVInterface: SemanticSegmentaitonDelegate {
     func didUpdateSemanticResult(semanticResult: SemanticSegmentationInformation) {
+        self.isInferencing = false
         self.cvInterfaceDelegate?.didUpdateSemanticSegmentationData(semanticSegmentationData: semanticResult)
     }
 }

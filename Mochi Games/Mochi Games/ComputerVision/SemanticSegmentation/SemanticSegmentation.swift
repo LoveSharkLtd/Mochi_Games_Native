@@ -50,41 +50,15 @@ class SemanticSegementation {
         }
     }
     
-    func runSemanticSegmentation(_ image: UIImage, sampleBuffer: CMSampleBuffer ) {
-    
-//        var semanticSegmenationInformation:[String: Array<Any>?] = [
-//            "pixelData": [],
-//            "imageHeight": [],
-//            "imageWidth": [],
-//            "resultImage": [],
-//            "overlayImage": []
-//        ]
-        
-//        var semanticSegmenationInformation: SemanticSegmentationInformation?
-    
-        
+    func runSemanticSegmentation(_ pixelBuffer: CVPixelBuffer ) {
         // Ensure image segmentator is intialized
         guard imageSegmentator != nil else {
             print("ERROR: Image Segmentator is not ready")
             return
         }
     
-        // Cache the image
-        self.targetImage = image
-    
-        // potentially cropped image as input to the segmentation model
-        segmentationInput = image
-        
-        // Make sure the image is ready before performing segmentation
-        guard image != nil else {
-            print ("ERROR: There are no images present for segmentation")
-            return
-        }
-        
-        // Run Image segmenation
-    
          imageSegmentator?.runSegmentation(
-          image,
+          pixelBuffer,
           completion: { result in
     
             // Show the segmentation result on screen
@@ -108,9 +82,10 @@ class SemanticSegementation {
                 semanticSegmenationInformation.pixelData = tempData
                 semanticSegmenationInformation.imageHeight = [257] //segmentationResult.array.count
                 semanticSegmenationInformation.imageWidth = [257]
-                semanticSegmenationInformation.resultImage = [segmentationResult.resultImage]
-                semanticSegmenationInformation.overlayImage = [segmentationResult.overlayImage]
-
+                semanticSegmenationInformation.pixelBuffer = segmentationResult.pixelBuffer
+//                semanticSegmenationInformation.resultImage = [segmentationResult.resultImage]
+//                semanticSegmenationInformation.overlayImage = [segmentationResult.overlayImage]
+                                
                 // Get the segmenation result mask and change dimension, then derive pixel data from image
 //                let resizedImage = segmentationResult.resultImage.resized(to: CGSize(width: 500, height: 500))
 //                let pixelData = resizedImage.pixelData()
@@ -135,6 +110,7 @@ class SemanticSegementation {
 }
 
 struct SemanticSegmentationInformation {
+    var pixelBuffer : CVPixelBuffer?
     var pixelData: [[Int]] = []
     var imageHeight: [Int] = []
     var imageWidth: [Int] = []
