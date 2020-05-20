@@ -70,7 +70,7 @@ class GameViewController: UIViewController, RPPreviewViewControllerDelegate {
         
         // - Game Scene
        
-//        setUpGameScene()
+        setUpGameScene()
         
 //        setUpNonRecordUI()
         
@@ -79,13 +79,24 @@ class GameViewController: UIViewController, RPPreviewViewControllerDelegate {
 //        imageView?.backgroundColor = .clear
 //        view.addSubview(imageView!)
         
+        
+        // Creating Point
+//        pointView = UIView(frame: CGRect(x: 0, y: 0, width: pointSize.width, height: pointSize.height))
+//        pointView?.backgroundColor = color
+//        pointView?.clipsToBounds = false
+//        pointView?.layer.cornerRadius = 5
+//        pointView?.layer.borderColor = UIColor.black.cgColor
+//        pointView?.layer.borderWidth = 1.4
+
+        
         label = UILabel(frame: CGRect(x: 0.0, y: 0.0, width: 200, height: 100))
         label?.textColor = .black
         label?.lineBreakMode = .byWordWrapping
         label?.numberOfLines = 0
         label?.backgroundColor = .white
         
-        view.addSubview(label!)
+//        view.addSubview(label!)
+//        view.addSubview(pointView!)
         
         
         
@@ -94,7 +105,12 @@ class GameViewController: UIViewController, RPPreviewViewControllerDelegate {
     }
     
     var label : UILabel?
-    var imageView: UIImageView?
+//    var imageView: UIImageView?
+    let pointSize = CGSize(width: 10, height: 10)
+    let color:UIColor = .red
+//    var pointView:UIView?
+
+
     
     func setUpNonRecordUI() {
         nonRecordWindow = UIWindow(frame: self.view.frame)
@@ -354,7 +370,6 @@ extension UIViewController {
 
 extension GameViewController: CVInterfaceDelegate {
     
-    
     func didUpdatePixelBuffer(pixelBuffer: CVPixelBuffer, formatDescription: CMFormatDescription) {
         self.previewVideo?.pixelBuffer = pixelBuffer
         self.BackgroundVideo?.pixelBuffer = pixelBuffer
@@ -365,17 +380,64 @@ extension GameViewController: CVInterfaceDelegate {
 //        print("!! Gesture Recognition \(gestureRecognitionData)")
     }
     
-    func didUpdatePoseEstimationData(poseEstimationData: Any, rightWristCordinate: Any) {
-//        print("!! Pose Estimation \(poseEstimationData)")
-//        print("!! Pose Wrist \(rightWristCordinate)")
-        let temp = rightWristCordinate as! BodyTrackingData
-        let x = temp.wrist.right[0]
-        let y = temp.wrist.right[1]
-        self.label?.text = "x : \(x)\ny : \(y) \nconfidence : \(temp.wrist.confidenceRight)"
+    func didUpdatePoseEstimationData(poseEstimationData: Any, rightWristCordinate: Any, points: [PredictedPoint?], gestureInformation: [String: Bool?]) {
         
-        self.label?.center = TBDpixelPositionToSpriteKitPosition(temp.wrist.right)
+        // Action if the shoulder is brushed
+        if ((gestureInformation["isShoulderBrush"]!!)) {
+            let brushedShoulder = gestureInformation["isShoulderBrush"]!!
+            shoulderBrushedDataChanged(brushedLeftShoulder: brushedShoulder, brushedRightShoulder: false)
+        }
         
-//        self.delegate?.didUpdateBodyTrackingData(bodyTrackingData: rightWristCordinate as! BodyTrackingData)
+        // Remove points that have been added previously
+        for v in view.subviews{
+           if v is UILabel{
+              v.removeFromSuperview()
+           }
+        }
+        
+        // Define label color, size and width
+        let pointSize = CGSize(width: 100, height: 20)
+        let color:UIColor = .red
+        
+        // Joint Labels for on screen text
+        let pointLabels: [String] = [
+            "top",          //0
+            "neck",         //1
+            "R shoulder",   //2
+            "R elbow",      //3
+            "R wrist",      //4
+            "L shoulder",   //5
+            "L elbow",      //6
+            "L wrist",      //7
+            "R hip",        //8
+            "R knee",       //9
+            "R ankle",      //10
+            "L hip",        //11
+            "L knee",       //12
+            "L ankle",      //13
+        ]
+        
+        // Loop through the points and place labels based on their positions
+        for (index, point) in points.enumerated() {
+
+            let x = CGFloat((point?.maxPoint.x ?? 0) * UIScreen.main.bounds.width)
+            let y = CGFloat((point?.maxPoint.y ?? 0) * UIScreen.main.bounds.height)
+            
+            // Create a label view for each point
+            let pointView = UILabel(frame: CGRect(x: 0, y: 0, width: pointSize.width, height: pointSize.height))
+            pointView.backgroundColor = color
+            pointView.clipsToBounds = false
+            pointView.layer.cornerRadius = 5
+            pointView.layer.borderColor = UIColor.black.cgColor
+            pointView.layer.borderWidth = 1.4
+            pointView.text = pointLabels[index]
+            
+            pointView.center = CGPoint(x: x, y:y)
+            
+            // Add points to view
+            self.view.addSubview(pointView)
+
+        }
     }
     
     func TBDpixelPositionToSpriteKitPosition(_ pixelPosition : [Float]) -> CGPoint {

@@ -71,12 +71,30 @@ class Camera : NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
 
             self.captureSession.addInput(input!)
             
+            videoDataOutput.videoSettings = [kCVPixelBufferPixelFormatTypeKey as String : Int(kCVPixelFormatType_32BGRA)]
+            // Discard late video frames as we are working with live data
+            videoDataOutput.alwaysDiscardsLateVideoFrames = true
+            videoDataOutput.setSampleBufferDelegate(self, queue: videoQueue)
+            
+            
+            // Run the session at 720p.
+            captureSession.sessionPreset = .hd1920x1080
+            
+            // Lock configurationss and cap the FPS at 30
+            try! captureDevice!.lockForConfiguration()
+            captureDevice!.activeVideoMaxFrameDuration = CMTime(value: 1, timescale: CMTimeScale(30))
+            captureDevice!.unlockForConfiguration()
+
             if captureSession.canAddOutput(videoDataOutput) {
                 captureSession.addOutput(videoDataOutput)
-                videoDataOutput.videoSettings = [kCVPixelBufferPixelFormatTypeKey as String : Int(kCVPixelFormatType_32BGRA)]
-                videoDataOutput.setSampleBufferDelegate(self, queue: videoQueue)
             }
             
+            // We want the buffers to be in portrait orientation otherwise they are
+            // rotated by 90 degrees. Need to set this _after_ addOutput()!
+            videoDataOutput.connection(with: AVMediaType.video)?.videoOrientation = .portrait
+            
+            captureSession.commitConfiguration()
+
             self.captureSession.startRunning()
             self.delegate?.cameraSessionDidBegin()
         } catch {
@@ -90,6 +108,7 @@ class Camera : NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
     }
     
     func processVideo(sampleBuffer : CMSampleBuffer) {
+        
         guard let videoPixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer), let formatDescription = CMSampleBufferGetFormatDescription(sampleBuffer) else {
             return
         }
