@@ -11,7 +11,7 @@ import AVFoundation
 import UIKit
 
 protocol SemanticSegmentaitonDelegate {
-    func didUpdateSemanticResult(semanticResult: Any)
+    func didUpdateSemanticResult(semanticResult: SemanticSegmentationInformation)
   }
 
 class SemanticSegementation {
@@ -52,11 +52,15 @@ class SemanticSegementation {
     
     func runSemanticSegmentation(_ image: UIImage, sampleBuffer: CMSampleBuffer ) {
     
-        var semanticSegmenationInformation:[String: Array<Any>?] = [
-            "pixelData": [],
-            "imageHeight": [],
-            "imageWidth": []
-        ]
+//        var semanticSegmenationInformation:[String: Array<Any>?] = [
+//            "pixelData": [],
+//            "imageHeight": [],
+//            "imageWidth": [],
+//            "resultImage": [],
+//            "overlayImage": []
+//        ]
+        
+//        var semanticSegmenationInformation: SemanticSegmentationInformation?
     
         
         // Ensure image segmentator is intialized
@@ -87,13 +91,25 @@ class SemanticSegementation {
             switch result {
             case let .success(segmentationResult):
                 self.segmentationResult = segmentationResult
+                var semanticSegmenationInformation = SemanticSegmentationInformation()
+
                 
                 // Flatten array into 1D
-                semanticSegmenationInformation["pixelData"] = segmentationResult.array.compactMap { $0 }
-                semanticSegmenationInformation["imageHeight"] = [257] //segmentationResult.array.count
-                semanticSegmenationInformation["imageWidth"] = [257]
-                semanticSegmenationInformation["resultImage"] = [segmentationResult.resultImage]
-                semanticSegmenationInformation["overlayImage"] = [segmentationResult.overlayImage]
+//                semanticSegmenationInformation.pixelData = segmentationResult.array.compactMap { $0 }
+                var tempData:[[Int]] = []
+                for row in segmentationResult.array {
+                    var rowData: [Int] = []
+                    for pixel in row {
+                        let temp = pixel == 15 ? 1 : 0
+                        rowData.append(temp)
+                    }
+                    tempData.append(rowData)
+                }
+                semanticSegmenationInformation.pixelData = tempData
+                semanticSegmenationInformation.imageHeight = [257] //segmentationResult.array.count
+                semanticSegmenationInformation.imageWidth = [257]
+                semanticSegmenationInformation.resultImage = [segmentationResult.resultImage]
+                semanticSegmenationInformation.overlayImage = [segmentationResult.overlayImage]
 
                 // Get the segmenation result mask and change dimension, then derive pixel data from image
 //                let resizedImage = segmentationResult.resultImage.resized(to: CGSize(width: 500, height: 500))
@@ -116,4 +132,12 @@ class SemanticSegementation {
           })
     }
     
+}
+
+struct SemanticSegmentationInformation {
+    var pixelData: [[Int]] = []
+    var imageHeight: [Int] = []
+    var imageWidth: [Int] = []
+    var resultImage: [UIImage] = []
+    var overlayImage: [UIImage] = []
 }

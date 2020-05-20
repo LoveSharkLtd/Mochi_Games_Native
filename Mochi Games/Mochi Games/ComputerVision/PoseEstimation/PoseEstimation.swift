@@ -7,9 +7,10 @@
 
 import Foundation
 import Vision
+import UIKit
 
 protocol PoseEstimationDelegate{
-    func didUpdatePoseEstimationData(poseEstimationData: String, rightWristCordinate: Any)
+    func didUpdatePoseEstimationData(poseEstimationData: String, rightWristCordinate: Any, points: [PredictedPoint?], gestureInformation: [String: Bool?])
 }
 
 class PoseEstimation {
@@ -20,6 +21,7 @@ class PoseEstimation {
     
     var postProcessor: HeatmapPostProcessor = HeatmapPostProcessor()
     var mvfilters: [MovingAverageFilter] = []
+
     
     // Detect when the model is performing inference/prediction
     var isInferencing = false
@@ -59,7 +61,7 @@ class PoseEstimation {
         // vision framework configures the input size of the image following our models's input configuration automatically
         let handler = VNImageRequestHandler(cvPixelBuffer: pixelBuffer)
         try? handler.perform([request])
-        self.isInferencing = false
+//        self.isInferencing = false
     }
     
     // Post Processing for Pose Estimation
@@ -223,7 +225,7 @@ class PoseEstimation {
             
             // MARK:BRUSHING SHOULDER GESTURE
             // Distance of right wrist to left shoulder
-            if (rightWristJointPositionConfidence > confidenceThresholdValue) {
+            if (rightWristJointPositionConfidence > 0.5) { //confidenceThresholdValue
                 if (distanceBetweenRightWristAndLeftShoulder <= brushingShouldersThresholdValue) {
                     poseGestureInformation["isShoulderBrush"] = true
                 } else {
@@ -296,16 +298,16 @@ class PoseEstimation {
                                         knee: BodyTrackingPositions(left: [], right: [], confidenceLeft: 0.0, confidenceRight: 0.0),
                                         ankle: BodyTrackingPositions(left: [], right: [], confidenceLeft: 0.0, confidenceRight: 0.0))
         
-        self.poseEstimationDelegate.didUpdatePoseEstimationData(poseEstimationData: "", rightWristCordinate: tempData)
+        self.poseEstimationDelegate.didUpdatePoseEstimationData(poseEstimationData: "", rightWristCordinate: tempData, points: n_kpoints, gestureInformation: poseGestureInformation)
         
         return
             // Encode gesture dictionary as JSON string and cache the json string
-            if let jsonNewData = try? JSONEncoder().encode(poseGestureInformation) {
-                if let jsonNewString = String(data: jsonNewData, encoding: .utf8) {
-                    self.fullPoseInformationToSendToUnity = jsonNewString
-                    self.poseEstimationDelegate?.didUpdatePoseEstimationData(poseEstimationData: jsonNewString, rightWristCordinate: rightWristJointPositionCordinates)
-                }
-            }
+//            if let jsonNewData = try? JSONEncoder().encode(poseGestureInformation) {
+//                if let jsonNewString = String(data: jsonNewData, encoding: .utf8) {
+//                    self.fullPoseInformationToSendToUnity = jsonNewString
+//                    self.poseEstimationDelegate?.didUpdatePoseEstimationData(poseEstimationData: jsonNewString, rightWristCordinate: rightWristJointPositionCordinates)
+//                }
+//            }
         //}
     
         

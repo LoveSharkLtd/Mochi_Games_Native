@@ -15,9 +15,9 @@ import UIKit
 protocol CVInterfaceDelegate {
     func didUpdatePixelBuffer(pixelBuffer: CVPixelBuffer, formatDescription: CMFormatDescription)
     func didUpdateGestureRecognitionData(gestureRecognitionData: Any)
-    func didUpdatePoseEstimationData(poseEstimationData: Any, rightWristCordinate: Any)
+    func didUpdatePoseEstimationData(poseEstimationData: Any, rightWristCordinate: Any, points: [PredictedPoint?], gestureInformation: [String: Bool?])
     func didUpdateFaceDetectionData(faceDetectionData: Any)
-    func didUpdateSemanticSegmentationData(semanticSegmentationData: Any)
+    func didUpdateSemanticSegmentationData(semanticSegmentationData: SemanticSegmentationInformation)
 }
 
 class CVInterface {
@@ -36,29 +36,55 @@ class CVInterface {
         self.poseEstimation.poseEstimationDelegate = self
         self.faceDetection.faceAndFacialFeaturesDetectionDelegate = self
         self.semanticSegmentation.semanticSegmenationDelegate = self
+        
         Camera.shared().delegate = self
         Camera.shared().setUp()
     }
     
 }
 
+
 extension CVInterface: CameraDelegate {
-    
+
     func cameraSessionDidBegin() {
-    
+
     }
 
     func didUpdatePixelBuffer(pixelBuffer: CVPixelBuffer, formatDescription: CMFormatDescription, sampleBuffer: CMSampleBuffer) {
-        self.cvInterfaceDelegate?.didUpdatePixelBuffer(pixelBuffer: pixelBuffer, formatDescription: formatDescription)
+
+        CVPixelBufferLockBaseAddress(pixelBuffer, CVPixelBufferLockFlags.readOnly)
+        
+        // Need to rotate the pixelBuffer by 90 degrees anticlockwise for the gameviewcontroller
+        // 1. Create a CIImage
+        var image = CIImage(cvPixelBuffer: pixelBuffer)
+
+        // 2. Rotate the CIImage
+        image = image.oriented(forExifOrientation: Int32(CGImagePropertyOrientation.left.rawValue))
+        
+        // 3. Create a pixelbuffer
+        var rotatedPixelBuffer:CVPixelBuffer?
+        
+        let attributes: [String:Any] = [kCVPixelBufferMetalCompatibilityKey as String:kCFBooleanTrue]
+            CVPixelBufferCreate(kCFAllocatorDefault, Int(image.extent.width), Int(image.extent.height), kCVPixelFormatType_32BGRA, attributes as CFDictionary, &rotatedPixelBuffer)
+        
+        // 4. Render image to pixel buffer using contect
+        let context = CIContext(options: nil)
+        context.render(image, to: rotatedPixelBuffer!)
+        
+        // Use the normal pixelbuffer for the CV techniques
+        self.cvInterfaceDelegate?.didUpdatePixelBuffer(pixelBuffer: rotatedPixelBuffer!, formatDescription: formatDescription)
 //        self.gestureRecognition.runGestureRecognition(pixelBuffer: pixelBuffer)
+        
         self.poseEstimation.runPoseEstimation(pixelBuffer: pixelBuffer)
 //        self.faceDetection.runFaceAndFacialFeatureDetection(sampleBuffer: sampleBuffer)
 //        let image = CIImage(cvPixelBuffer: pixelBuffer)
 //        let context = CIContext(options: nil)
 //        let cg_image = context.createCGImage(image, from: image.extent)!
 //        self.semanticSegmentation.runSemanticSegmentation(UIImage(cgImage: cg_image), sampleBuffer: sampleBuffer)
+        CVPixelBufferUnlockBaseAddress(pixelBuffer, CVPixelBufferLockFlags.readOnly)
+
     }
-    
+
 }
 
 extension CVInterface: GestureRecognitionDelegate {
@@ -68,8 +94,8 @@ extension CVInterface: GestureRecognitionDelegate {
 }
 
 extension CVInterface: PoseEstimationDelegate {
-    func didUpdatePoseEstimationData(poseEstimationData: String, rightWristCordinate: Any) {
-        self.cvInterfaceDelegate?.didUpdatePoseEstimationData(poseEstimationData: poseEstimationData, rightWristCordinate: rightWristCordinate)
+    func didUpdatePoseEstimationData(poseEstimationData: String, rightWristCordinate: Any, points: [PredictedPoint?], gestureInformation: [String: Bool?]) {
+        self.cvInterfaceDelegate?.didUpdatePoseEstimationData(poseEstimationData: poseEstimationData, rightWristCordinate: rightWristCordinate, points: points, gestureInformation: gestureInformation)
     }
 }
 
@@ -80,11 +106,7 @@ extension CVInterface: FaceAndFacialFeaturesDetectionDelegate {
 }
 
 extension CVInterface: SemanticSegmentaitonDelegate {
-    func didUpdateSemanticResult(semanticResult: Any) {
-//        <#code#>
-    }
-    
-    func didUpdateSemanticResult(semanticResult: String) {
+    func didUpdateSemanticResult(semanticResult: SemanticSegmentationInformation) {
         self.cvInterfaceDelegate?.didUpdateSemanticSegmentationData(semanticSegmentationData: semanticResult)
     }
 }
