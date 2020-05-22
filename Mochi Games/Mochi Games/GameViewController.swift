@@ -372,7 +372,7 @@ extension GameViewController: CVInterfaceDelegate {
     
     func didUpdatePixelBuffer(pixelBuffer: CVPixelBuffer, formatDescription: CMFormatDescription) {
         self.previewVideo?.pixelBuffer = pixelBuffer
-//        self.BackgroundVideo?.pixelBuffer = pixelBuffer
+        self.BackgroundVideo?.pixelBuffer = pixelBuffer
         self.BackgroundVideo?.formatDescription = formatDescription
     }
     
@@ -461,7 +461,7 @@ extension GameViewController: CVInterfaceDelegate {
     
     func didUpdateSemanticSegmentationData(semanticSegmentationData: SemanticSegmentationInformation) {
 //        guard let image = semanticSegmentationData.overlayImage.first else { return }
-        self.BackgroundVideo?.pixelBuffer = semanticSegmentationData.pixelBuffer
+//        self.BackgroundVideo?.pixelBuffer = semanticSegmentationData.pixelBuffer
     }
     
     
