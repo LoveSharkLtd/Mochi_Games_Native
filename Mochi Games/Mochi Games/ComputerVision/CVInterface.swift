@@ -16,7 +16,7 @@ protocol CVInterfaceDelegate {
     func didUpdatePixelBuffer(pixelBuffer: CVPixelBuffer, formatDescription: CMFormatDescription)
     func didUpdateGestureRecognitionData(gestureRecognitionData: Any)
     func didUpdatePoseEstimationData(poseEstimationData: Any, rightWristCordinate: Any, points: [PredictedPoint?], gestureInformation: [String: Bool?])
-    func didUpdateFaceDetectionData(faceDetectionData: Any)
+    func didUpdateFaceDetectionData(faceDetectionData: CGRect)
     func didUpdateSemanticSegmentationData(semanticSegmentationData: SemanticSegmentationInformation)
 }
 
@@ -76,7 +76,7 @@ extension CVInterface: CameraDelegate {
 //        self.gestureRecognition.runGestureRecognition(pixelBuffer: pixelBuffer)
         
         self.poseEstimation.runPoseEstimation(pixelBuffer: pixelBuffer)
-//        self.faceDetection.runFaceAndFacialFeatureDetection(sampleBuffer: sampleBuffer)
+        self.faceDetection.runFaceAndFacialFeatureDetection(sampleBuffer: sampleBuffer)
 //        let image = CIImage(cvPixelBuffer: pixelBuffer)
 //        let context = CIContext(options: nil)
 //        let cg_image = context.createCGImage(image, from: image.extent)!
@@ -100,7 +100,7 @@ extension CVInterface: PoseEstimationDelegate {
 }
 
 extension CVInterface: FaceAndFacialFeaturesDetectionDelegate {
-    func didUpdateFaceDetectionBoundingBox(boundingBox: Any) {
+    func didUpdateFaceDetectionBoundingBox(boundingBox: CGRect) {
         self.cvInterfaceDelegate?.didUpdateFaceDetectionData(faceDetectionData: boundingBox)
     }
 }
