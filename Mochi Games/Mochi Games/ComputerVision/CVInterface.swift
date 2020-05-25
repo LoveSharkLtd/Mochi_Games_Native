@@ -79,16 +79,20 @@ extension CVInterface: CameraDelegate {
 //        self.gestureRecognition.runGestureRecognition(pixelBuffer: pixelBuffer)
         
         self.poseEstimation.runPoseEstimation(pixelBuffer: pixelBuffer)
-        self.frameInterval = -100
-        if self.framesSinceLastPass > self.frameInterval {
-            if !self.isInferencing {
-                self.semanticSegmentation.runSemanticSegmentation(pixelBuffer)
-//                self.isInferencing = true
-            }
-            self.framesSinceLastPass = 0
-        }
+        
+        
+//        self.frameInterval = -100
+//        if self.framesSinceLastPass > self.frameInterval {
+//            if !self.isInferencing {
+//                self.semanticSegmentation.runSemanticSegmentation(pixelBuffer)
+////                self.isInferencing = true
+//            }
+//            self.framesSinceLastPass = 0
+//        }
+        
+        
         CVPixelBufferUnlockBaseAddress(pixelBuffer, .readOnly)
-        self.framesSinceLastPass += 1
+//        self.framesSinceLastPass += 1
 
 
     }

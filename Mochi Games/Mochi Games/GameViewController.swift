@@ -266,15 +266,6 @@ class GameViewController: UIViewController, RPPreviewViewControllerDelegate {
       
     }
     
-//    func didUpdatePixelBuffer(pixelBuffer: CVPixelBuffer, formatDescription: CMFormatDescription) {
-//        // this is called each frame and the MTLCameraView is needed to be passed the pixelbuffer and the formatdescription
-//
-//        self.previewVideo?.pixelBuffer = pixelBuffer
-//        self.BackgroundVideo?.pixelBuffer = pixelBuffer
-//        self.BackgroundVideo?.formatDescription = formatDescription
-//
-//    }
-    
     var delegate : GameViewControllerDelegate?
     
     func handsUpDataChanged(handsUp : Bool) {
@@ -382,11 +373,21 @@ extension GameViewController: CVInterfaceDelegate {
     
     func didUpdatePoseEstimationData(poseEstimationData: Any, rightWristCordinate: Any, points: [PredictedPoint?], gestureInformation: [String: Bool?]) {
         
+        print("!! - - - poseEstimationData : \(poseEstimationData)")
+        print("!! - - - rightWristCordinate : \(rightWristCordinate)")
+        print("!! - - - points : \(points)")
+        print("!! - - - gestureInformation : \(gestureInformation)")
+        
+        
+        return
+        
         // Action if the shoulder is brushed
         if ((gestureInformation["isShoulderBrush"]!!)) {
             let brushedShoulder = gestureInformation["isShoulderBrush"]!!
             shoulderBrushedDataChanged(brushedLeftShoulder: brushedShoulder, brushedRightShoulder: false)
         }
+        
+        
         
         // Remove points that have been added previously
         for v in view.subviews{
