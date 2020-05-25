@@ -329,10 +329,10 @@ extension GameViewController: CVInterfaceDelegate {
     }
     
     func didUpdatePoseEstimationData(poseEstimationData: Any, bodyTrackingData: BodyTrackingData, points: [PredictedPoint?], gestureInformation: [String: Bool?]) {
-                if ((gestureInformation["isHandsUp"]!!)) {
-                    let handsup = gestureInformation["isHandsUp"]!!
-                    self.delegate?.handsupDataChanged(handsUp: handsup)
-                }
+        if ((gestureInformation["isHandsUp"]!!)) {
+            let handsup = gestureInformation["isHandsUp"]!!
+            self.delegate?.handsupDataChanged(handsUp: handsup)
+        }
         
         self.delegate?.didUpdateBodyTrackingData(bodyTrackingData: bodyTrackingData)
         
@@ -418,31 +418,6 @@ extension GameViewController: CVInterfaceDelegate {
     
     func didUpdateFaceDetectionData(faceDetectionData: FaceDetectionData) {
         self.delegate?.didUpdateFaceTrackingData(faceTrackingData: faceDetectionData)
-//        let rectHeight = faceDetectionData.width * sH
-//        let rectWidth = faceDetectionData.height * sW
-//        let yPos = faceDetectionData.origin.x * sH
-//        let xPos = faceDetectionData.origin.y * sW
-//
-//        DispatchQueue.main.async {
-//            // Remove points that have been added previously
-////            for v in (self.boundingBoxViewParent?.subviews)! {
-////                  v.removeFromSuperview()
-////            }
-//
-//            let rectFrame: CGRect = CGRect(x:xPos, y:yPos, width:rectWidth, height:rectHeight)
-//            if self.boundingBox == nil {
-//
-//                self.boundingBox = UIView(frame: rectFrame)
-//                self.boundingBox?.backgroundColor = #colorLiteral(red: 0.5843137503, green: 0.8235294223, blue: 0.4196078479, alpha: 1).withAlphaComponent(0.7)
-//                self.boundingBoxViewParent?.addSubview(self.boundingBox!)
-//
-//            } else {
-//                self.boundingBox?.frame = rectFrame
-//            }
-////            let boundingBoxView = UIView(frame: rectFrame)
-//
-//            // Add points to view
-//        }
     }
     
     func didUpdateSemanticSegmentationData(semanticSegmentationData: SemanticSegmentationInformation) {

@@ -25,7 +25,6 @@ class GameScene: SKScene, GameViewControllerDelegate {
     
     func didUpdateBodyTrackingData(bodyTrackingData: BodyTrackingData) {
         
-//        print("!! - - wrist R = \(bodyTrackingData.wrist.right) \(bodyTrackingData.wrist.confidenceRight)")
         let W = (self.scene?.size.width)!
         let H = (self.scene?.size.height)!
         let w = bodyTrackingData.wrist.right?.x ?? 0.0 * W
@@ -34,23 +33,6 @@ class GameScene: SKScene, GameViewControllerDelegate {
         let y = CGFloat(0.0) // -(bodyTrackingData.wrist.right?.y - 0.5) * H - 0.5 * h
         
         self.wristNode?.position = CGPoint(x: x, y: y)
-        return
-//
-////        print("!! - wrist = \(bodyTrackingData.wrist.right)")
-//
-//        let n = Float.minimum(bodyTrackingData.wrist.confidenceRight, 1.0)
-//        let oldPos = self.wristNode?.position
-//        let newPos = pixelPositionToSpriteKitPosition(bodyTrackingData.wrist.right)
-//
-//        print("!! -- conf = \(bodyTrackingData.wrist.confidenceRight)")
-//
-//        self.wristNode?.position = pixelPositionToSpriteKitPosition(bodyTrackingData.wrist.right)
-//        return
-//
-////        let x = CGFloat(n) * (newPos.x - oldPos!.x) + oldPos!.x
-////        let y = CGFloat(n) * (newPos.y - oldPos!.y) + oldPos!.y
-////
-////        self.wristNode?.position = CGPoint(x: x, y: y)
     }
     
     func pixelPositionToSpriteKitPosition(_ pixelPosition : [Float]) -> CGPoint {
@@ -196,8 +178,6 @@ class GameScene: SKScene, GameViewControllerDelegate {
         emitterL?.addChild(getBLSparkles()!)
         
         brushLNode?.alpha = 0.0
-        
-        
         
         brushRNode = self.childNode(withName: "brushR")
         
