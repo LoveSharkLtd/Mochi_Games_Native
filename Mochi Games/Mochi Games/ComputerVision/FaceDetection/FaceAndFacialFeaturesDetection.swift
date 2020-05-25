@@ -10,7 +10,7 @@ import Vision
 import CoreMedia
 
 protocol FaceAndFacialFeaturesDetectionDelegate {
-    func didUpdateFaceDetectionBoundingBox(boundingBox: CGRect)
+    func didUpdateFaceDetectionBoundingBox(boundingBox: FaceDetectionData)
 }
 
 class FaceAndFacialFeaturesDetection {
@@ -145,8 +145,9 @@ class FaceAndFacialFeaturesDetection {
                     // The implementation below communicates the bounding box for each observation at a time
                     // as opposed to a batch update of result
                     for faceObservation in results {
-                        self.faceAndFacialFeaturesDetectionDelegate?.didUpdateFaceDetectionBoundingBox(boundingBox: faceObservation.boundingBox)
-                        print("bounding box:  \(faceObservation.boundingBox)")
+                        let faceData = FaceDetectionData(x: faceObservation.boundingBox.origin.y, y: faceObservation.boundingBox.origin.x, height: faceObservation.boundingBox.width, width: faceObservation.boundingBox.height)
+                        self.faceAndFacialFeaturesDetectionDelegate?.didUpdateFaceDetectionBoundingBox(boundingBox: faceData)
+//                        print("bounding box:  \(faceObservation.boundingBox)")
                     }
                 // }
             })

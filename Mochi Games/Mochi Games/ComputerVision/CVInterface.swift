@@ -15,8 +15,8 @@ import UIKit
 protocol CVInterfaceDelegate {
     func didUpdatePixelBuffer(pixelBuffer: CVPixelBuffer, formatDescription: CMFormatDescription)
     func didUpdateGestureRecognitionData(gestureRecognitionData: Any)
-    func didUpdatePoseEstimationData(poseEstimationData: Any, rightWristCordinate: Any, points: [PredictedPoint?], gestureInformation: [String: Bool?])
-    func didUpdateFaceDetectionData(faceDetectionData: Any)
+    func didUpdatePoseEstimationData(poseEstimationData: Any, bodyTrackingData: BodyTrackingData, points: [PredictedPoint?], gestureInformation: [String: Bool?])
+    func didUpdateFaceDetectionData(faceDetectionData: FaceDetectionData)
     func didUpdateSemanticSegmentationData(semanticSegmentationData: SemanticSegmentationInformation)
 }
 
@@ -79,7 +79,7 @@ extension CVInterface: CameraDelegate {
 //        self.gestureRecognition.runGestureRecognition(pixelBuffer: pixelBuffer)
         
         self.poseEstimation.runPoseEstimation(pixelBuffer: pixelBuffer)
-        
+        self.faceDetection.runFaceAndFacialFeatureDetection(sampleBuffer: sampleBuffer)
         
 //        self.frameInterval = -100
 //        if self.framesSinceLastPass > self.frameInterval {
@@ -106,13 +106,13 @@ extension CVInterface: GestureRecognitionDelegate {
 }
 
 extension CVInterface: PoseEstimationDelegate {
-    func didUpdatePoseEstimationData(poseEstimationData: String, rightWristCordinate: Any, points: [PredictedPoint?], gestureInformation: [String: Bool?]) {
-        self.cvInterfaceDelegate?.didUpdatePoseEstimationData(poseEstimationData: poseEstimationData, rightWristCordinate: rightWristCordinate, points: points, gestureInformation: gestureInformation)
+    func didUpdatePoseEstimationData(poseEstimationData: String, bodyTrackingData: BodyTrackingData, points: [PredictedPoint?], gestureInformation: [String: Bool?]) {
+        self.cvInterfaceDelegate?.didUpdatePoseEstimationData(poseEstimationData: poseEstimationData, bodyTrackingData: bodyTrackingData, points: points, gestureInformation: gestureInformation)
     }
 }
 
 extension CVInterface: FaceAndFacialFeaturesDetectionDelegate {
-    func didUpdateFaceDetectionBoundingBox(boundingBox: Any) {
+    func didUpdateFaceDetectionBoundingBox(boundingBox: FaceDetectionData) {
         self.cvInterfaceDelegate?.didUpdateFaceDetectionData(faceDetectionData: boundingBox)
     }
 }
