@@ -74,10 +74,9 @@ class GameViewController: UIViewController, RPPreviewViewControllerDelegate {
         
 //        setUpNonRecordUI()
         
-        //
-//        imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: sW, height: sH))
-//        imageView?.backgroundColor = .clear
-//        view.addSubview(imageView!)
+        boundingBoxViewParent = UIView(frame: CGRect(x: 0, y: 0, width: sW, height: sH))
+        boundingBoxViewParent?.backgroundColor = .clear
+        view.addSubview(boundingBoxViewParent!)
         
         
         // Creating Point
@@ -105,9 +104,11 @@ class GameViewController: UIViewController, RPPreviewViewControllerDelegate {
     }
     
     var label : UILabel?
-//    var imageView: UIImageView?
+    var boundingBoxViewParent: UIView?
     let pointSize = CGSize(width: 10, height: 10)
     let color:UIColor = .red
+    var boundingBox: UIView?
+
 //    var pointView:UIView?
 
 
@@ -357,7 +358,10 @@ extension UIViewController {
             //
         }
     }
+    
 }
+
+
 
 extension GameViewController: CVInterfaceDelegate {
     
@@ -456,8 +460,37 @@ extension GameViewController: CVInterfaceDelegate {
     
     
     
-    func didUpdateFaceDetectionData(faceDetectionData: Any) {
-//        print("!! Face Detection \(faceDetectionData)")
+    func didUpdateFaceDetectionData(faceDetectionData: CGRect) {
+        print("!! ->> \(faceDetectionData.maxX)")
+        
+        print("!! \(faceDetectionData.origin.x)")
+
+
+        let rectHeight = faceDetectionData.width * sH
+        let rectWidth = faceDetectionData.height * sW
+        let yPos = faceDetectionData.origin.x * sH
+        let xPos = faceDetectionData.origin.y * sW
+
+        DispatchQueue.main.async {
+            // Remove points that have been added previously
+//            for v in (self.boundingBoxViewParent?.subviews)! {
+//                  v.removeFromSuperview()
+//            }
+            
+            let rectFrame: CGRect = CGRect(x:xPos, y:yPos, width:rectWidth, height:rectHeight)
+            if self.boundingBox == nil {
+                
+                self.boundingBox = UIView(frame: rectFrame)
+                self.boundingBox?.backgroundColor = #colorLiteral(red: 0.5843137503, green: 0.8235294223, blue: 0.4196078479, alpha: 1).withAlphaComponent(0.7)
+                self.boundingBoxViewParent?.addSubview(self.boundingBox!)
+
+            } else {
+                self.boundingBox?.frame = rectFrame
+            }
+//            let boundingBoxView = UIView(frame: rectFrame)
+            
+            // Add points to view
+        }
     }
     
     func didUpdateSemanticSegmentationData(semanticSegmentationData: SemanticSegmentationInformation) {

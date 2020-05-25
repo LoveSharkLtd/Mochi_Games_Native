@@ -10,7 +10,7 @@ import Vision
 import CoreMedia
 
 protocol FaceAndFacialFeaturesDetectionDelegate {
-    func didUpdateFaceDetectionBoundingBox(boundingBox: Any)
+    func didUpdateFaceDetectionBoundingBox(boundingBox: CGRect)
 }
 
 class FaceAndFacialFeaturesDetection {
@@ -67,7 +67,7 @@ class FaceAndFacialFeaturesDetection {
             return
         }
 
-        let exifOrientation:CGImagePropertyOrientation = .rightMirrored
+        let exifOrientation:CGImagePropertyOrientation = .leftMirrored
 
         
         guard let requests = self.trackingRequests, !requests.isEmpty else {
