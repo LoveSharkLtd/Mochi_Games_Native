@@ -48,6 +48,7 @@
 		EE0C8EBD2457795E009FB07C /* RosyEffect.metal in Sources */ = {isa = PBXBuildFile; fileRef = EE0C8EB92457795E009FB07C /* RosyEffect.metal */; };
 		EE0C8EC124577B40009FB07C /* gameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0C8EC024577B40009FB07C /* gameScene.swift */; };
 		EE7FA993246D8456003280B4 /* BodyTrackingData.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7FA992246D8456003280B4 /* BodyTrackingData.swift */; };
+		EEC717F8247D6532001C30B5 /* FaceDetectionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEC717F7247D6532001C30B5 /* FaceDetectionData.swift */; };
 		EEF26A03245F36A400BBD98F /* DanceScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = EEF26A02245F36A400BBD98F /* DanceScene.sks */; };
 		EEF26A05245F388300BBD98F /* particle.sks in Resources */ = {isa = PBXBuildFile; fileRef = EEF26A04245F388300BBD98F /* particle.sks */; };
 		EEF26A07245F427F00BBD98F /* BLparticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = EEF26A06245F427F00BBD98F /* BLparticle.sks */; };
@@ -100,6 +101,7 @@
 		EE0C8EB92457795E009FB07C /* RosyEffect.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = RosyEffect.metal; sourceTree = "<group>"; };
 		EE0C8EC024577B40009FB07C /* gameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gameScene.swift; sourceTree = "<group>"; };
 		EE7FA992246D8456003280B4 /* BodyTrackingData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BodyTrackingData.swift; sourceTree = "<group>"; };
+		EEC717F7247D6532001C30B5 /* FaceDetectionData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FaceDetectionData.swift; sourceTree = "<group>"; };
 		EEF26A02245F36A400BBD98F /* DanceScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = DanceScene.sks; sourceTree = "<group>"; };
 		EEF26A04245F388300BBD98F /* particle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = particle.sks; sourceTree = "<group>"; };
 		EEF26A06245F427F00BBD98F /* BLparticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = BLparticle.sks; sourceTree = "<group>"; };
@@ -223,6 +225,7 @@
 			isa = PBXGroup;
 			children = (
 				38ABB3E0246C0FD100A7FF37 /* FaceAndFacialFeaturesDetection.swift */,
+				EEC717F7247D6532001C30B5 /* FaceDetectionData.swift */,
 			);
 			path = FaceDetection;
 			sourceTree = "<group>";
@@ -463,6 +466,7 @@
 				38ABB3D8246C0A4A00A7FF37 /* PredictedPoint.swift in Sources */,
 				EE7FA993246D8456003280B4 /* BodyTrackingData.swift in Sources */,
 				38ABB3E8246C10DA00A7FF37 /* TFLiteExtension.swift in Sources */,
+				EEC717F8247D6532001C30B5 /* FaceDetectionData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
