@@ -76,21 +76,21 @@ extension CVInterface: CameraDelegate {
         
         // Use the normal pixelbuffer for the CV techniques
         self.cvInterfaceDelegate?.didUpdatePixelBuffer(pixelBuffer: rotatedPixelBuffer!, formatDescription: formatDescription)
-//        self.gestureRecognition.runGestureRecognition(pixelBuffer: pixelBuffer)
         
+//        self.gestureRecognition.runGestureRecognition(pixelBuffer: pixelBuffer)
         self.poseEstimation.runPoseEstimation(pixelBuffer: pixelBuffer)
         self.faceDetection.runFaceAndFacialFeatureDetection(sampleBuffer: sampleBuffer)
 
-        self.frameInterval = -100
-        if self.framesSinceLastPass > self.frameInterval {
-            if !self.isInferencing {
-                self.semanticSegmentation.runSemanticSegmentation(pixelBuffer)
-//                self.isInferencing = true
-            }
-            self.framesSinceLastPass = 0
-        }
+//        self.frameInterval = -100
+//        if self.framesSinceLastPass > self.frameInterval {
+//            if !self.isInferencing {
+////                self.semanticSegmentation.runSemanticSegmentation(pixelBuffer)
+////                self.isInferencing = true
+//            }
+//            self.framesSinceLastPass = 0
+//        }
         CVPixelBufferUnlockBaseAddress(pixelBuffer, .readOnly)
-        self.framesSinceLastPass += 1
+//        self.framesSinceLastPass += 1
 
     }
 
