@@ -328,9 +328,9 @@ extension GameViewController: CVInterfaceDelegate {
 //        print("!! Gesture Recognition \(gestureRecognitionData)")
     }
     
-    func didUpdatePoseEstimationData(poseEstimationData: Any, bodyTrackingData: BodyTrackingData, points: [PredictedPoint?], gestureInformation: [String: Bool?]) {
-        if ((gestureInformation["isHandsUp"]!!)) {
-            let handsup = gestureInformation["isHandsUp"]!!
+    func didUpdatePoseEstimationData(poseEstimationData: Any, bodyTrackingData: BodyTrackingData, points: [PredictedPoint?], gestureInformation: GestureRecongnitionInformation) {
+        if ((gestureInformation.isHandsUp)) {
+            let handsup = gestureInformation.isHandsUp
             self.delegate?.handsupDataChanged(handsUp: handsup)
         }
         
@@ -428,10 +428,3 @@ extension GameViewController: CVInterfaceDelegate {
     
 }
 
-
-struct FaceDetectionData {
-    var x : CGFloat
-    var y : CGFloat
-    var height : CGFloat
-    var width : CGFloat
-}

@@ -140,16 +140,13 @@ class FaceAndFacialFeaturesDetection {
                         return
                 }
                 
-                //DispatchQueue.main.sync {
-                    // Results array contains each detected face observation.
-                    // The implementation below communicates the bounding box for each observation at a time
-                    // as opposed to a batch update of result
-                    for faceObservation in results {
-                        let faceData = FaceDetectionData(x: faceObservation.boundingBox.origin.y, y: faceObservation.boundingBox.origin.x, height: faceObservation.boundingBox.width, width: faceObservation.boundingBox.height)
-                        self.faceAndFacialFeaturesDetectionDelegate?.didUpdateFaceDetectionBoundingBox(boundingBox: faceData)
-//                        print("bounding box:  \(faceObservation.boundingBox)")
-                    }
-                // }
+                // Results array contains each detected face observation.
+                // The implementation below communicates the bounding box for each observation at a time
+                // as opposed to a batch update of result
+                for faceObservation in results {
+                    let faceData = FaceDetectionData(x: faceObservation.boundingBox.origin.y, y: faceObservation.boundingBox.origin.x, height: faceObservation.boundingBox.width, width: faceObservation.boundingBox.height)
+                    self.faceAndFacialFeaturesDetectionDelegate?.didUpdateFaceDetectionBoundingBox(boundingBox: faceData)
+                }
             })
             
             guard let trackingResults = trackingRequest.results else {

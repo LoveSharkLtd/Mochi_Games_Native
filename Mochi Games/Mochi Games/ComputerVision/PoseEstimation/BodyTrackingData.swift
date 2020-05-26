@@ -30,3 +30,14 @@ struct BodyTrackingPositions {
     var confidenceRight : Double?
 }
 
+struct GestureRecongnitionInformation {
+    var isGettingLow: Bool = false
+    var isShoulderBrush: Bool = false
+    var isHandsUp:Bool =  false
+    var calibrated:Bool = false
+    var woah:Bool = false
+    var clap:Bool = false
+    var x_with_arms:Bool = false
+    var mop:Bool = false
+}
+

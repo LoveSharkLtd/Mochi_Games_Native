@@ -10,7 +10,7 @@ import Vision
 import UIKit
 
 protocol PoseEstimationDelegate{
-    func didUpdatePoseEstimationData(poseEstimationData: String, bodyTrackingData: BodyTrackingData, points: [PredictedPoint?], gestureInformation: [String: Bool?])
+    func didUpdatePoseEstimationData(poseEstimationData: String, bodyTrackingData: BodyTrackingData, points: [PredictedPoint?], gestureInformation: GestureRecongnitionInformation)
 }
 
 class PoseEstimation {
@@ -110,14 +110,17 @@ class PoseEstimation {
     func poseEstimationKeypointInformation(with n_kpoints: [PredictedPoint?]) {
         
         // Gestures to be identified. Tied in with Unity
-        var poseGestureInformation:[String: Bool?] = [
-            "isGettingLow": false,
-            "isShoulderBrush": false,
-            "isHandsUp": false,
-            "calibrated": self.poseEstimationCalibarated,
-            "woah": false,
-            "clap": false
-        ]
+//        var poseGestureInformation:[GestureRecongnitionInformation] = [
+//            "isGettingLow": false,
+//            "isShoulderBrush": false,
+//            "isHandsUp": false,
+//            "calibrated": self.poseEstimationCalibarated,
+//            "woah": false,
+//            "clap": false
+//        ]
+        
+        var poseGestureInformation:GestureRecongnitionInformation = GestureRecongnitionInformation(isGettingLow: false, isShoulderBrush: false, isHandsUp: false, calibrated: self.poseEstimationCalibarated, woah: false, clap: false, x_with_arms:false, mop: false)
+
         
         // Labels and position of joint keypoint
         let pointLabels: [String] = [
@@ -138,15 +141,15 @@ class PoseEstimation {
         ]
         
         // Getting position of all joints for later use
-        let headPosition = pointLabels.index(of: "top" )!
-        let rightShoulderPosition = pointLabels.index(of: "R shoulder" ) as! Int
-        let leftShoulderPosition = pointLabels.index(of: "L shoulder" ) as! Int
-        let leftHipPosition = pointLabels.index(of: "L hip" ) as! Int
-        let rightHipPosition = pointLabels.index(of: "R hip" ) as! Int
-        let rightWristPosition = pointLabels.index(of: "R wrist") as! Int
-        let leftWristPosition = pointLabels.index(of: "L wrist") as! Int
-        let rightElbowPosition = pointLabels.index(of: "R elbow") as! Int
-        let leftElbowPosition = pointLabels.index(of: "L elbow") as! Int
+        let headPosition = pointLabels.firstIndex(of: "top" )!
+        let rightShoulderPosition = pointLabels.firstIndex(of: "R shoulder" ) as! Int
+        let leftShoulderPosition = pointLabels.firstIndex(of: "L shoulder" ) as! Int
+        let leftHipPosition = pointLabels.firstIndex(of: "L hip" ) as! Int
+        let rightHipPosition = pointLabels.firstIndex(of: "R hip" ) as! Int
+        let rightWristPosition = pointLabels.firstIndex(of: "R wrist") as! Int
+        let leftWristPosition = pointLabels.firstIndex(of: "L wrist") as! Int
+        let rightElbowPosition = pointLabels.firstIndex(of: "R elbow") as! Int
+        let leftElbowPosition = pointLabels.firstIndex(of: "L elbow") as! Int
 
 
         // Setting gesture threshold and confidence values
@@ -201,92 +204,85 @@ class PoseEstimation {
             headJointPositionConfidence > confidenceThresholdValue &&
             leftHipJointPositionConfidence > confidenceThresholdValue &&
             rightHipJointPositionConfidence > confidenceThresholdValue) {
-            poseGestureInformation["calibrated"] = true
+            poseGestureInformation.calibrated = true
         }
     
-//
-//    print("------------------------------------------")
-//    print("------------------------------------------")
-//    print("!! Distance between wrisrts \(distanceBetweenRightWristAndLeftWrist)") //0.04
-//    print("!! Distance between left shoulder and left wrist \(distanceBetweenLeftWristAndLeftShoulder)")
-//
+        // Uncomment to include calibarated condition for pose estimatiom
         //if (self.poseEstimationCalibarated) {
             // MARK: LOW GESTURE
             // Use the distance between the head and the right hip to detect when the user is going low
             if (headJointPositionConfidence > confidenceThresholdValue) {
                 if (distanceBetweenHeadAndRightHip <= heightThresholdValue) {
-                    poseGestureInformation["isGettingLow"] = true
+                    poseGestureInformation.isGettingLow = true
                 } else {
-                    poseGestureInformation["isGettingLow"] = false
+                    poseGestureInformation.isGettingLow = false
                 }
             } else {
-                poseGestureInformation["isGettingLow"] = false
+                poseGestureInformation.isGettingLow = false
             }
             
             // MARK:BRUSHING SHOULDER GESTURE
             // Distance of right wrist to left shoulder
             if (rightWristJointPositionConfidence > 0.5) { //confidenceThresholdValue
                 if (distanceBetweenRightWristAndLeftShoulder <= brushingShouldersThresholdValue) {
-                    poseGestureInformation["isShoulderBrush"] = true
+                    poseGestureInformation.isShoulderBrush = true
                 } else {
-                    poseGestureInformation["isShoulderBrush"] = false
+                    poseGestureInformation.isShoulderBrush = false
                 }
             } else {
-                poseGestureInformation["isShoulderBrush"] = false
+                poseGestureInformation.isShoulderBrush = false
             }
         
             // Distance of left wrist to right shoulder
             // Only check for distance between the left wrist to right shoulder if user if not already brushing shoulder
-            if (poseGestureInformation["isShoulderBrush"] == false) {
+            if (poseGestureInformation.isShoulderBrush == false) {
                 if (leftWristJointPositionConfidence > confidenceThresholdValue) {
                     if (distanceBetweenLeftWristAndRightShoulder <= brushingShouldersThresholdValue) {
-                        poseGestureInformation["isShoulderBrush"] = true
+                        poseGestureInformation.isShoulderBrush = true
                     } else {
-                        poseGestureInformation["isShoulderBrush"] = false
+                        poseGestureInformation.isShoulderBrush = false
                     }
                 } else {
-                    poseGestureInformation["isShoulderBrush"] = false
+                    poseGestureInformation.isShoulderBrush = false
                 }
             }
     
             // MARK: HANDS UP GESTURE
             if (headJointPositionConfidence > confidenceThresholdValue) {
                 if (distanceBetweenRightWristAndRightHip >= secondaryHeightThresholdValue || distanceBetweenLeftWristAndLeftHip >= secondaryHeightThresholdValue) {
-                    poseGestureInformation["isHandsUp"] = true
+                    poseGestureInformation.isHandsUp = true
                 }
             }
 
             // MARK: WOAH
             if (distanceBetweenLeftWristAndHead <= 0.25 && distanceBetweenLeftWristAndRightShoulder <= 0.1 && distanceBetweenRightWristAndLeftWrist <= 0.1) {
-                poseGestureInformation["woah"] = true
+                poseGestureInformation.woah = true
             }  else if (distanceBetweenRightWristAndHead <= 0.25 && distanceBetweenRightWristAndLeftShoulder <= 0.25 && distanceBetweenRightWristAndLeftWrist <= 0.1) {
-                poseGestureInformation["woah"] = true
+                poseGestureInformation.woah = true
             } else {
-                poseGestureInformation["woah"] = false
+                poseGestureInformation.woah = false
             }
     
             // MARK: 'X' With arms
             if (distanceBetweenLeftWristAndRightElbow <= 0.05 && distanceBetweenRightWristAndLeftElbow <= 0.05 && distanceBetweenRightWristAndLeftWrist <= 0.05) {
-                poseGestureInformation["x_with_arms"] = true
+                poseGestureInformation.x_with_arms = true
             } else {
-                poseGestureInformation["x_with_arms"] = false
+                poseGestureInformation.x_with_arms = false
             }
     
     
             // MARK: Clap
             if (distanceBetweenRightWristAndLeftWrist  <= 0.2) {
-                poseGestureInformation["clap"] = true
+                poseGestureInformation.clap = true
             }
     
             // MARK: Mop
             if (distanceBetweenRightWristAndLeftWrist <= 0.2 && (distanceBetweenLeftWristAndLeftShoulder <= 0.15 || distanceBetweenRightWristAndRightShoulder <= 0.15)) {
-                poseGestureInformation["mop"] = true
+                poseGestureInformation.mop = true
             } else {
-                poseGestureInformation["mop"] = true
+                poseGestureInformation.mop = true
             }
                 
-        
-//        if rightWristJointPositionConfidence < 0.5 { return }
         /*
          
 
@@ -330,26 +326,6 @@ class PoseEstimation {
         self.poseEstimationDelegate.didUpdatePoseEstimationData(poseEstimationData: "", bodyTrackingData: bodyTrackingData, points: n_kpoints, gestureInformation: poseGestureInformation)
         
         return
-            // Encode gesture dictionary as JSON string and cache the json string
-//            if let jsonNewData = try? JSONEncoder().encode(poseGestureInformation) {
-//                if let jsonNewString = String(data: jsonNewData, encoding: .utf8) {
-//                    self.fullPoseInformationToSendToUnity = jsonNewString
-//                    self.poseEstimationDelegate?.didUpdatePoseEstimationData(poseEstimationData: jsonNewString, rightWristCordinate: rightWristJointPositionCordinates)
-//                }
-//            }
-        //}
-    
-        
-        // Encoding all keypoints as JSON objects
-//        let keypoints = Dictionary(uniqueKeysWithValues: zip(pointLabels, n_kpoints))
-    
-        // Getting all the pose coordinates in json
-//        if let jsonData = try? JSONEncoder().encode(keypoints) {
-//            if let jsonString = String(data: jsonData, encoding: .utf8) {
-//                // Pose information
-//                // Encoding all pose gesture information
-//            }
-//        }
     
     }
 

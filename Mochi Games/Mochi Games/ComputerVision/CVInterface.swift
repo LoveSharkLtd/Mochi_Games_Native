@@ -15,7 +15,7 @@ import UIKit
 protocol CVInterfaceDelegate {
     func didUpdatePixelBuffer(pixelBuffer: CVPixelBuffer, formatDescription: CMFormatDescription)
     func didUpdateGestureRecognitionData(gestureRecognitionData: Any)
-    func didUpdatePoseEstimationData(poseEstimationData: Any, bodyTrackingData: BodyTrackingData, points: [PredictedPoint?], gestureInformation: [String: Bool?])
+    func didUpdatePoseEstimationData(poseEstimationData: Any, bodyTrackingData: BodyTrackingData, points: [PredictedPoint?], gestureInformation: GestureRecongnitionInformation)
     func didUpdateFaceDetectionData(faceDetectionData: FaceDetectionData)
     func didUpdateSemanticSegmentationData(semanticSegmentationData: SemanticSegmentationInformation)
 }
@@ -103,7 +103,7 @@ extension CVInterface: GestureRecognitionDelegate {
 }
 
 extension CVInterface: PoseEstimationDelegate {
-    func didUpdatePoseEstimationData(poseEstimationData: String, bodyTrackingData: BodyTrackingData, points: [PredictedPoint?], gestureInformation: [String: Bool?]) {
+    func didUpdatePoseEstimationData(poseEstimationData: String, bodyTrackingData: BodyTrackingData, points: [PredictedPoint?], gestureInformation: GestureRecongnitionInformation) {
         self.cvInterfaceDelegate?.didUpdatePoseEstimationData(poseEstimationData: poseEstimationData, bodyTrackingData: bodyTrackingData, points: points, gestureInformation: gestureInformation)
     }
 }
