@@ -137,16 +137,12 @@ class GameViewController: UIViewController, RPPreviewViewControllerDelegate {
         nonRecordWindow.rootViewController?.view.addSubview(tiktokVideo)
         nonRecordWindow.rootViewController?.view.addSubview(bg)
         nonRecordWindow.rootViewController?.view.addSubview(recBtn)
-        
-        createMLButtonActions() // - remove when ml is in
-        
+//
+//        createMLButtonActions() // - remove when ml is in
+//
         nonRecordWindow.rootViewController?.view.addSubview(previewVideo!)
         
         nonRecordWindow.makeKeyAndVisible()
-        
-        
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapped))
-        nonRecordWindow.rootViewController?.view.addGestureRecognizer(tapGesture)
     }
     
     func createMLButtonActions() {
@@ -180,10 +176,10 @@ class GameViewController: UIViewController, RPPreviewViewControllerDelegate {
     }
     
     
-    @objc func tapped(_ gesture: UITapGestureRecognizer) {
-            // !! - use this until we can add these calls to the game
-            self.BackgroundVideo?.toggleFiltering()
-        }
+//    @objc func tapped(_ gesture: UITapGestureRecognizer) {
+//            // !! - use this until we can add these calls to the game
+//            self.BackgroundVideo?.toggleFiltering()
+//        }
     
     @objc func recBtnUp(_ sender : UIButton) {
         ButtonUp(sender)
@@ -335,70 +331,6 @@ extension GameViewController: CVInterfaceDelegate {
         }
         
         self.delegate?.didUpdateBodyTrackingData(bodyTrackingData: bodyTrackingData)
-        
-//        print("__ __ gesture recog = \(gestureInformation)")
-        
-        
-        return
-//
-//        // Action if the shoulder is brushed
-//        if ((gestureInformation["isShoulderBrush"]!!)) {
-//            let brushedShoulder = gestureInformation["isShoulderBrush"]!!
-//            shoulderBrushedDataChanged(brushedLeftShoulder: brushedShoulder, brushedRightShoulder: false)
-//        }
-////
-//
-//
-//        // Remove points that have been added previously
-//        for v in view.subviews{
-//           if v is UILabel{
-//              v.removeFromSuperview()
-//           }
-//        }
-//
-//        // Define label color, size and width
-//        let pointSize = CGSize(width: 100, height: 20)
-//        let color:UIColor = .red
-//
-//        // Joint Labels for on screen text
-//        let pointLabels: [String] = [
-//            "top",          //0
-//            "neck",         //1
-//            "R shoulder",   //2
-//            "R elbow",      //3
-//            "R wrist",      //4
-//            "L shoulder",   //5
-//            "L elbow",      //6
-//            "L wrist",      //7
-//            "R hip",        //8
-//            "R knee",       //9
-//            "R ankle",      //10
-//            "L hip",        //11
-//            "L knee",       //12
-//            "L ankle",      //13
-//        ]
-//
-//        // Loop through the points and place labels based on their positions
-//        for (index, point) in points.enumerated() {
-//
-//            let x = CGFloat((point?.maxPoint.x ?? 0) * UIScreen.main.bounds.width)
-//            let y = CGFloat((point?.maxPoint.y ?? 0) * UIScreen.main.bounds.height)
-//
-//            // Create a label view for each point
-//            let pointView = UILabel(frame: CGRect(x: 0, y: 0, width: pointSize.width, height: pointSize.height))
-//            pointView.backgroundColor = color
-//            pointView.clipsToBounds = false
-//            pointView.layer.cornerRadius = 5
-//            pointView.layer.borderColor = UIColor.black.cgColor
-//            pointView.layer.borderWidth = 1.4
-//            pointView.text = pointLabels[index]
-//
-//            pointView.center = CGPoint(x: x, y:y)
-//
-//            // Add points to view
-//            self.view.addSubview(pointView)
-//
-//        }
     }
     
     func TBDpixelPositionToSpriteKitPosition(_ pixelPosition : [Float]) -> CGPoint {
