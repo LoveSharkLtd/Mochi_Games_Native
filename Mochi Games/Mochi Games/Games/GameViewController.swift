@@ -25,32 +25,29 @@ class GameViewController: UIViewController, RPPreviewViewControllerDelegate {
     
     var isRecording = false
     
+    var delegate : GameViewControllerDelegate?
+    
+    var handsUpBool : Bool = false
+    var BLBool : Bool = false
+    var BRBool : Bool = false
+    
+    
     func getImageScaler() -> CGSize? {
         return self.BackgroundVideo?.scaler
     }
     
     func setUpGameScene() {
-
        let skview = SKView(frame: CGRect(x: 0.0, y: 0.0, width: sW, height: sH))
        skview.allowsTransparency = true
-
-        
         if let scene = SKScene(fileNamed: "DanceScene") {
-            // Set the scale mode to scale to fit the window
             scene.scaleMode = .aspectFill
-//            scene.backgroundColor = .clear
             skview.presentScene(scene)
             (scene as! GameScene).viewController = self
-            
-//            view.presentScene(scene)
         }
-
        skview.ignoresSiblingOrder = true
        skview.showsFPS = true
        skview.showsNodeCount = true
-
        view.addSubview(skview)
-       
     }
     
     override func viewDidLoad() {
@@ -62,10 +59,6 @@ class GameViewController: UIViewController, RPPreviewViewControllerDelegate {
 
         self.view.addSubview(BackgroundVideo!)
         
-        // Setup Camera
-//        Camera.shared().delegate = self
-//        Camera.shared().setUp()
-        
         cvInterface.cvInterfaceDelegate = self
         
         // - Game Scene
@@ -74,44 +67,8 @@ class GameViewController: UIViewController, RPPreviewViewControllerDelegate {
         
 //        setUpNonRecordUI()
         
-        boundingBoxViewParent = UIView(frame: CGRect(x: 0, y: 0, width: sW, height: sH))
-        boundingBoxViewParent?.backgroundColor = .clear
-        view.addSubview(boundingBoxViewParent!)
-        
-        
-        // Creating Point
-//        pointView = UIView(frame: CGRect(x: 0, y: 0, width: pointSize.width, height: pointSize.height))
-//        pointView?.backgroundColor = color
-//        pointView?.clipsToBounds = false
-//        pointView?.layer.cornerRadius = 5
-//        pointView?.layer.borderColor = UIColor.black.cgColor
-//        pointView?.layer.borderWidth = 1.4
-
-        
-        label = UILabel(frame: CGRect(x: 0.0, y: 0.0, width: 200, height: 100))
-        label?.textColor = .black
-        label?.lineBreakMode = .byWordWrapping
-        label?.numberOfLines = 0
-        label?.backgroundColor = .white
-        
-//        view.addSubview(label!)
-//        view.addSubview(pointView!)
-        
-        
-        
-        // Load CV Techniques
         cvInterface.load()
     }
-    
-    var label : UILabel?
-    var boundingBoxViewParent: UIView?
-    let pointSize = CGSize(width: 10, height: 10)
-    let color:UIColor = .red
-    var boundingBox: UIView?
-
-//    var pointView:UIView?
-
-
     
     func setUpNonRecordUI() {
         nonRecordWindow = UIWindow(frame: self.view.frame)
@@ -266,31 +223,7 @@ class GameViewController: UIViewController, RPPreviewViewControllerDelegate {
         
       
     }
-    
-//    func didUpdatePixelBuffer(pixelBuffer: CVPixelBuffer, formatDescription: CMFormatDescription) {
-//        // this is called each frame and the MTLCameraView is needed to be passed the pixelbuffer and the formatdescription
-//
-//        self.previewVideo?.pixelBuffer = pixelBuffer
-//        self.BackgroundVideo?.pixelBuffer = pixelBuffer
-//        self.BackgroundVideo?.formatDescription = formatDescription
-//
-//    }
-    
-    var delegate : GameViewControllerDelegate?
-    
-    func handsUpDataChanged(handsUp : Bool) {
-        // will show hands up here
-        self.delegate?.handsupDataChanged(handsUp: handsUp)
-    }
-    
-    func shoulderBrushedDataChanged(brushedLeftShoulder : Bool, brushedRightShoulder : Bool) {
-        self.delegate?.brushedShoulderDataChanged(brushedLeftShoulder: brushedLeftShoulder, brushedRightShoulder: brushedRightShoulder)
-    }
-    
-    var handsUpBool : Bool = false
-    var BLBool : Bool = false
-    var BRBool : Bool = false
-    
+
     
     // - just using this to test the gamescene stuff :D
     @objc func handsUpBtnPressed(_ sender : UIButton) {
@@ -336,6 +269,7 @@ protocol GameViewControllerDelegate {
     func handsupDataChanged(handsUp : Bool)
     func brushedShoulderDataChanged(brushedLeftShoulder : Bool, brushedRightShoulder : Bool)
     func didUpdateBodyTrackingData(bodyTrackingData : BodyTrackingData)
+    func didUpdateFaceTrackingData(faceTrackingData : FaceDetectionData)
 }
 
 // - hiderViewController is used to attach to the secondary UIWindow which will house all the UI elements that do not want to be included in the recording
@@ -374,6 +308,16 @@ extension UIViewController {
 
 extension GameViewController: CVInterfaceDelegate {
     
+    
+    func handsUpDataChanged(handsUp : Bool) {
+        // will show hands up here
+//        self.delegate?.handsupDataChanged(handsUp: handsUp)
+    }
+    
+    func shoulderBrushedDataChanged(brushedLeftShoulder : Bool, brushedRightShoulder : Bool) {
+        self.delegate?.brushedShoulderDataChanged(brushedLeftShoulder: brushedLeftShoulder, brushedRightShoulder: brushedRightShoulder)
+    }
+    
     func didUpdatePixelBuffer(pixelBuffer: CVPixelBuffer, formatDescription: CMFormatDescription) {
         self.previewVideo?.pixelBuffer = pixelBuffer
         self.BackgroundVideo?.pixelBuffer = pixelBuffer
@@ -384,64 +328,77 @@ extension GameViewController: CVInterfaceDelegate {
 //        print("!! Gesture Recognition \(gestureRecognitionData)")
     }
     
-    func didUpdatePoseEstimationData(poseEstimationData: Any, rightWristCordinate: Any, points: [PredictedPoint?], gestureInformation: [String: Bool?]) {
-        
-        // Action if the shoulder is brushed
-        if ((gestureInformation["isShoulderBrush"]!!)) {
-            let brushedShoulder = gestureInformation["isShoulderBrush"]!!
-            shoulderBrushedDataChanged(brushedLeftShoulder: brushedShoulder, brushedRightShoulder: false)
+    func didUpdatePoseEstimationData(poseEstimationData: Any, bodyTrackingData: BodyTrackingData, points: [PredictedPoint?], gestureInformation: [String: Bool?]) {
+        if ((gestureInformation["isHandsUp"]!!)) {
+            let handsup = gestureInformation["isHandsUp"]!!
+            self.delegate?.handsupDataChanged(handsUp: handsup)
         }
         
-        // Remove points that have been added previously
-        for v in view.subviews{
-           if v is UILabel{
-              v.removeFromSuperview()
-           }
-        }
+        self.delegate?.didUpdateBodyTrackingData(bodyTrackingData: bodyTrackingData)
         
-        // Define label color, size and width
-        let pointSize = CGSize(width: 100, height: 20)
-        let color:UIColor = .red
+//        print("__ __ gesture recog = \(gestureInformation)")
         
-        // Joint Labels for on screen text
-        let pointLabels: [String] = [
-            "top",          //0
-            "neck",         //1
-            "R shoulder",   //2
-            "R elbow",      //3
-            "R wrist",      //4
-            "L shoulder",   //5
-            "L elbow",      //6
-            "L wrist",      //7
-            "R hip",        //8
-            "R knee",       //9
-            "R ankle",      //10
-            "L hip",        //11
-            "L knee",       //12
-            "L ankle",      //13
-        ]
         
-        // Loop through the points and place labels based on their positions
-        for (index, point) in points.enumerated() {
-
-            let x = CGFloat((point?.maxPoint.x ?? 0) * UIScreen.main.bounds.width)
-            let y = CGFloat((point?.maxPoint.y ?? 0) * UIScreen.main.bounds.height)
-            
-            // Create a label view for each point
-            let pointView = UILabel(frame: CGRect(x: 0, y: 0, width: pointSize.width, height: pointSize.height))
-            pointView.backgroundColor = color
-            pointView.clipsToBounds = false
-            pointView.layer.cornerRadius = 5
-            pointView.layer.borderColor = UIColor.black.cgColor
-            pointView.layer.borderWidth = 1.4
-            pointView.text = pointLabels[index]
-            
-            pointView.center = CGPoint(x: x, y:y)
-            
-            // Add points to view
-            self.view.addSubview(pointView)
-
-        }
+        return
+//
+//        // Action if the shoulder is brushed
+//        if ((gestureInformation["isShoulderBrush"]!!)) {
+//            let brushedShoulder = gestureInformation["isShoulderBrush"]!!
+//            shoulderBrushedDataChanged(brushedLeftShoulder: brushedShoulder, brushedRightShoulder: false)
+//        }
+////
+//
+//
+//        // Remove points that have been added previously
+//        for v in view.subviews{
+//           if v is UILabel{
+//              v.removeFromSuperview()
+//           }
+//        }
+//
+//        // Define label color, size and width
+//        let pointSize = CGSize(width: 100, height: 20)
+//        let color:UIColor = .red
+//
+//        // Joint Labels for on screen text
+//        let pointLabels: [String] = [
+//            "top",          //0
+//            "neck",         //1
+//            "R shoulder",   //2
+//            "R elbow",      //3
+//            "R wrist",      //4
+//            "L shoulder",   //5
+//            "L elbow",      //6
+//            "L wrist",      //7
+//            "R hip",        //8
+//            "R knee",       //9
+//            "R ankle",      //10
+//            "L hip",        //11
+//            "L knee",       //12
+//            "L ankle",      //13
+//        ]
+//
+//        // Loop through the points and place labels based on their positions
+//        for (index, point) in points.enumerated() {
+//
+//            let x = CGFloat((point?.maxPoint.x ?? 0) * UIScreen.main.bounds.width)
+//            let y = CGFloat((point?.maxPoint.y ?? 0) * UIScreen.main.bounds.height)
+//
+//            // Create a label view for each point
+//            let pointView = UILabel(frame: CGRect(x: 0, y: 0, width: pointSize.width, height: pointSize.height))
+//            pointView.backgroundColor = color
+//            pointView.clipsToBounds = false
+//            pointView.layer.cornerRadius = 5
+//            pointView.layer.borderColor = UIColor.black.cgColor
+//            pointView.layer.borderWidth = 1.4
+//            pointView.text = pointLabels[index]
+//
+//            pointView.center = CGPoint(x: x, y:y)
+//
+//            // Add points to view
+//            self.view.addSubview(pointView)
+//
+//        }
     }
     
     func TBDpixelPositionToSpriteKitPosition(_ pixelPosition : [Float]) -> CGPoint {
@@ -459,37 +416,8 @@ extension GameViewController: CVInterfaceDelegate {
     
     
     
-    func didUpdateFaceDetectionData(faceDetectionData: CGRect) {
-        print("!! ->> \(faceDetectionData.maxX)")
-        
-        print("!! \(faceDetectionData.origin.x)")
-
-
-        let rectHeight = faceDetectionData.width * sH
-        let rectWidth = faceDetectionData.height * sW
-        let yPos = faceDetectionData.origin.x * sH
-        let xPos = faceDetectionData.origin.y * sW
-
-        DispatchQueue.main.async {
-            // Remove points that have been added previously
-//            for v in (self.boundingBoxViewParent?.subviews)! {
-//                  v.removeFromSuperview()
-//            }
-            
-            let rectFrame: CGRect = CGRect(x:xPos, y:yPos, width:rectWidth, height:rectHeight)
-            if self.boundingBox == nil {
-                
-                self.boundingBox = UIView(frame: rectFrame)
-                self.boundingBox?.backgroundColor = #colorLiteral(red: 0.5843137503, green: 0.8235294223, blue: 0.4196078479, alpha: 1).withAlphaComponent(0.7)
-                self.boundingBoxViewParent?.addSubview(self.boundingBox!)
-
-            } else {
-                self.boundingBox?.frame = rectFrame
-            }
-//            let boundingBoxView = UIView(frame: rectFrame)
-            
-            // Add points to view
-        }
+    func didUpdateFaceDetectionData(faceDetectionData: FaceDetectionData) {
+        self.delegate?.didUpdateFaceTrackingData(faceTrackingData: faceDetectionData)
     }
     
     func didUpdateSemanticSegmentationData(semanticSegmentationData: SemanticSegmentationInformation) {
@@ -500,3 +428,10 @@ extension GameViewController: CVInterfaceDelegate {
     
 }
 
+
+struct FaceDetectionData {
+    var x : CGFloat
+    var y : CGFloat
+    var height : CGFloat
+    var width : CGFloat
+}

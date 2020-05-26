@@ -10,22 +10,29 @@ import SpriteKit
 import GameplayKit
 
 class GameScene: SKScene, GameViewControllerDelegate {
+    func didUpdateFaceTrackingData(faceTrackingData: FaceDetectionData) {
+        let W = (self.scene?.size.width)!
+        let H = (self.scene?.size.height)!
+        let w = faceTrackingData.width * W
+        let h = faceTrackingData.height * H
+        let x = faceTrackingData.x * W - 0.5 * W + 0.5 * w
+        let y = -(faceTrackingData.y - 0.5) * H - 0.5 * h
+        
+        let action = SKAction.move(to: CGPoint(x : x, y : y), duration: 0.05)
+        action.timingMode = .easeIn
+        self.faceNode?.run(action)
+    }
+    
     func didUpdateBodyTrackingData(bodyTrackingData: BodyTrackingData) {
-//        print("!! - wrist = \(bodyTrackingData.wrist.right)")
         
-        let n = Float.minimum(bodyTrackingData.wrist.confidenceRight, 1.0)
-        let oldPos = self.wristNode?.position
-        let newPos = pixelPositionToSpriteKitPosition(bodyTrackingData.wrist.right)
+        let W = (self.scene?.size.width)!
+        let H = (self.scene?.size.height)!
+        let w = bodyTrackingData.wrist.right?.x ?? 0.0 * W
+        let h = bodyTrackingData.wrist.right?.y ?? 0.0 * H
+        let x = (bodyTrackingData.wrist.right?.x ?? 0.0) * W // + 0.5 * w
+        let y = CGFloat(0.0) // -(bodyTrackingData.wrist.right?.y - 0.5) * H - 0.5 * h
         
-        print("!! -- conf = \(bodyTrackingData.wrist.confidenceRight)")
-        
-        self.wristNode?.position = pixelPositionToSpriteKitPosition(bodyTrackingData.wrist.right)
-        return
-        
-//        let x = CGFloat(n) * (newPos.x - oldPos!.x) + oldPos!.x
-//        let y = CGFloat(n) * (newPos.y - oldPos!.y) + oldPos!.y
-//
-//        self.wristNode?.position = CGPoint(x: x, y: y)
+        self.wristNode?.position = CGPoint(x: x, y: y)
     }
     
     func pixelPositionToSpriteKitPosition(_ pixelPosition : [Float]) -> CGPoint {
@@ -42,9 +49,12 @@ class GameScene: SKScene, GameViewControllerDelegate {
     }
     
     var wristNode : SKNode?
+    var faceNode : SKNode?
     var handsupNode : SKNode?
     var brushLNode : SKNode?
     var brushRNode : SKNode?
+    
+    var isAnimating : Bool = false
     
     public var viewController : GameViewController? {
         didSet {
@@ -52,7 +62,15 @@ class GameScene: SKScene, GameViewControllerDelegate {
         }
     }
     
+    
     func handsupDataChanged(handsUp: Bool) {
+        // /*
+        
+        print("!! - hands up \(handsUp) - \(isAnimating)")
+        
+        if !handsUp || isAnimating { return }
+        
+        self.isAnimating = true
         
         let fadein = SKAction.fadeIn(withDuration: 0.1)
         let fadeOut = SKAction.fadeOut(withDuration: 0.1)
@@ -66,18 +84,21 @@ class GameScene: SKScene, GameViewControllerDelegate {
         let scaleOut = SKAction.scale(to: sOut, duration: 0.15)
         scaleIn.timingMode = .easeOut
         
-        brushLNode?.run(fadeOut)
-        brushLNode?.run(scaleOut)
-    
-        brushRNode?.run(fadeOut)
-        brushRNode?.run(scaleOut)
+        let delay = SKAction.wait(forDuration: 2.0)
         
-        self.handsupNode?.run(handsUp ? fadein : fadeOut)
-        self.handsupNode?.run(handsUp ? fadein : fadeOut)
+        let hider = self.faceNode?.childNode(withName: "hider")
+        hider?.alpha = 0
+        
+        hider?.run(SKAction.sequence([fadein, delay, fadeOut]), completion: {
+            () -> Void in
+            self.isAnimating = false
+        })
+        
+        // */
     }
     
     func brushedShoulderDataChanged(brushedLeftShoulder: Bool, brushedRightShoulder: Bool) {
-        
+        /*
         let fadein = SKAction.fadeIn(withDuration: 0.1)
         let fadeOut = SKAction.fadeOut(withDuration: 0.1)
         
@@ -98,6 +119,7 @@ class GameScene: SKScene, GameViewControllerDelegate {
         
         brushRNode?.run(brushedRightShoulder ? fadein : fadeOut)
         brushRNode?.run(brushedRightShoulder ? scaleIn : scaleOut)
+        // */
     }
     
     override func didMove(to view: SKView) {
@@ -136,6 +158,7 @@ class GameScene: SKScene, GameViewControllerDelegate {
     override func sceneDidLoad() {
         print("!! - scene loaded")
         wristNode = self.childNode(withName: "wristNode")
+        faceNode = self.childNode(withName: "faceParent")
         
         handsupNode = self.childNode(withName: "handsup")
         
@@ -155,8 +178,6 @@ class GameScene: SKScene, GameViewControllerDelegate {
         emitterL?.addChild(getBLSparkles()!)
         
         brushLNode?.alpha = 0.0
-        
-        
         
         brushRNode = self.childNode(withName: "brushR")
         

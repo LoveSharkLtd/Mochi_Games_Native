@@ -10,7 +10,7 @@ import Vision
 import UIKit
 
 protocol PoseEstimationDelegate{
-    func didUpdatePoseEstimationData(poseEstimationData: String, rightWristCordinate: Any, points: [PredictedPoint?], gestureInformation: [String: Bool?])
+    func didUpdatePoseEstimationData(poseEstimationData: String, bodyTrackingData: BodyTrackingData, points: [PredictedPoint?], gestureInformation: [String: Bool?])
 }
 
 class PoseEstimation {
@@ -287,18 +287,47 @@ class PoseEstimation {
                 
         
 //        if rightWristJointPositionConfidence < 0.5 { return }
+        /*
+         
+
+         // Joint Labels for on screen text
+         let pointLabels: [String] = [
+             "top",          //0
+             "neck",         //1
+             "R shoulder",   //2
+             "R elbow",      //3
+             "R wrist",      //4
+             "L shoulder",   //5
+             "L elbow",      //6
+             "L wrist",      //7
+             "R hip",        //8
+             "R knee",       //9
+             "R ankle",      //10
+             "L hip",        //11
+             "L knee",       //12
+             "L ankle",      //13
+         ]
+         
+         // Loop through the points and place labels based on their positions
+         for (index, point) in points.enumerated() {
+
+             let x = CGFloat((point?.maxPoint.x ?? 0) * UIScreen.main.bounds.width)
+             let y = CGFloat((point?.maxPoint.y ?? 0) * UIScreen.main.bounds.height)
+             
+         **/
         
+        let top = BodyTrackingPositions(left: nil, middle: n_kpoints[0]?.maxPoint, right: nil, confidenceLeft: nil, confidenceMiddle: n_kpoints[0]?.maxConfidence, confidenceRight: nil)
+        let neck = BodyTrackingPositions(left: nil, middle: n_kpoints[1]?.maxPoint, right: nil, confidenceLeft: nil, confidenceMiddle: n_kpoints[1]?.maxConfidence, confidenceRight: nil)
+        let shoulder = BodyTrackingPositions(left: n_kpoints[5]?.maxPoint, middle: nil, right: n_kpoints[2]?.maxPoint, confidenceLeft: n_kpoints[5]?.maxConfidence, confidenceMiddle: nil, confidenceRight: n_kpoints[2]?.maxConfidence)
+        let elbow = BodyTrackingPositions(left: n_kpoints[6]?.maxPoint, middle: nil, right: n_kpoints[3]?.maxPoint, confidenceLeft: n_kpoints[6]?.maxConfidence, confidenceMiddle: nil, confidenceRight: n_kpoints[3]?.maxConfidence)
+        let wrist = BodyTrackingPositions(left: n_kpoints[7]?.maxPoint, middle: nil, right: n_kpoints[4]?.maxPoint, confidenceLeft: n_kpoints[7]?.maxConfidence, confidenceMiddle: nil, confidenceRight: n_kpoints[4]?.maxConfidence)
+        let hip = BodyTrackingPositions(left: n_kpoints[11]?.maxPoint, middle: nil, right: n_kpoints[8]?.maxPoint, confidenceLeft: n_kpoints[11]?.maxConfidence, confidenceMiddle: nil, confidenceRight: n_kpoints[8]?.maxConfidence)
+        let knee = BodyTrackingPositions(left: n_kpoints[12]?.maxPoint, middle: nil, right: n_kpoints[9]?.maxPoint, confidenceLeft: n_kpoints[12]?.maxConfidence, confidenceMiddle: nil, confidenceRight: n_kpoints[9]?.maxConfidence)
+        let ankle = BodyTrackingPositions(left: n_kpoints[13]?.maxPoint, middle: nil, right: n_kpoints[10]?.maxPoint, confidenceLeft: n_kpoints[13]?.maxConfidence, confidenceMiddle: nil, confidenceRight: n_kpoints[10]?.maxConfidence)
         
-        let tempData = BodyTrackingData(top: [],
-                                        neck: BodyTrackingPositions(left: [], right: [], confidenceLeft: 0.0, confidenceRight: 0.0),
-                                        shoulders: BodyTrackingPositions(left: [], right: [], confidenceLeft: 0.0, confidenceRight: 0.0),
-                                        elbow: BodyTrackingPositions(left: [], right: [], confidenceLeft: 0.0, confidenceRight: 0.0),
-                                        wrist: BodyTrackingPositions(left: [], right: rightWristJointPositionCordinates, confidenceLeft: 0.0, confidenceRight: rightWristJointPositionConfidence),
-                                        hip: BodyTrackingPositions(left: [], right: [], confidenceLeft: 0.0, confidenceRight: 0.0),
-                                        knee: BodyTrackingPositions(left: [], right: [], confidenceLeft: 0.0, confidenceRight: 0.0),
-                                        ankle: BodyTrackingPositions(left: [], right: [], confidenceLeft: 0.0, confidenceRight: 0.0))
+        let bodyTrackingData = BodyTrackingData(top: top, neck: neck, shoulders: shoulder, elbow: elbow, wrist: wrist, hip: hip, knee: knee, ankle: ankle)
         
-        self.poseEstimationDelegate.didUpdatePoseEstimationData(poseEstimationData: "", rightWristCordinate: tempData, points: n_kpoints, gestureInformation: poseGestureInformation)
+        self.poseEstimationDelegate.didUpdatePoseEstimationData(poseEstimationData: "", bodyTrackingData: bodyTrackingData, points: n_kpoints, gestureInformation: poseGestureInformation)
         
         return
             // Encode gesture dictionary as JSON string and cache the json string

@@ -7,10 +7,11 @@
 //
 
 import Foundation
+import CoreImage
 
 
 struct BodyTrackingData {
-    var top : [Float]
+    var top : BodyTrackingPositions
     var neck : BodyTrackingPositions
     var shoulders : BodyTrackingPositions
     var elbow : BodyTrackingPositions
@@ -21,9 +22,11 @@ struct BodyTrackingData {
 }
 
 struct BodyTrackingPositions {
-    var left : [Float]
-    var right : [Float]
-    var confidenceLeft : Float
-    var confidenceRight : Float
+    var left : CGPoint?
+    var middle : CGPoint?
+    var right : CGPoint?
+    var confidenceLeft : Double?
+    var confidenceMiddle : Double?
+    var confidenceRight : Double?
 }
 

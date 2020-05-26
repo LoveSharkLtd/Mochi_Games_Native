@@ -281,13 +281,8 @@
 			children = (
 				38ABB377246BFB1D00A7FF37 /* ComputerVision */,
 				EE0C8EAF24577809009FB07C /* Grimes_v3.mp4 */,
-				EEF26A02245F36A400BBD98F /* DanceScene.sks */,
-				EEF26A04245F388300BBD98F /* particle.sks */,
-				EEF26A06245F427F00BBD98F /* BLparticle.sks */,
-				EEF26A08245F42C800BBD98F /* BRparticles.sks */,
-				EE0C8EC024577B40009FB07C /* gameScene.swift */,
+				EE97619C247C31CF00D82AD5 /* Games */,
 				EE0C8E9324576DE0009FB07C /* AppDelegate.swift */,
-				EE0C8E9724576DE0009FB07C /* GameViewController.swift */,
 				EE0C8EA724576F2A009FB07C /* GlobalVars.swift */,
 				EE0C8EAB24577075009FB07C /* Camera.swift */,
 				EE0C8EB5245778E9009FB07C /* MTL_Swift */,
@@ -307,6 +302,27 @@
 				EE0C8EB224577824009FB07C /* RosyMetalRenderer.swift */,
 			);
 			name = MTL_Swift;
+			sourceTree = "<group>";
+		};
+		EE97619C247C31CF00D82AD5 /* Games */ = {
+			isa = PBXGroup;
+			children = (
+				EEF26A02245F36A400BBD98F /* DanceScene.sks */,
+				EE97619D247C31E700D82AD5 /* Particles */,
+				EE0C8EC024577B40009FB07C /* gameScene.swift */,
+				EE0C8E9724576DE0009FB07C /* GameViewController.swift */,
+			);
+			path = Games;
+			sourceTree = "<group>";
+		};
+		EE97619D247C31E700D82AD5 /* Particles */ = {
+			isa = PBXGroup;
+			children = (
+				EEF26A04245F388300BBD98F /* particle.sks */,
+				EEF26A06245F427F00BBD98F /* BLparticle.sks */,
+				EEF26A08245F42C800BBD98F /* BRparticles.sks */,
+			);
+			path = Particles;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
