@@ -11,41 +11,25 @@ import GameplayKit
 
 class GameScene: SKScene, GameViewControllerDelegate {
     func didUpdateFaceTrackingData(faceTrackingData: FaceDetectionData) {
-        let W = (self.scene?.size.width)!
-        let H = (self.scene?.size.height)!
-        let w = faceTrackingData.width * W
-        let h = faceTrackingData.height * H
-        let x = faceTrackingData.x * W - 0.5 * W + 0.5 * w
-        let y = -(faceTrackingData.y - 0.5) * H - 0.5 * h
-        
-        let action = SKAction.move(to: CGPoint(x : x, y : y), duration: 0.05)
+        let action = SKAction.move(to: pixelPositionToSKPosition(faceTrackingData), duration: 0.05)
         action.timingMode = .easeIn
         self.faceNode?.run(action)
     }
     
     func didUpdateBodyTrackingData(bodyTrackingData: BodyTrackingData) {
-        
-        let W = (self.scene?.size.width)!
-        let H = (self.scene?.size.height)!
-        let w = bodyTrackingData.wrist.right?.x ?? 0.0 * W
-        let h = bodyTrackingData.wrist.right?.y ?? 0.0 * H
-        let x = (bodyTrackingData.wrist.right?.x ?? 0.0) * W // + 0.5 * w
-        let y = CGFloat(0.0) // -(bodyTrackingData.wrist.right?.y - 0.5) * H - 0.5 * h
-        
-        self.wristNode?.position = CGPoint(x: x, y: y)
-    }
-    
-    func pixelPositionToSpriteKitPosition(_ pixelPosition : [Float]) -> CGPoint {
-        guard let scaler = viewController?.getImageScaler() else {
-            return CGPoint.zero
+        guard let top = bodyTrackingData.top.middle else {
+            return
         }
+        guard let topConfidence = bodyTrackingData.top.confidenceMiddle else {
+            return
+        }
+        let conf = 1.0 / topConfidence
+        let action = SKAction.move(to: pixelPositionToSKPosition(top), duration: 0.05 * (1.0 * conf))
+        action.timingMode = .easeIn
         
-        let size = scene?.size
-        let x = size!.width * scaler.width * (CGFloat(pixelPosition[0]) - 0.5)
-        let y = -size!.height * scaler.height * (CGFloat(pixelPosition[1]) - 0.5)
-        let position : CGPoint = CGPoint(x: x, y: y)
+        self.wristNode?.run(action)
         
-        return position
+//        self.wristNode?.position = CGPoint(x: x, y: y)
     }
     
     var wristNode : SKNode?
@@ -65,8 +49,6 @@ class GameScene: SKScene, GameViewControllerDelegate {
     
     func handsupDataChanged(handsUp: Bool) {
         // /*
-        
-        print("!! - hands up \(handsUp) - \(isAnimating)")
         
         if !handsUp || isAnimating { return }
         
@@ -204,4 +186,38 @@ class GameScene: SKScene, GameViewControllerDelegate {
     
     override func update(_ currentTime: TimeInterval) {
     }
+}
+
+
+extension GameScene {
+    // - Utilities for converting from CV Data to SpriteKit
+    // - ASSUMPTIONS :
+    // -        1 ) CV Data Origins are at the top left of the screen (-0.5, 0.5) in SK co-ords
+    // -        2 ) CV Data is aligned to a portrait device (ie X-Axis in the data is X-Axis in the SK Scene)
+    
+    // - Generic Conversion
+    func pixelPositionToSKPosition(_ position : CGPoint) -> CGPoint {
+        let W = self.size.width
+        let H = self.size.height
+        
+        let x = (position.x - 0.5) * W
+        let y = (0.5 - position.y) * H
+        
+        return CGPoint(x: x, y: y)
+    }
+    
+    // - Face Tracking variant : need to account for the x / y values of data are the T-L position of the face.
+    func pixelPositionToSKPosition(_ faceData : FaceDetectionData) -> CGPoint {
+        let W = self.size.width
+        let H = self.size.height
+        
+        let w = faceData.width * W
+        let h = faceData.height * H
+        
+        let x = (faceData.x - 0.5) * W + 0.5 * w
+        let y = (0.5 - faceData.y) * H - 0.5 * h
+        
+        return CGPoint(x: x, y: y)
+    }
+    
 }
