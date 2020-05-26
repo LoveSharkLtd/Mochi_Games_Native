@@ -31,11 +31,6 @@ class GameViewController: UIViewController, RPPreviewViewControllerDelegate {
     var BLBool : Bool = false
     var BRBool : Bool = false
     
-    
-    func getImageScaler() -> CGSize? {
-        return self.BackgroundVideo?.scaler
-    }
-    
     func setUpGameScene() {
        let skview = SKView(frame: CGRect(x: 0.0, y: 0.0, width: sW, height: sH))
        skview.allowsTransparency = true
@@ -137,127 +132,18 @@ class GameViewController: UIViewController, RPPreviewViewControllerDelegate {
         nonRecordWindow.rootViewController?.view.addSubview(tiktokVideo)
         nonRecordWindow.rootViewController?.view.addSubview(bg)
         nonRecordWindow.rootViewController?.view.addSubview(recBtn)
-//
-//        createMLButtonActions() // - remove when ml is in
-//
         nonRecordWindow.rootViewController?.view.addSubview(previewVideo!)
         
         nonRecordWindow.makeKeyAndVisible()
     }
-    
-    func createMLButtonActions() {
-        
-        let h_ = sHR * 50 / 667
-        let w_ = _deviceType == .iPad ? sHR * 356 / 667 : sW - sHR * 20 / 667
-        let g = sHR * 10 / 667
-        
-        let btnW = (w_ - 2.0 * g) / 3.0
-        for i in 0..<3 {
-            let x = g + CGFloat(i) * (btnW + g)
-            let y = sH - h_ - g - g - 1.5 * h_ - g
-            var str = "hands up"
-            if i == 1 { str = "brush L" }
-            if i == 2 { str = "brush R" }
-            
-            let btn = createButton(width: btnW, height: h_, title: str, textSize: nil)
-            btn.frame.origin = CGPoint(x: x, y: y)
-
-            btn.addTarget(self, action: #selector(ButtonDown(_:)), for: .touchDown)
-            btn.addTarget(self, action: #selector(ButtonUp(_:)), for: .touchUpOutside)
-            
-            if i == 0 { btn.addTarget(self, action: #selector(handsUpBtnPressed(_:)), for: .touchUpInside) }
-            if i == 1 { btn.addTarget(self, action: #selector(brushedLeftBtnPressed(_:)), for: .touchUpInside) }
-            if i == 2 { btn.addTarget(self, action: #selector(brushedRightBtnPressed(_:)), for: .touchUpInside) }
-            
-            nonRecordWindow.rootViewController?.view.addSubview(btn)
-            
-        }
-        
-    }
-    
     
 //    @objc func tapped(_ gesture: UITapGestureRecognizer) {
 //            // !! - use this until we can add these calls to the game
 //            self.BackgroundVideo?.toggleFiltering()
 //        }
     
-    @objc func recBtnUp(_ sender : UIButton) {
-        ButtonUp(sender)
-        isRecording ? stopRecording() : startRecording()
-        if isRecording { self.vidPlayer?.pause() }
-        isRecording = !isRecording
-    }
-    
-    func startRecording() {
-//        RPScreenRecorder.shared().isMicrophoneEnabled = true
-        RPScreenRecorder.shared().startRecording { (_) in
-            print("!! - rec started")
-        }
-
-    }
-    
-    func stopRecording() {
-        RPScreenRecorder.shared().stopRecording { (preview, err) in
-            self.vidPlayer?.pause()
-            guard let preview = preview else { return }
-            
-            preview.previewControllerDelegate = self
-            self.nonRecordWindow.rootViewController?.present(preview, animated: true) {
-            
-            }
-        }
-    }
-    
-    func previewControllerDidFinish(_ previewController: RPPreviewViewController) {
-        previewController.dismiss(animated: true) {
-            self.vidPlayer?.play()
-        }
-    }
-
     func cameraSessionDidBegin() {
         // Called when the camera session has started
-        
-      
-    }
-
-    
-    // - just using this to test the gamescene stuff :D
-    @objc func handsUpBtnPressed(_ sender : UIButton) {
-        ButtonUp(sender)
-        
-        handsUpBool = !handsUpBool
-        BRBool = false
-        BLBool = false
-        handsUpDataChanged(handsUp: handsUpBool)
-        
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-//            self.handsUpDataChanged(handsUp: false)
-//        }
-    }
-    
-    @objc func brushedLeftBtnPressed(_ sender : UIButton) {
-        ButtonUp(sender)
-        
-        BLBool = !BLBool
-        BRBool = false
-        handsUpBool = false
-        shoulderBrushedDataChanged(brushedLeftShoulder: BLBool, brushedRightShoulder: BRBool)
-        
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-//            self.shoulderBrushedDataChanged(brushedLeftShoulder: false, brushedRightShoulder: false)
-//        }
-    }
-    @objc func brushedRightBtnPressed(_ sender : UIButton) {
-        ButtonUp(sender)
-        
-        BRBool = !BRBool
-        BLBool = false
-        handsUpBool = false
-        shoulderBrushedDataChanged(brushedLeftShoulder: BLBool, brushedRightShoulder: BRBool)
-        
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-//            self.shoulderBrushedDataChanged(brushedLeftShoulder: false, brushedRightShoulder: false)
-//        }
     }
 }
 
@@ -277,30 +163,6 @@ class hiderViewController : UIViewController {
     }
     
 }
-
-// - These are just cause I like having animated buttons lol
-extension UIViewController {
-    @objc func ButtonDown(_ sender : UIButton) {
-        let bg = sender.subviews[1]
-        UIView.animate(withDuration: 0.125, delay: 0.0, options: .curveEaseIn, animations: {
-            bg.frame.origin.y = sHR * 3 / 667
-        }) { (_) in
-            //
-        }
-    }
-    
-    @objc func ButtonUp(_ sender : UIButton) {
-        let bg = sender.subviews[1]
-        UIView.animate(withDuration: 0.125, delay: 0.0, options: .curveEaseIn, animations: {
-            bg.frame.origin.y = 0.0
-        }) { (_) in
-            //
-        }
-    }
-    
-}
-
-
 
 extension GameViewController: CVInterfaceDelegate {
     
@@ -333,21 +195,6 @@ extension GameViewController: CVInterfaceDelegate {
         self.delegate?.didUpdateBodyTrackingData(bodyTrackingData: bodyTrackingData)
     }
     
-    func TBDpixelPositionToSpriteKitPosition(_ pixelPosition : [Float]) -> CGPoint {
-        guard let scaler = self.getImageScaler() else {
-            return CGPoint.zero
-        }
-        
-        let size = CGSize(width: sW, height: sH)
-        let x = size.width * scaler.width * (CGFloat(pixelPosition[0]))
-        let y = size.height * scaler.height * (CGFloat(pixelPosition[1]))
-        let position : CGPoint = CGPoint(x: x, y: y)
-        
-        return position
-    }
-    
-    
-    
     func didUpdateFaceDetectionData(faceDetectionData: FaceDetectionData) {
         self.delegate?.didUpdateFaceTrackingData(faceTrackingData: faceDetectionData)
     }
@@ -357,6 +204,64 @@ extension GameViewController: CVInterfaceDelegate {
 //        self.BackgroundVideo?.pixelBuffer = semanticSegmentationData.pixelBuffer
     }
     
+    
+}
+
+extension GameViewController {
+    // - REPLAY KIT
+    @objc func recBtnUp(_ sender : UIButton) {
+        ButtonUp(sender)
+        isRecording ? stopRecording() : startRecording()
+        if isRecording { self.vidPlayer?.pause() }
+        isRecording = !isRecording
+    }
+    
+    func startRecording() {
+//        RPScreenRecorder.shared().isMicrophoneEnabled = true
+        RPScreenRecorder.shared().startRecording { (_) in
+            print("!! - rec started")
+        }
+
+    }
+    
+    func stopRecording() {
+        RPScreenRecorder.shared().stopRecording { (preview, err) in
+            self.vidPlayer?.pause()
+            guard let preview = preview else { return }
+            
+            preview.previewControllerDelegate = self
+            self.nonRecordWindow.rootViewController?.present(preview, animated: true) {
+            
+            }
+        }
+    }
+    
+    func previewControllerDidFinish(_ previewController: RPPreviewViewController) {
+        previewController.dismiss(animated: true) {
+            self.vidPlayer?.play()
+        }
+    }
+}
+
+// - These are just cause I like having animated buttons lol
+extension UIViewController {
+    @objc func ButtonDown(_ sender : UIButton) {
+        let bg = sender.subviews[1]
+        UIView.animate(withDuration: 0.125, delay: 0.0, options: .curveEaseIn, animations: {
+            bg.frame.origin.y = sHR * 3 / 667
+        }) { (_) in
+            //
+        }
+    }
+    
+    @objc func ButtonUp(_ sender : UIButton) {
+        let bg = sender.subviews[1]
+        UIView.animate(withDuration: 0.125, delay: 0.0, options: .curveEaseIn, animations: {
+            bg.frame.origin.y = 0.0
+        }) { (_) in
+            //
+        }
+    }
     
 }
 
