@@ -49,6 +49,10 @@
 		EE0C8EC124577B40009FB07C /* gameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0C8EC024577B40009FB07C /* gameScene.swift */; };
 		EE7FA993246D8456003280B4 /* BodyTrackingData.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7FA992246D8456003280B4 /* BodyTrackingData.swift */; };
 		EEC717F8247D6532001C30B5 /* FaceDetectionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEC717F7247D6532001C30B5 /* FaceDetectionData.swift */; };
+		EEC717FA247EBF9E001C30B5 /* MochiGameInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEC717F9247EBF9E001C30B5 /* MochiGameInterface.swift */; };
+		EEC717FC247EBFDD001C30B5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEC717FB247EBFDD001C30B5 /* ViewController.swift */; };
+		EEC717FE247EE5F3001C30B5 /* FaceTracking.sks in Resources */ = {isa = PBXBuildFile; fileRef = EEC717FD247EE5F3001C30B5 /* FaceTracking.sks */; };
+		EEC71800247EEC30001C30B5 /* BodyTracking.sks in Resources */ = {isa = PBXBuildFile; fileRef = EEC717FF247EEC30001C30B5 /* BodyTracking.sks */; };
 		EEF26A03245F36A400BBD98F /* DanceScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = EEF26A02245F36A400BBD98F /* DanceScene.sks */; };
 		EEF26A05245F388300BBD98F /* particle.sks in Resources */ = {isa = PBXBuildFile; fileRef = EEF26A04245F388300BBD98F /* particle.sks */; };
 		EEF26A07245F427F00BBD98F /* BLparticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = EEF26A06245F427F00BBD98F /* BLparticle.sks */; };
@@ -102,6 +106,10 @@
 		EE0C8EC024577B40009FB07C /* gameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gameScene.swift; sourceTree = "<group>"; };
 		EE7FA992246D8456003280B4 /* BodyTrackingData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BodyTrackingData.swift; sourceTree = "<group>"; };
 		EEC717F7247D6532001C30B5 /* FaceDetectionData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FaceDetectionData.swift; sourceTree = "<group>"; };
+		EEC717F9247EBF9E001C30B5 /* MochiGameInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MochiGameInterface.swift; sourceTree = "<group>"; };
+		EEC717FB247EBFDD001C30B5 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		EEC717FD247EE5F3001C30B5 /* FaceTracking.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = FaceTracking.sks; sourceTree = "<group>"; };
+		EEC717FF247EEC30001C30B5 /* BodyTracking.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = BodyTracking.sks; sourceTree = "<group>"; };
 		EEF26A02245F36A400BBD98F /* DanceScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = DanceScene.sks; sourceTree = "<group>"; };
 		EEF26A04245F388300BBD98F /* particle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = particle.sks; sourceTree = "<group>"; };
 		EEF26A06245F427F00BBD98F /* BLparticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = BLparticle.sks; sourceTree = "<group>"; };
@@ -314,6 +322,10 @@
 				EE97619D247C31E700D82AD5 /* Particles */,
 				EE0C8EC024577B40009FB07C /* gameScene.swift */,
 				EE0C8E9724576DE0009FB07C /* GameViewController.swift */,
+				EEC717FB247EBFDD001C30B5 /* ViewController.swift */,
+				EEC717F9247EBF9E001C30B5 /* MochiGameInterface.swift */,
+				EEC717FD247EE5F3001C30B5 /* FaceTracking.sks */,
+				EEC717FF247EEC30001C30B5 /* BodyTracking.sks */,
 			);
 			path = Games;
 			sourceTree = "<group>";
@@ -392,7 +404,9 @@
 				38ABB3C2246C06FC00A7FF37 /* read_pbfiles.py in Resources */,
 				38ABB3B8246C05B900A7FF37 /* model1.tflite in Resources */,
 				EEF26A07245F427F00BBD98F /* BLparticle.sks in Resources */,
+				EEC717FE247EE5F3001C30B5 /* FaceTracking.sks in Resources */,
 				38ABB3CB246C07C600A7FF37 /* model2.tflite in Resources */,
+				EEC71800247EEC30001C30B5 /* BodyTracking.sks in Resources */,
 				38ABB3AE246C01E900A7FF37 /* deeplabv3_labels.json in Resources */,
 				38ABB3AD246C01E900A7FF37 /* deeplabv3_257_mv_gpu.tflite in Resources */,
 				38ABB3CD246C07D800A7FF37 /* model1.pb in Resources */,
@@ -460,12 +474,14 @@
 				EE0C8EB324577824009FB07C /* FilterRenderer.swift in Sources */,
 				EE0C8E9824576DE0009FB07C /* GameViewController.swift in Sources */,
 				EE0C8EC124577B40009FB07C /* gameScene.swift in Sources */,
+				EEC717FC247EBFDD001C30B5 /* ViewController.swift in Sources */,
 				EE0C8EAE2457749F009FB07C /* MTLCameraView.swift in Sources */,
 				EE0C8E9424576DE0009FB07C /* AppDelegate.swift in Sources */,
 				38ABB3E7246C10DA00A7FF37 /* UIKitExtension.swift in Sources */,
 				38ABB3D8246C0A4A00A7FF37 /* PredictedPoint.swift in Sources */,
 				EE7FA993246D8456003280B4 /* BodyTrackingData.swift in Sources */,
 				38ABB3E8246C10DA00A7FF37 /* TFLiteExtension.swift in Sources */,
+				EEC717FA247EBF9E001C30B5 /* MochiGameInterface.swift in Sources */,
 				EEC717F8247D6532001C30B5 /* FaceDetectionData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
