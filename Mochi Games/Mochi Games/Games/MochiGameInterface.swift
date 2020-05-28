@@ -61,6 +61,8 @@ class MochiGameInterface {
         let cv = CVInterface()
         cv.cvInterfaceDelegate = self
         cv.loadCameraAndRun() // only wanna load camera here !
+//        cv.loadPoseEstimation()
+//        cv.loadGestureRecognition()
         
         setUpNonRecordRoot()
         
@@ -84,6 +86,7 @@ class MochiGameInterface {
         // set up beat scoring -
         // initialise the cosmetics
         // set up CV
+        
     }
     
     public func Destroy() {
@@ -134,16 +137,16 @@ protocol MochiGameInterfaceDelegate {
 }
 
 extension MochiGameInterface: CVInterfaceDelegate {
+    func didUpdateGestureRecognitionData(gestureRecognitionData: GestureRecongnitionInformation) {
+//        <#code#>
+    }
+    
     func didUpdatePixelBuffer(pixelBuffer: CVPixelBuffer, formatDescription: CMFormatDescription) {
         self.cameraFeed?.pixelBuffer = pixelBuffer
         self.cameraFeed?.formatDescription = formatDescription
     }
     
-    func didUpdateGestureRecognitionData(gestureRecognitionData: Any) {
-//        <#code#>
-    }
-    
-    func didUpdatePoseEstimationData(poseEstimationData: Any, bodyTrackingData: BodyTrackingData, points: [PredictedPoint?], gestureInformation: GestureRecongnitionInformation) {
+    func didUpdatePoseEstimationData(bodyTrackingData: BodyTrackingData, gestureInformation: GestureRecongnitionInformation) {
 //        <#code#>
     }
     
