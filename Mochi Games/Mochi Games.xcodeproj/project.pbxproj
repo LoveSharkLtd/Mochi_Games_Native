@@ -110,6 +110,7 @@
 		EEC717FB247EBFDD001C30B5 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		EEC717FD247EE5F3001C30B5 /* FaceTracking.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = FaceTracking.sks; sourceTree = "<group>"; };
 		EEC717FF247EEC30001C30B5 /* BodyTracking.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = BodyTracking.sks; sourceTree = "<group>"; };
+		EEC71801247FD8C5001C30B5 /* CVInterfaceOld.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CVInterfaceOld.swift; sourceTree = "<group>"; };
 		EEF26A02245F36A400BBD98F /* DanceScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = DanceScene.sks; sourceTree = "<group>"; };
 		EEF26A04245F388300BBD98F /* particle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = particle.sks; sourceTree = "<group>"; };
 		EEF26A06245F427F00BBD98F /* BLparticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = BLparticle.sks; sourceTree = "<group>"; };
@@ -132,6 +133,7 @@
 			isa = PBXGroup;
 			children = (
 				38ABB379246BFC2700A7FF37 /* CVInterface.swift */,
+				EEC71801247FD8C5001C30B5 /* CVInterfaceOld.swift */,
 				38ABB382246BFD3E00A7FF37 /* models */,
 				38ABB37D246BFC5D00A7FF37 /* GestureRecognition */,
 				38ABB3CF246C09FF00A7FF37 /* PoseEstimation */,

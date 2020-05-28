@@ -106,7 +106,7 @@ class Camera : NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
     
     func destroyCaptureSession() {
         if self.captureSession.isRunning { self.stopCameraSession() }
-        // !! - release all the
+        // TODO: - Need to remove and release all camera from memory
     }
     
     func stopCameraSession() {

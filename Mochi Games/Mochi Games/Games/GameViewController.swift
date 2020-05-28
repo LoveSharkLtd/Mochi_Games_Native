@@ -62,7 +62,7 @@ class GameViewController: UIViewController, RPPreviewViewControllerDelegate {
         
 //        setUpNonRecordUI()
         
-        cvInterface.load()
+        cvInterface.loadAll()
     }
     
     func setUpNonRecordUI() {

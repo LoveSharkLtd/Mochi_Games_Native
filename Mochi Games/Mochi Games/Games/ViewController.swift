@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 
 class ViewController : UIViewController {
+    
     override var prefersStatusBarHidden: Bool { return true }
     
     var gameInterface : MochiGameInterface?
@@ -20,10 +21,11 @@ class ViewController : UIViewController {
         
         gameInterface = MochiGameInterface()
         gameInterface?.setUpGame()
-        self.view.addSubview(gameInterface!.view)
+        self.view.addSubview(gameInterface!.view!)
         
         
     }
+    
     
     
 }

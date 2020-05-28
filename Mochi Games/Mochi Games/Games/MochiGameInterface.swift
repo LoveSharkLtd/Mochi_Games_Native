@@ -60,7 +60,7 @@ class MochiGameInterface {
         
         let cv = CVInterface()
         cv.cvInterfaceDelegate = self
-        cv.load() // only wanna load camera here !
+        cv.loadCameraAndRun() // only wanna load camera here !
         
         setUpNonRecordRoot()
         
@@ -189,6 +189,12 @@ struct SKBodyTrackingPositions {
 }
 
 
+
+
 class Recorder : RPScreenRecorder {
-    // - We need to make a recorder here 
+    // - We need to make a recorder here
+}
+
+class CosmeticController {
+    
 }
