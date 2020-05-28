@@ -320,14 +320,12 @@
 		EE97619C247C31CF00D82AD5 /* Games */ = {
 			isa = PBXGroup;
 			children = (
-				EEF26A02245F36A400BBD98F /* DanceScene.sks */,
+				EEC7180324801797001C30B5 /* SpriteKitScenes */,
 				EE97619D247C31E700D82AD5 /* Particles */,
 				EE0C8EC024577B40009FB07C /* gameScene.swift */,
 				EE0C8E9724576DE0009FB07C /* GameViewController.swift */,
 				EEC717FB247EBFDD001C30B5 /* ViewController.swift */,
 				EEC717F9247EBF9E001C30B5 /* MochiGameInterface.swift */,
-				EEC717FD247EE5F3001C30B5 /* FaceTracking.sks */,
-				EEC717FF247EEC30001C30B5 /* BodyTracking.sks */,
 			);
 			path = Games;
 			sourceTree = "<group>";
@@ -340,6 +338,24 @@
 				EEF26A08245F42C800BBD98F /* BRparticles.sks */,
 			);
 			path = Particles;
+			sourceTree = "<group>";
+		};
+		EEC7180324801797001C30B5 /* SpriteKitScenes */ = {
+			isa = PBXGroup;
+			children = (
+				EEF26A02245F36A400BBD98F /* DanceScene.sks */,
+				EEC71805248017AE001C30B5 /* Utilities */,
+			);
+			path = SpriteKitScenes;
+			sourceTree = "<group>";
+		};
+		EEC71805248017AE001C30B5 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				EEC717FD247EE5F3001C30B5 /* FaceTracking.sks */,
+				EEC717FF247EEC30001C30B5 /* BodyTracking.sks */,
+			);
+			path = Utilities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
