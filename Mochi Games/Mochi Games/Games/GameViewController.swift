@@ -165,6 +165,19 @@ class hiderViewController : UIViewController {
 }
 
 extension GameViewController: CVInterfaceDelegate {
+    func didUpdateGestureRecognitionData(gestureRecognitionData: GestureRecongnitionInformation) {
+//        <#code#>
+    }
+    
+    func didUpdatePoseEstimationData(bodyTrackingData: BodyTrackingData, gestureInformation: GestureRecongnitionInformation) {
+        if ((gestureInformation.isHandsUp)) {
+            let handsup = gestureInformation.isHandsUp
+            self.delegate?.handsupDataChanged(handsUp: handsup)
+        }
+        
+        self.delegate?.didUpdateBodyTrackingData(bodyTrackingData: bodyTrackingData)
+    }
+    
     
     
     func handsUpDataChanged(handsUp : Bool) {
@@ -182,17 +195,8 @@ extension GameViewController: CVInterfaceDelegate {
         self.BackgroundVideo?.formatDescription = formatDescription
     }
     
-    func didUpdateGestureRecognitionData(gestureRecognitionData: Any) {
-//        print("!! Gesture Recognition \(gestureRecognitionData)")
-    }
-    
     func didUpdatePoseEstimationData(poseEstimationData: Any, bodyTrackingData: BodyTrackingData, points: [PredictedPoint?], gestureInformation: GestureRecongnitionInformation) {
-        if ((gestureInformation.isHandsUp)) {
-            let handsup = gestureInformation.isHandsUp
-            self.delegate?.handsupDataChanged(handsUp: handsup)
-        }
         
-        self.delegate?.didUpdateBodyTrackingData(bodyTrackingData: bodyTrackingData)
     }
     
     func didUpdateFaceDetectionData(faceDetectionData: FaceDetectionData) {

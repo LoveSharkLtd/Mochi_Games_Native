@@ -14,8 +14,8 @@ import UIKit
 
 protocol CVInterfaceDelegate {
     func didUpdatePixelBuffer(pixelBuffer: CVPixelBuffer, formatDescription: CMFormatDescription)
-    func didUpdateGestureRecognitionData(gestureRecognitionData: Any)
-    func didUpdatePoseEstimationData(poseEstimationData: Any, bodyTrackingData: BodyTrackingData, points: [PredictedPoint?], gestureInformation: GestureRecongnitionInformation)
+    func didUpdateGestureRecognitionData(gestureRecognitionData: GestureRecongnitionInformation)
+    func didUpdatePoseEstimationData(bodyTrackingData: BodyTrackingData, gestureInformation: GestureRecongnitionInformation) // TODO: - this needs separating out
     func didUpdateFaceDetectionData(faceDetectionData: FaceDetectionData)
     func didUpdateSemanticSegmentationData(semanticSegmentationData: SemanticSegmentationInformation)
 }
@@ -135,11 +135,12 @@ extension CVInterface: CameraDelegate {
 
     func didUpdatePixelBuffer(pixelBuffer: CVPixelBuffer, formatDescription: CMFormatDescription, sampleBuffer: CMSampleBuffer) {
          
-        let duplicateBuffer = pixelBuffer.duplicatePixelBuffer()
+//        let duplicateBuffer = pixelBuffer.duplicatePixelBuffer()
         
         CVPixelBufferLockBaseAddress(pixelBuffer, CVPixelBufferLockFlags.readOnly)
-
-        self.cvInterfaceDelegate?.didUpdatePixelBuffer(pixelBuffer: duplicateBuffer!, formatDescription: formatDescription)
+        
+        self.cvInterfaceDelegate?.didUpdatePixelBuffer(pixelBuffer: pixelBuffer, formatDescription: formatDescription)
+//        self.cvInterfaceDelegate?.didUpdatePixelBuffer(pixelBuffer: duplicateBuffer!, formatDescription: formatDescription)
         
         self.gestureRecognition?.runGestureRecognition(pixelBuffer: pixelBuffer)
         self.poseEstimation?.runPoseEstimation(pixelBuffer: pixelBuffer)
@@ -162,6 +163,40 @@ extension CVInterface: CameraDelegate {
     }
 
 }
+
+extension CVInterface: GestureRecognitionDelegate {
+    func didUpdateGestureData(gestureResult: Any) {
+//        self.cvInterfaceDelegate?.didUpdateGestureRecognitionData(gestureRecognitionData: gestureResult)
+    }
+}
+
+extension CVInterface: PoseEstimationDelegate {
+    func didUpdatePoseEstimationData(poseEstimationData: String, bodyTrackingData: BodyTrackingData, points: [PredictedPoint?], gestureInformation: [String : Bool?]) {
+//        <#code#>
+    }
+    func didUpdatePoseEstimationData(poseEstimationData: String, bodyTrackingData: BodyTrackingData, points: [PredictedPoint?], gestureInformation: GestureRecongnitionInformation) {
+        self.cvInterfaceDelegate?.didUpdatePoseEstimationData(bodyTrackingData: bodyTrackingData, gestureInformation: gestureInformation)
+    }
+}
+
+extension CVInterface: FaceAndFacialFeaturesDetectionDelegate {
+    func didUpdateFaceDetectionBoundingBox(boundingBox: FaceDetectionData) {
+        self.cvInterfaceDelegate?.didUpdateFaceDetectionData(faceDetectionData: boundingBox)
+    }
+}
+
+extension CVInterface: SemanticSegmentaitonDelegate {
+    func didUpdateSemanticResult(semanticResult: SemanticSegmentationInformation) {
+        self.isInferencing = false
+        self.cvInterfaceDelegate?.didUpdateSemanticSegmentationData(semanticSegmentationData: semanticResult)
+    }
+}
+
+
+
+
+
+
 extension CVPixelBuffer {
     func duplicatePixelBuffer() -> CVPixelBuffer? {
         let width = CVPixelBufferGetWidth(self)
@@ -181,34 +216,5 @@ extension CVPixelBuffer {
             CVPixelBufferUnlockBaseAddress(self, CVPixelBufferLockFlags.readOnly)
         }
         return pixelBufferCopyOptional
-    }
-}
-
-extension CVInterface: GestureRecognitionDelegate {
-    func didUpdateGestureData(gestureResult: Any) {
-        self.cvInterfaceDelegate?.didUpdateGestureRecognitionData(gestureRecognitionData: gestureResult)
-    }
-}
-
-extension CVInterface: PoseEstimationDelegate {
-    func didUpdatePoseEstimationData(poseEstimationData: String, bodyTrackingData: BodyTrackingData, points: [PredictedPoint?], gestureInformation: [String : Bool?]) {
-//        <#code#>
-    }
-    
-    func didUpdatePoseEstimationData(poseEstimationData: String, bodyTrackingData: BodyTrackingData, points: [PredictedPoint?], gestureInformation: GestureRecongnitionInformation) {
-        self.cvInterfaceDelegate?.didUpdatePoseEstimationData(poseEstimationData: poseEstimationData, bodyTrackingData: bodyTrackingData, points: points, gestureInformation: gestureInformation)
-    }
-}
-
-extension CVInterface: FaceAndFacialFeaturesDetectionDelegate {
-    func didUpdateFaceDetectionBoundingBox(boundingBox: FaceDetectionData) {
-        self.cvInterfaceDelegate?.didUpdateFaceDetectionData(faceDetectionData: boundingBox)
-    }
-}
-
-extension CVInterface: SemanticSegmentaitonDelegate {
-    func didUpdateSemanticResult(semanticResult: SemanticSegmentationInformation) {
-        self.isInferencing = false
-        self.cvInterfaceDelegate?.didUpdateSemanticSegmentationData(semanticSegmentationData: semanticResult)
     }
 }
