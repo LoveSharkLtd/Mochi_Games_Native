@@ -133,48 +133,55 @@ extension CVInterface: CameraDelegate {
 
     }
 
-    
     func didUpdatePixelBuffer(pixelBuffer: CVPixelBuffer, formatDescription: CMFormatDescription, sampleBuffer: CMSampleBuffer) {
-
+         
+        let duplicateBuffer = pixelBuffer.duplicatePixelBuffer()
+        
         CVPixelBufferLockBaseAddress(pixelBuffer, CVPixelBufferLockFlags.readOnly)
-        
-        // Need to rotate the pixelBuffer by 90 degrees anticlockwise for the gameviewcontroller
-        // 1. Create a CIImage
-        var image = CIImage(cvPixelBuffer: pixelBuffer)
 
-        // 2. Rotate the CIImage
-        image = image.oriented(forExifOrientation: Int32(CGImagePropertyOrientation.left.rawValue))
+        self.cvInterfaceDelegate?.didUpdatePixelBuffer(pixelBuffer: duplicateBuffer!, formatDescription: formatDescription)
         
-        // 3. Create a pixelbuffer
-        var rotatedPixelBuffer:CVPixelBuffer?
-        
-        let attributes: [String:Any] = [kCVPixelBufferMetalCompatibilityKey as String:kCFBooleanTrue]
-            CVPixelBufferCreate(kCFAllocatorDefault, Int(image.extent.width), Int(image.extent.height), kCVPixelFormatType_32BGRA, attributes as CFDictionary, &rotatedPixelBuffer)
-        
-        // 4. Render image to pixel buffer using contect
-        let context = CIContext(options: nil)
-        context.render(image, to: rotatedPixelBuffer!)
-        
-        // Use the normal pixelbuffer for the CV techniques
-        self.cvInterfaceDelegate?.didUpdatePixelBuffer(pixelBuffer: rotatedPixelBuffer!, formatDescription: formatDescription)
-        
-//        self.gestureRecognition.runGestureRecognition(pixelBuffer: pixelBuffer)
+        self.gestureRecognition?.runGestureRecognition(pixelBuffer: pixelBuffer)
         self.poseEstimation?.runPoseEstimation(pixelBuffer: pixelBuffer)
         self.faceDetection?.runFaceAndFacialFeatureDetection(sampleBuffer: sampleBuffer)
 
-//        self.frameInterval = -100
-//        if self.framesSinceLastPass > self.frameInterval {
-//            if !self.isInferencing {
-//                self.semanticSegmentation.runSemanticSegmentation(pixelBuffer)
-////                self.isInferencing = true
-//            }
-//            self.framesSinceLastPass = 0
-//        }
+        /**
+            // TODO: Semantic Segmentation
+            //        self.frameInterval = -100
+            //        if self.framesSinceLastPass > self.frameInterval {
+            //            if !self.isInferencing {
+            //                self.semanticSegmentation.runSemanticSegmentation(pixelBuffer)
+            ////                self.isInferencing = true
+            //            }
+            //            self.framesSinceLastPass = 0
+            //        }
+
+            //        self.framesSinceLastPass += 1
+        // */
         CVPixelBufferUnlockBaseAddress(pixelBuffer, .readOnly)
-//        self.framesSinceLastPass += 1
-        
     }
 
+}
+extension CVPixelBuffer {
+    func duplicatePixelBuffer() -> CVPixelBuffer? {
+        let width = CVPixelBufferGetWidth(self)
+        let height = CVPixelBufferGetHeight(self)
+        let format = CVPixelBufferGetPixelFormatType(self)
+        var pixelBufferCopyOptional:CVPixelBuffer?
+        let attributes: [String:Any] = [kCVPixelBufferMetalCompatibilityKey as String:kCFBooleanTrue]
+        CVPixelBufferCreate(nil, width, height, format, attributes as CFDictionary, &pixelBufferCopyOptional)
+        if let pixelBufferCopy = pixelBufferCopyOptional {
+            CVPixelBufferLockBaseAddress(self,CVPixelBufferLockFlags.readOnly)
+            CVPixelBufferLockBaseAddress(pixelBufferCopy, CVPixelBufferLockFlags(rawValue: 0))
+            let baseAddress = CVPixelBufferGetBaseAddress(self)
+            let dataSize = CVPixelBufferGetDataSize(self)
+            let target = CVPixelBufferGetBaseAddress(pixelBufferCopy)
+            memcpy(target, baseAddress, dataSize)
+            CVPixelBufferUnlockBaseAddress(pixelBufferCopy, CVPixelBufferLockFlags(rawValue: 0))
+            CVPixelBufferUnlockBaseAddress(self, CVPixelBufferLockFlags.readOnly)
+        }
+        return pixelBufferCopyOptional
+    }
 }
 
 extension CVInterface: GestureRecognitionDelegate {

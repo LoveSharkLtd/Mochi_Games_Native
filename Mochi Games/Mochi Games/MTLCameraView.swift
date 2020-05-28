@@ -48,10 +48,10 @@ class MTLCameraView : MTKView {
     
     
     private var internalBounds : CGRect!
-    private var internalRotation: Rotation = .rotate90Degrees
+    private var internalRotation: Rotation = .rotate0Degrees
     private var internalMirroring: Bool = true
     private var textureMirroring = false
-    private var textureRotation: Rotation = .rotate90Degrees
+    private var textureRotation: Rotation = .rotate0Degrees
     private var textureTranform: CGAffineTransform?
     
     enum Rotation: Int {
