@@ -41,18 +41,24 @@ class CVInterface {
         self.semanticSegmentation.semanticSegmenationDelegate = self
         
         Camera.shared().delegate = self
-        Camera.shared().setUp()
+        Camera.shared().setUpAndRunCamera()
     }
     
 }
 
 
 extension CVInterface: CameraDelegate {
+    
+    func cameraSessionDidEnd() {
+        
+    }
+    
 
     func cameraSessionDidBegin() {
 
     }
 
+    
     func didUpdatePixelBuffer(pixelBuffer: CVPixelBuffer, formatDescription: CMFormatDescription, sampleBuffer: CMSampleBuffer) {
 
         CVPixelBufferLockBaseAddress(pixelBuffer, CVPixelBufferLockFlags.readOnly)
