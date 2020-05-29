@@ -31,11 +31,6 @@ class GameViewController: UIViewController, RPPreviewViewControllerDelegate {
     var BLBool : Bool = false
     var BRBool : Bool = false
     
-    
-    func getImageScaler() -> CGSize? {
-        return self.BackgroundVideo?.scaler
-    }
-    
     func setUpGameScene() {
        let skview = SKView(frame: CGRect(x: 0.0, y: 0.0, width: sW, height: sH))
        skview.allowsTransparency = true
@@ -67,7 +62,7 @@ class GameViewController: UIViewController, RPPreviewViewControllerDelegate {
         
 //        setUpNonRecordUI()
         
-        cvInterface.load()
+        cvInterface.loadAll()
     }
     
     func setUpNonRecordUI() {
@@ -137,54 +132,87 @@ class GameViewController: UIViewController, RPPreviewViewControllerDelegate {
         nonRecordWindow.rootViewController?.view.addSubview(tiktokVideo)
         nonRecordWindow.rootViewController?.view.addSubview(bg)
         nonRecordWindow.rootViewController?.view.addSubview(recBtn)
-        
-        createMLButtonActions() // - remove when ml is in
-        
         nonRecordWindow.rootViewController?.view.addSubview(previewVideo!)
         
         nonRecordWindow.makeKeyAndVisible()
-        
-        
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapped))
-        nonRecordWindow.rootViewController?.view.addGestureRecognizer(tapGesture)
     }
     
-    func createMLButtonActions() {
-        
-        let h_ = sHR * 50 / 667
-        let w_ = _deviceType == .iPad ? sHR * 356 / 667 : sW - sHR * 20 / 667
-        let g = sHR * 10 / 667
-        
-        let btnW = (w_ - 2.0 * g) / 3.0
-        for i in 0..<3 {
-            let x = g + CGFloat(i) * (btnW + g)
-            let y = sH - h_ - g - g - 1.5 * h_ - g
-            var str = "hands up"
-            if i == 1 { str = "brush L" }
-            if i == 2 { str = "brush R" }
-            
-            let btn = createButton(width: btnW, height: h_, title: str, textSize: nil)
-            btn.frame.origin = CGPoint(x: x, y: y)
+//    @objc func tapped(_ gesture: UITapGestureRecognizer) {
+//            // !! - use this until we can add these calls to the game
+//            self.BackgroundVideo?.toggleFiltering()
+//        }
+    
+    func cameraSessionDidBegin() {
+        // Called when the camera session has started
+    }
+}
 
-            btn.addTarget(self, action: #selector(ButtonDown(_:)), for: .touchDown)
-            btn.addTarget(self, action: #selector(ButtonUp(_:)), for: .touchUpOutside)
-            
-            if i == 0 { btn.addTarget(self, action: #selector(handsUpBtnPressed(_:)), for: .touchUpInside) }
-            if i == 1 { btn.addTarget(self, action: #selector(brushedLeftBtnPressed(_:)), for: .touchUpInside) }
-            if i == 2 { btn.addTarget(self, action: #selector(brushedRightBtnPressed(_:)), for: .touchUpInside) }
-            
-            nonRecordWindow.rootViewController?.view.addSubview(btn)
-            
+protocol GameViewControllerDelegate {
+    func handsupDataChanged(handsUp : Bool)
+    func brushedShoulderDataChanged(brushedLeftShoulder : Bool, brushedRightShoulder : Bool)
+    func didUpdateBodyTrackingData(bodyTrackingData : BodyTrackingData)
+    func didUpdateFaceTrackingData(faceTrackingData : FaceDetectionData)
+}
+
+// - hiderViewController is used to attach to the secondary UIWindow which will house all the UI elements that do not want to be included in the recording
+class hiderViewController : UIViewController {
+    
+    override var prefersStatusBarHidden: Bool { return true }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
+    
+}
+
+extension GameViewController: CVInterfaceDelegate {
+    func didUpdateGestureRecognitionData(gestureRecognitionData: GestureRecongnitionInformation) {
+//        <#code#>
+    }
+    
+    func didUpdatePoseEstimationData(bodyTrackingData: BodyTrackingData, gestureInformation: GestureRecongnitionInformation) {
+        if ((gestureInformation.isHandsUp)) {
+            let handsup = gestureInformation.isHandsUp
+            self.delegate?.handsupDataChanged(handsUp: handsup)
         }
         
+        self.delegate?.didUpdateBodyTrackingData(bodyTrackingData: bodyTrackingData)
     }
     
     
-    @objc func tapped(_ gesture: UITapGestureRecognizer) {
-            // !! - use this until we can add these calls to the game
-            self.BackgroundVideo?.toggleFiltering()
-        }
     
+    func handsUpDataChanged(handsUp : Bool) {
+        // will show hands up here
+//        self.delegate?.handsupDataChanged(handsUp: handsUp)
+    }
+    
+    func shoulderBrushedDataChanged(brushedLeftShoulder : Bool, brushedRightShoulder : Bool) {
+        self.delegate?.brushedShoulderDataChanged(brushedLeftShoulder: brushedLeftShoulder, brushedRightShoulder: brushedRightShoulder)
+    }
+    
+    func didUpdatePixelBuffer(pixelBuffer: CVPixelBuffer, formatDescription: CMFormatDescription) {
+        self.previewVideo?.pixelBuffer = pixelBuffer
+        self.BackgroundVideo?.pixelBuffer = pixelBuffer
+        self.BackgroundVideo?.formatDescription = formatDescription
+    }
+    
+    func didUpdatePoseEstimationData(poseEstimationData: Any, bodyTrackingData: BodyTrackingData, points: [PredictedPoint?], gestureInformation: GestureRecongnitionInformation) {
+        
+    }
+    
+    func didUpdateFaceDetectionData(faceDetectionData: FaceDetectionData) {
+        self.delegate?.didUpdateFaceTrackingData(faceTrackingData: faceDetectionData)
+    }
+    
+    func didUpdateSemanticSegmentationData(semanticSegmentationData: SemanticSegmentationInformation) {
+//        guard let image = semanticSegmentationData.overlayImage.first else { return }
+//        self.BackgroundVideo?.pixelBuffer = semanticSegmentationData.pixelBuffer
+    }
+    
+    
+}
+
+extension GameViewController {
+    // - REPLAY KIT
     @objc func recBtnUp(_ sender : UIButton) {
         ButtonUp(sender)
         isRecording ? stopRecording() : startRecording()
@@ -217,69 +245,6 @@ class GameViewController: UIViewController, RPPreviewViewControllerDelegate {
             self.vidPlayer?.play()
         }
     }
-
-    func cameraSessionDidBegin() {
-        // Called when the camera session has started
-        
-      
-    }
-
-    
-    // - just using this to test the gamescene stuff :D
-    @objc func handsUpBtnPressed(_ sender : UIButton) {
-        ButtonUp(sender)
-        
-        handsUpBool = !handsUpBool
-        BRBool = false
-        BLBool = false
-        handsUpDataChanged(handsUp: handsUpBool)
-        
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-//            self.handsUpDataChanged(handsUp: false)
-//        }
-    }
-    
-    @objc func brushedLeftBtnPressed(_ sender : UIButton) {
-        ButtonUp(sender)
-        
-        BLBool = !BLBool
-        BRBool = false
-        handsUpBool = false
-        shoulderBrushedDataChanged(brushedLeftShoulder: BLBool, brushedRightShoulder: BRBool)
-        
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-//            self.shoulderBrushedDataChanged(brushedLeftShoulder: false, brushedRightShoulder: false)
-//        }
-    }
-    @objc func brushedRightBtnPressed(_ sender : UIButton) {
-        ButtonUp(sender)
-        
-        BRBool = !BRBool
-        BLBool = false
-        handsUpBool = false
-        shoulderBrushedDataChanged(brushedLeftShoulder: BLBool, brushedRightShoulder: BRBool)
-        
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-//            self.shoulderBrushedDataChanged(brushedLeftShoulder: false, brushedRightShoulder: false)
-//        }
-    }
-}
-
-protocol GameViewControllerDelegate {
-    func handsupDataChanged(handsUp : Bool)
-    func brushedShoulderDataChanged(brushedLeftShoulder : Bool, brushedRightShoulder : Bool)
-    func didUpdateBodyTrackingData(bodyTrackingData : BodyTrackingData)
-    func didUpdateFaceTrackingData(faceTrackingData : FaceDetectionData)
-}
-
-// - hiderViewController is used to attach to the secondary UIWindow which will house all the UI elements that do not want to be included in the recording
-class hiderViewController : UIViewController {
-    
-    override var prefersStatusBarHidden: Bool { return true }
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
-    
 }
 
 // - These are just cause I like having animated buttons lol
@@ -301,130 +266,6 @@ extension UIViewController {
             //
         }
     }
-    
-}
-
-
-
-extension GameViewController: CVInterfaceDelegate {
-    
-    
-    func handsUpDataChanged(handsUp : Bool) {
-        // will show hands up here
-//        self.delegate?.handsupDataChanged(handsUp: handsUp)
-    }
-    
-    func shoulderBrushedDataChanged(brushedLeftShoulder : Bool, brushedRightShoulder : Bool) {
-        self.delegate?.brushedShoulderDataChanged(brushedLeftShoulder: brushedLeftShoulder, brushedRightShoulder: brushedRightShoulder)
-    }
-    
-    func didUpdatePixelBuffer(pixelBuffer: CVPixelBuffer, formatDescription: CMFormatDescription) {
-        self.previewVideo?.pixelBuffer = pixelBuffer
-        self.BackgroundVideo?.pixelBuffer = pixelBuffer
-        self.BackgroundVideo?.formatDescription = formatDescription
-    }
-    
-    func didUpdateGestureRecognitionData(gestureRecognitionData: Any) {
-//        print("!! Gesture Recognition \(gestureRecognitionData)")
-    }
-    
-    func didUpdatePoseEstimationData(poseEstimationData: Any, bodyTrackingData: BodyTrackingData, points: [PredictedPoint?], gestureInformation: GestureRecongnitionInformation) {
-        if ((gestureInformation.isHandsUp)) {
-            let handsup = gestureInformation.isHandsUp
-            self.delegate?.handsupDataChanged(handsUp: handsup)
-        }
-        
-        self.delegate?.didUpdateBodyTrackingData(bodyTrackingData: bodyTrackingData)
-        
-//        print("__ __ gesture recog = \(gestureInformation)")
-        
-        
-        return
-//
-//        // Action if the shoulder is brushed
-//        if ((gestureInformation["isShoulderBrush"]!!)) {
-//            let brushedShoulder = gestureInformation["isShoulderBrush"]!!
-//            shoulderBrushedDataChanged(brushedLeftShoulder: brushedShoulder, brushedRightShoulder: false)
-//        }
-////
-//
-//
-//        // Remove points that have been added previously
-//        for v in view.subviews{
-//           if v is UILabel{
-//              v.removeFromSuperview()
-//           }
-//        }
-//
-//        // Define label color, size and width
-//        let pointSize = CGSize(width: 100, height: 20)
-//        let color:UIColor = .red
-//
-//        // Joint Labels for on screen text
-//        let pointLabels: [String] = [
-//            "top",          //0
-//            "neck",         //1
-//            "R shoulder",   //2
-//            "R elbow",      //3
-//            "R wrist",      //4
-//            "L shoulder",   //5
-//            "L elbow",      //6
-//            "L wrist",      //7
-//            "R hip",        //8
-//            "R knee",       //9
-//            "R ankle",      //10
-//            "L hip",        //11
-//            "L knee",       //12
-//            "L ankle",      //13
-//        ]
-//
-//        // Loop through the points and place labels based on their positions
-//        for (index, point) in points.enumerated() {
-//
-//            let x = CGFloat((point?.maxPoint.x ?? 0) * UIScreen.main.bounds.width)
-//            let y = CGFloat((point?.maxPoint.y ?? 0) * UIScreen.main.bounds.height)
-//
-//            // Create a label view for each point
-//            let pointView = UILabel(frame: CGRect(x: 0, y: 0, width: pointSize.width, height: pointSize.height))
-//            pointView.backgroundColor = color
-//            pointView.clipsToBounds = false
-//            pointView.layer.cornerRadius = 5
-//            pointView.layer.borderColor = UIColor.black.cgColor
-//            pointView.layer.borderWidth = 1.4
-//            pointView.text = pointLabels[index]
-//
-//            pointView.center = CGPoint(x: x, y:y)
-//
-//            // Add points to view
-//            self.view.addSubview(pointView)
-//
-//        }
-    }
-    
-    func TBDpixelPositionToSpriteKitPosition(_ pixelPosition : [Float]) -> CGPoint {
-        guard let scaler = self.getImageScaler() else {
-            return CGPoint.zero
-        }
-        
-        let size = CGSize(width: sW, height: sH)
-        let x = size.width * scaler.width * (CGFloat(pixelPosition[0]))
-        let y = size.height * scaler.height * (CGFloat(pixelPosition[1]))
-        let position : CGPoint = CGPoint(x: x, y: y)
-        
-        return position
-    }
-    
-    
-    
-    func didUpdateFaceDetectionData(faceDetectionData: FaceDetectionData) {
-        self.delegate?.didUpdateFaceTrackingData(faceTrackingData: faceDetectionData)
-    }
-    
-    func didUpdateSemanticSegmentationData(semanticSegmentationData: SemanticSegmentationInformation) {
-//        guard let image = semanticSegmentationData.overlayImage.first else { return }
-//        self.BackgroundVideo?.pixelBuffer = semanticSegmentationData.pixelBuffer
-    }
-    
     
 }
 

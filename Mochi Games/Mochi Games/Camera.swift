@@ -13,6 +13,7 @@ import CoreImage
 
 protocol CameraDelegate {
     func cameraSessionDidBegin()
+    func cameraSessionDidEnd()
     func didUpdatePixelBuffer(pixelBuffer : CVPixelBuffer, formatDescription : CMFormatDescription, sampleBuffer: CMSampleBuffer)
 }
 
@@ -42,14 +43,16 @@ class Camera : NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
     }
     
     public func setUp() {
-        beginSession(nil)
+        beginSession(run : false)
     }
-    
-    public func setUp(layerForVideoPreviewLayer : UIView) {
-        beginSession(layerForVideoPreviewLayer)
+    public func setUpAndRunCamera() {
+        beginSession(run : true)
     }
+//    public func setUp(layerForVideoPreviewLayer : UIView) {
+//        beginSession(layerForVideoPreviewLayer)
+//    }
     
-    private func beginSession(_ view : UIView?) {
+    private func beginSession(run : Bool) {
         do {
             
             let deviceDiscovery = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera], mediaType: .video, position: .front)
@@ -59,14 +62,6 @@ class Camera : NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
             if let device = deviceDiscovery.devices.last {
                 self.captureDevice = device
                 input = try AVCaptureDeviceInput(device: device)
-            }
-            
-            if let _view = view {
-                let player = AVCaptureVideoPreviewLayer(session: self.captureSession)
-                player.videoGravity = .resizeAspectFill
-                player.frame = _view.layer.bounds
-                _view.layer.addSublayer(player)
-                self.videoPreviewLayers.append(player)
             }
 
             self.captureSession.addInput(input!)
@@ -94,14 +89,30 @@ class Camera : NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
             videoDataOutput.connection(with: AVMediaType.video)?.videoOrientation = .portrait
             
             captureSession.commitConfiguration()
+            
+            if run {
+                runCameraSession()
+            }
 
-            self.captureSession.startRunning()
-            self.delegate?.cameraSessionDidBegin()
         } catch {
             print("!! - Error connecting to capture device. Video Capture will not occur")
         }
     }
     
+    func runCameraSession() {
+        self.captureSession.startRunning()
+        self.delegate?.cameraSessionDidBegin()
+    }
+    
+    func destroyCaptureSession() {
+        if self.captureSession.isRunning { self.stopCameraSession() }
+        // TODO: - Need to remove and release all camera from memory
+    }
+    
+    func stopCameraSession() {
+        self.captureSession.stopRunning()
+        self.delegate?.cameraSessionDidEnd()
+    }
 
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         processVideo(sampleBuffer : sampleBuffer)
