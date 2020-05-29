@@ -25,11 +25,15 @@ class GameViewController: UIViewController, RPPreviewViewControllerDelegate {
     
     var isRecording = false
     
+    var replayPlayer : AVPlayer?
+    
     var delegate : GameViewControllerDelegate?
     
     var handsUpBool : Bool = false
     var BLBool : Bool = false
     var BRBool : Bool = false
+    
+    var recorder = Recorder()
     
     func setUpGameScene() {
        let skview = SKView(frame: CGRect(x: 0.0, y: 0.0, width: sW, height: sH))
@@ -60,9 +64,11 @@ class GameViewController: UIViewController, RPPreviewViewControllerDelegate {
        
         setUpGameScene()
         
-//        setUpNonRecordUI()
+        setUpNonRecordUI()
         
-        cvInterface.loadAll()
+        cvInterface.loadCameraAndRun()
+        cvInterface.loadPoseEstimation()
+        cvInterface.loadFaceDetection()
     }
     
     func setUpNonRecordUI() {
@@ -172,6 +178,7 @@ extension GameViewController: CVInterfaceDelegate {
     func didUpdatePoseEstimationData(bodyTrackingData: BodyTrackingData, gestureInformation: GestureRecongnitionInformation) {
         if ((gestureInformation.isHandsUp)) {
             let handsup = gestureInformation.isHandsUp
+            print("!! - hands up")
             self.delegate?.handsupDataChanged(handsUp: handsup)
         }
         
@@ -222,23 +229,76 @@ extension GameViewController {
     
     func startRecording() {
 //        RPScreenRecorder.shared().isMicrophoneEnabled = true
-        RPScreenRecorder.shared().startRecording { (_) in
-            print("!! - rec started")
-        }
-
+        self.recorder.startRecording()
     }
     
     func stopRecording() {
-        RPScreenRecorder.shared().stopRecording { (preview, err) in
-            self.vidPlayer?.pause()
-            guard let preview = preview else { return }
-            
-            preview.previewControllerDelegate = self
-            self.nonRecordWindow.rootViewController?.present(preview, animated: true) {
-            
-            }
+        self.vidPlayer?.pause()
+        
+        self.recorder.stopRecording()
+        self.addVideo()
+    }
+    
+    @objc func share(_ sender : UIButton) {
+        ButtonUp(sender)
+    }
+    
+    @objc func closePreview(_ sender : UIButton) {
+        ButtonDown(sender)
+        UIView.animate(withDuration: 0.2, delay: 0.0, options: .curveEaseIn, animations: {
+            sender.superview?.frame.origin.y = sH
+        }) { (_) in
+            self.nonRecordWindow.rootViewController?.view.subviews.last?.removeFromSuperview()
+            self.replayPlayer = nil
+            self.vidPlayer?.play()
         }
     }
+    
+    func addVideo() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            guard let url = self.recorder.outputURL else {
+                self.addVideo()
+                return
+            }
+            
+            let tiktokVideo = UIView(frame: CGRect(x: 0.0, y: 0, width: sW, height: sH))
+            tiktokVideo.backgroundColor = .blue
+            self.nonRecordWindow.rootViewController?.view.addSubview(tiktokVideo)
+            
+            self.replayPlayer = AVPlayer(url: url)
+            self.replayPlayer?.actionAtItemEnd = .none
+            
+            let videoLayer = AVPlayerLayer(player: self.replayPlayer!)
+            videoLayer.frame = (tiktokVideo.frame)
+            videoLayer.videoGravity = .resizeAspectFill
+            tiktokVideo.layer.addSublayer(videoLayer)
+            
+            NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: self.replayPlayer?.currentItem, queue: .main) { _ in
+                    self.replayPlayer?.seek(to: CMTime.zero)
+                    self.replayPlayer?.play()
+            }
+            
+            NotificationCenter.default.addObserver(forName: UIApplication.willEnterForegroundNotification, object: nil, queue: .main) { (_) in
+                self.replayPlayer?.play()
+            }
+            
+            let closeBtn = createButton(width: sHR * 30 / 667, height: sHR * 30 / 667, title: "X", textSize: nil)
+            closeBtn.frame.origin = CGPoint(x: sHR * 10 / 667, y: sHR * 20 / 667)
+            closeBtn.addTarget(self, action: #selector(self.closePreview(_:)), for: .touchUpInside)
+            closeBtn.addTarget(self, action: #selector(self.ButtonDown(_:)), for: .touchDown)
+            closeBtn.addTarget(self, action: #selector(self.ButtonUp(_:)), for: .touchUpOutside)
+            tiktokVideo.addSubview(closeBtn)
+            
+            let shareBtn = createButton(width: sW - sHR * 20 / 667, height: sHR * 57 / 667, title: "SHARE", textSize: sHR * 16 / 667)
+            shareBtn.center = CGPoint(x: sW * 0.5, y: sH - sHR * 50 / 667)
+            shareBtn.addTarget(self, action: #selector(self.share(_:)), for: .touchUpInside)
+            shareBtn.addTarget(self, action: #selector(self.ButtonDown(_:)), for: .touchDown)
+            shareBtn.addTarget(self, action: #selector(self.ButtonUp(_:)), for: .touchUpOutside)
+            tiktokVideo.addSubview(shareBtn)
+            self.replayPlayer?.play()
+        }
+    }
+    
     
     func previewControllerDidFinish(_ previewController: RPPreviewViewController) {
         previewController.dismiss(animated: true) {

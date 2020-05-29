@@ -54,6 +54,10 @@
 		EEC717FC247EBFDD001C30B5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEC717FB247EBFDD001C30B5 /* ViewController.swift */; };
 		EEC717FE247EE5F3001C30B5 /* FaceTracking.sks in Resources */ = {isa = PBXBuildFile; fileRef = EEC717FD247EE5F3001C30B5 /* FaceTracking.sks */; };
 		EEC71800247EEC30001C30B5 /* BodyTracking.sks in Resources */ = {isa = PBXBuildFile; fileRef = EEC717FF247EEC30001C30B5 /* BodyTracking.sks */; };
+		EEC7180724815A36001C30B5 /* Recorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEC7180624815A36001C30B5 /* Recorder.swift */; };
+		EEC7180924815B82001C30B5 /* FileHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEC7180824815B82001C30B5 /* FileHandler.swift */; };
+		EEC7180B24815BED001C30B5 /* NonRecordingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEC7180A24815BED001C30B5 /* NonRecordingViewController.swift */; };
+		EEC7180E24815C5A001C30B5 /* GameStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEC7180D24815C5A001C30B5 /* GameStructs.swift */; };
 		EEF26A03245F36A400BBD98F /* DanceScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = EEF26A02245F36A400BBD98F /* DanceScene.sks */; };
 		EEF26A05245F388300BBD98F /* particle.sks in Resources */ = {isa = PBXBuildFile; fileRef = EEF26A04245F388300BBD98F /* particle.sks */; };
 		EEF26A07245F427F00BBD98F /* BLparticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = EEF26A06245F427F00BBD98F /* BLparticle.sks */; };
@@ -113,6 +117,10 @@
 		EEC717FD247EE5F3001C30B5 /* FaceTracking.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = FaceTracking.sks; sourceTree = "<group>"; };
 		EEC717FF247EEC30001C30B5 /* BodyTracking.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = BodyTracking.sks; sourceTree = "<group>"; };
 		EEC71801247FD8C5001C30B5 /* CVInterfaceOld.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CVInterfaceOld.swift; sourceTree = "<group>"; };
+		EEC7180624815A36001C30B5 /* Recorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recorder.swift; sourceTree = "<group>"; };
+		EEC7180824815B82001C30B5 /* FileHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileHandler.swift; sourceTree = "<group>"; };
+		EEC7180A24815BED001C30B5 /* NonRecordingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NonRecordingViewController.swift; sourceTree = "<group>"; };
+		EEC7180D24815C5A001C30B5 /* GameStructs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameStructs.swift; sourceTree = "<group>"; };
 		EEF26A02245F36A400BBD98F /* DanceScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = DanceScene.sks; sourceTree = "<group>"; };
 		EEF26A04245F388300BBD98F /* particle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = particle.sks; sourceTree = "<group>"; };
 		EEF26A06245F427F00BBD98F /* BLparticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = BLparticle.sks; sourceTree = "<group>"; };
@@ -323,6 +331,7 @@
 		EE97619C247C31CF00D82AD5 /* Games */ = {
 			isa = PBXGroup;
 			children = (
+				EEC7180C24815C04001C30B5 /* Utilities */,
 				EEC7180324801797001C30B5 /* SpriteKitScenes */,
 				EE97619D247C31E700D82AD5 /* Particles */,
 				EE0C8EC024577B40009FB07C /* gameScene.swift */,
@@ -357,6 +366,17 @@
 			children = (
 				EEC717FD247EE5F3001C30B5 /* FaceTracking.sks */,
 				EEC717FF247EEC30001C30B5 /* BodyTracking.sks */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		EEC7180C24815C04001C30B5 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				EEC7180A24815BED001C30B5 /* NonRecordingViewController.swift */,
+				EEC7180624815A36001C30B5 /* Recorder.swift */,
+				EEC7180824815B82001C30B5 /* FileHandler.swift */,
+				EEC7180D24815C5A001C30B5 /* GameStructs.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -480,17 +500,21 @@
 				38ABB3C1246C05E600A7FF37 /* CVInterface.swift in Sources */,
 				38ABB3E1246C0FD100A7FF37 /* FaceAndFacialFeaturesDetection.swift in Sources */,
 				EE0C8EA824576F2A009FB07C /* GlobalVars.swift in Sources */,
+				EEC7180B24815BED001C30B5 /* NonRecordingViewController.swift in Sources */,
 				38ABB3DE246C0A4A00A7FF37 /* PoseEstimation.swift in Sources */,
 				38ABB3E9246C10DA00A7FF37 /* ImageSegmentator.swift in Sources */,
 				38ABB3CE246C093700A7FF37 /* GestureRecognition.swift in Sources */,
 				38ABB3DA246C0A4A00A7FF37 /* HeatmapPostProcessor.swift in Sources */,
 				38ABB3EA246C10DA00A7FF37 /* SemanticSegmentation.swift in Sources */,
 				EE0C8EBB2457795E009FB07C /* PassThrough.metal in Sources */,
+				EEC7180E24815C5A001C30B5 /* GameStructs.swift in Sources */,
 				EE0C8EBA2457795E009FB07C /* Mixer.metal in Sources */,
 				EE0C8EB424577824009FB07C /* RosyMetalRenderer.swift in Sources */,
 				38ABB3CA246C07AE00A7FF37 /* stacked_hourglass.mlmodel in Sources */,
 				EE0C8EBD2457795E009FB07C /* RosyEffect.metal in Sources */,
+				EEC7180924815B82001C30B5 /* FileHandler.swift in Sources */,
 				EE0C8EAC24577075009FB07C /* Camera.swift in Sources */,
+				EEC7180724815A36001C30B5 /* Recorder.swift in Sources */,
 				38ABB3C9246C077700A7FF37 /* ModelDataHandler.swift in Sources */,
 				38ABB3D9246C0A4A00A7FF37 /* MovingAverageFilter.swift in Sources */,
 				EE0C8EB324577824009FB07C /* FilterRenderer.swift in Sources */,
