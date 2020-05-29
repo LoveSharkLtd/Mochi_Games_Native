@@ -7,9 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		388F44AD24800EB60032E7FE /* model.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 388F44AC24800EB60032E7FE /* model.tflite */; };
 		38ABB3AD246C01E900A7FF37 /* deeplabv3_257_mv_gpu.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 38ABB3AB246C01E900A7FF37 /* deeplabv3_257_mv_gpu.tflite */; };
 		38ABB3AE246C01E900A7FF37 /* deeplabv3_labels.json in Resources */ = {isa = PBXBuildFile; fileRef = 38ABB3AC246C01E900A7FF37 /* deeplabv3_labels.json */; };
-		38ABB3B2246C040200A7FF37 /* model.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 38ABB3B0246C040200A7FF37 /* model.tflite */; };
+		38ABB3B2246C040200A7FF37 /* model_direction.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 38ABB3B0246C040200A7FF37 /* model_direction.tflite */; };
 		38ABB3B3246C040200A7FF37 /* labels.txt in Resources */ = {isa = PBXBuildFile; fileRef = 38ABB3B1246C040200A7FF37 /* labels.txt */; };
 		38ABB3B8246C05B900A7FF37 /* model1.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 38ABB38C246C014700A7FF37 /* model1.tflite */; };
 		38ABB3BB246C05C400A7FF37 /* cpm_model.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 38ABB386246C014700A7FF37 /* cpm_model.mlmodel */; };
@@ -57,6 +58,7 @@
 
 /* Begin PBXFileReference section */
 		25B254572D6C5BFDA602E19B /* Pods_Mochi_Games.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Mochi_Games.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		388F44AC24800EB60032E7FE /* model.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = model.tflite; sourceTree = "<group>"; };
 		38ABB379246BFC2700A7FF37 /* CVInterface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CVInterface.swift; sourceTree = "<group>"; };
 		38ABB37E246BFD0400A7FF37 /* ModelDataHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelDataHandler.swift; sourceTree = "<group>"; };
 		38ABB386246C014700A7FF37 /* cpm_model.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = cpm_model.mlmodel; sourceTree = "<group>"; };
@@ -69,7 +71,7 @@
 		38ABB39F246C019B00A7FF37 /* model2.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = model2.tflite; sourceTree = "<group>"; };
 		38ABB3AB246C01E900A7FF37 /* deeplabv3_257_mv_gpu.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = deeplabv3_257_mv_gpu.tflite; sourceTree = "<group>"; };
 		38ABB3AC246C01E900A7FF37 /* deeplabv3_labels.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = deeplabv3_labels.json; sourceTree = "<group>"; };
-		38ABB3B0246C040200A7FF37 /* model.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = model.tflite; sourceTree = "<group>"; };
+		38ABB3B0246C040200A7FF37 /* model_direction.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = model_direction.tflite; sourceTree = "<group>"; };
 		38ABB3B1246C040200A7FF37 /* labels.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = labels.txt; sourceTree = "<group>"; };
 		38ABB3B4246C04D200A7FF37 /* GestureRecognition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GestureRecognition.swift; sourceTree = "<group>"; };
 		38ABB3D1246C0A4A00A7FF37 /* PredictedPoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PredictedPoint.swift; sourceTree = "<group>"; };
@@ -195,8 +197,9 @@
 		38ABB3AF246C026400A7FF37 /* GestureRecognition */ = {
 			isa = PBXGroup;
 			children = (
+				388F44AC24800EB60032E7FE /* model.tflite */,
 				38ABB3B1246C040200A7FF37 /* labels.txt */,
-				38ABB3B0246C040200A7FF37 /* model.tflite */,
+				38ABB3B0246C040200A7FF37 /* model_direction.tflite */,
 			);
 			path = GestureRecognition;
 			sourceTree = "<group>";
@@ -387,11 +390,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				38ABB3B2246C040200A7FF37 /* model.tflite in Resources */,
+				38ABB3B2246C040200A7FF37 /* model_direction.tflite in Resources */,
 				38ABB3B3246C040200A7FF37 /* labels.txt in Resources */,
 				38ABB3C2246C06FC00A7FF37 /* read_pbfiles.py in Resources */,
 				38ABB3B8246C05B900A7FF37 /* model1.tflite in Resources */,
 				EEF26A07245F427F00BBD98F /* BLparticle.sks in Resources */,
+				388F44AD24800EB60032E7FE /* model.tflite in Resources */,
 				38ABB3CB246C07C600A7FF37 /* model2.tflite in Resources */,
 				38ABB3AE246C01E900A7FF37 /* deeplabv3_labels.json in Resources */,
 				38ABB3AD246C01E900A7FF37 /* deeplabv3_257_mv_gpu.tflite in Resources */,
