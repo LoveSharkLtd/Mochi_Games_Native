@@ -12,6 +12,20 @@ import SpriteKit
 import ReplayKit
 import GameplayKit
 
+
+protocol MochiGameplayDelegate {
+    // - body tracking data -
+    // - face tracking data
+    // - gesture recog data
+    // -
+}
+
+protocol MochiGameInterfaceDelegate {
+    // - end of game
+    // - end of level
+    // -
+}
+
 class MochiGameInterface {
     
     public var view : UIView? {
@@ -66,6 +80,24 @@ class MochiGameInterface {
         
         setUpNonRecordRoot()
         
+        self.nonRecordWindow?.makeKeyAndVisible() // TODO : REMOVE FROM HERE
+        
+    }
+    
+    var recorder = Recorder()
+    
+    func startRecording() {
+        print("!! - start recording - - ")
+        recorder.startRecording()
+    }
+    
+    func stopRecording() {
+        print("!! - stop recording - - ")
+        recorder.stopRecording()
+    }
+    
+    func setUpRecording() {
+        
     }
     
     func setUpNonRecordRoot() {
@@ -86,7 +118,6 @@ class MochiGameInterface {
         // set up beat scoring -
         // initialise the cosmetics
         // set up CV
-        
     }
     
     public func Destroy() {
@@ -123,19 +154,6 @@ class MochiGameInterface {
     
 }
 
-protocol MochiGameplayDelegate {
-    // - body tracking data -
-    // - face tracking data
-    // - gesture recog data
-    // -
-}
-
-protocol MochiGameInterfaceDelegate {
-    // - end of game
-    // - end of level
-    // -
-}
-
 extension MochiGameInterface: CVInterfaceDelegate {
     func didUpdateGestureRecognitionData(gestureRecognitionData: GestureRecongnitionInformation) {
 //        <#code#>
@@ -151,53 +169,23 @@ extension MochiGameInterface: CVInterfaceDelegate {
     }
     
     func didUpdateFaceDetectionData(faceDetectionData: FaceDetectionData) {
-//        <#code#>
     }
     
     func didUpdateSemanticSegmentationData(semanticSegmentationData: SemanticSegmentationInformation) {
 //        <#code#>
     }
-    
-    
 }
 
-
-
-class nonRecordingViewController : UIViewController {
-    override var prefersStatusBarHidden : Bool { return true }
-    override func viewDidLoad() {
-        super.viewDidLoad()
+extension MochiGameInterface : RecorderDelegate {
+    func RecordingDeniedPermissions() {
+//        <#code#>
     }
-}
-
-
-
-
-
-struct SKBodyTrackingData {
-    var parent : SKNode
-    var top : SKNode
-    var neck : SKNode
-    var shoulders : SKBodyTrackingPositions
-    var elbows : SKBodyTrackingPositions
-    var wrists : SKBodyTrackingPositions
-    var hips : SKBodyTrackingPositions
-    var knees : SKBodyTrackingPositions
-    var ankles : SKBodyTrackingPositions
-}
-
-struct SKBodyTrackingPositions {
-    var left : SKNode
-    var right : SKNode
-}
-
-
-
-
-class Recorder : RPScreenRecorder {
-    // - We need to make a recorder here
-}
-
-class CosmeticController {
     
+    func RecordingDidStart(successful: Bool) {
+        //
+    }
+    
+    func RecordingDidFinish(url: URL?) {
+        // - it's finished - here's the url
+    }
 }
